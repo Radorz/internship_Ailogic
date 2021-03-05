@@ -31,12 +31,8 @@ namespace internship_Ailogic
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddCors(options =>
-            {
-                options.AddPolicy("PermitirOrigenesEspecificos",
-                    builder => builder.WithOrigins
-                  )
-            });
+            services.AddCors();
+            
             services.AddIdentity<IdentityUser, IdentityRole>().AddEntityFrameworkStores <pasantias_ailogicContext>();
             services.AddDbContext<pasantias_ailogicContext>(options => options.UseMySql(Configuration.GetConnectionString("Default"))); 
             services.AddControllers(options => {
