@@ -1,4 +1,6 @@
-using Database.Models;
+
+using internship_Ailogic.Helpers;
+using internship_Ailogic.Models;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
@@ -29,14 +31,22 @@ namespace internship_Ailogic
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddCors();
+            services.AddCors(options =>
+            {
+                options.AddPolicy("PermitirOrigenesEspecificos",
+                    builder => builder.WithOrigins
+                  )
+            });
             services.AddIdentity<IdentityUser, IdentityRole>().AddEntityFrameworkStores <pasantias_ailogicContext>();
             services.AddDbContext<pasantias_ailogicContext>(options => options.UseMySql(Configuration.GetConnectionString("Default"))); 
-            services.AddControllers();
+            services.AddControllers(options => {
+                options.Filters.Add(typeof(FiltroErrores));
+            });
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "internship_Ailogic", Version = "v1" });
             });
+            services.AddApplicationInsightsTelemetry(Configuration["APPINSIGHTS_CONNECTIONSTRING"]);
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -55,6 +65,7 @@ namespace internship_Ailogic
 
             app.UseAuthorization();
             app.UseAuthentication();
+            app.UseCors(builder => builder.WithOrigins("http://localhost:4200/"));
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllers();
