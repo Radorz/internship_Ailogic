@@ -27,7 +27,7 @@ namespace Database.Models
             if (!optionsBuilder.IsConfigured)
             {
 #warning To protect potentially sensitive information in your connection string, you should move it out of source code. See http://go.microsoft.com/fwlink/?LinkId=723263 for guidance on storing connection strings.
-                optionsBuilder.UseMySql("server=127.0.0.1;port=3306;uid=root;database=pasantias_ailogic", x => x.ServerVersion("10.4.17-mariadb"));
+                optionsBuilder.UseMySql("server=bnbar022dce4hrtds2xd-mysql.services.clever-cloud.com;port=3306;uid=ul7poqkp44qw3zvt;pwd=aVMvJcBo4Ezvop8kZT9M;database=bnbar022dce4hrtds2xd", x => x.ServerVersion("10.4.17-mariadb"));
             }
         }
 
