@@ -1,6 +1,4 @@
-
-using internship_Ailogic.Helpers;
-using internship_Ailogic.Models;
+using Database.Models;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
@@ -31,28 +29,40 @@ namespace internship_Ailogic
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddCors();
-            
-            services.AddIdentity<IdentityUser, IdentityRole>().AddEntityFrameworkStores <pasantias_ailogicContext>();
-            services.AddDbContext<pasantias_ailogicContext>(options => options.UseMySql(Configuration.GetConnectionString("Default"))); 
-            services.AddControllers(options => {
-                options.Filters.Add(typeof(FiltroErrores));
+            services.AddCors(c =>
+            {
+                c.AddPolicy("AllowOrigin", options => options.AllowAnyOrigin());
             });
+            services.AddCors();
+            services.AddIdentity<IdentityUser, IdentityRole>().AddEntityFrameworkStores <bnbar022dce4hrtds2xdContext>();
+            services.AddDbContext<bnbar022dce4hrtds2xdContext>(options => options.UseMySql(Configuration.GetConnectionString("Default"))); 
+            services.AddControllers();
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "internship_Ailogic", Version = "v1" });
             });
-            services.AddApplicationInsightsTelemetry(Configuration["APPINSIGHTS_CONNECTIONSTRING"]);
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
+            app.UseCors(options => options.AllowAnyOrigin());
+
+            //app.UseSwagger();
+            //app.UseSwaggerUI(c => {
+            //    c.SwaggerEndpoint("/swagger/v1/swagger.json", "internship_Ailogic v1");
+            //    c.RoutePrefix = string.Empty;
+
+            //});
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
                 app.UseSwagger();
-                app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "internship_Ailogic v1"));
+                app.UseSwaggerUI(c => {
+                    c.SwaggerEndpoint("/swagger/v1/swagger.json", "internship_Ailogic v1");
+
+                });
+
             }
 
             app.UseHttpsRedirection();
@@ -61,7 +71,6 @@ namespace internship_Ailogic
 
             app.UseAuthorization();
             app.UseAuthentication();
-            app.UseCors(builder => builder.WithOrigins("http://localhost:4200/"));
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllers();

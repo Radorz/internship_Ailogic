@@ -10,7 +10,7 @@ using System.Security.Claims;
 using System.IdentityModel.Tokens.Jwt;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
-using internship_Ailogic.Models;
+using Database.Models;
 
 namespace internship_Ailogic.Controllers
 {
