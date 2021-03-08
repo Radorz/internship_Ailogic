@@ -11,6 +11,7 @@ using System.IdentityModel.Tokens.Jwt;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
 using Database.Models;
+using DTO;
 
 namespace internship_Ailogic.Controllers
 {
@@ -72,6 +73,13 @@ namespace internship_Ailogic.Controllers
             }
         }
 
+        [HttpPost("apply")]
+        public async Task<ActionResult> Apply(ApplyInternshipDTO userInfo)
+        {
+            
+
+
+        }
 
 
 
