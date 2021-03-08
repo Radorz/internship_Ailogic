@@ -29,6 +29,10 @@ namespace internship_Ailogic
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddCors(c =>
+            {
+                c.AddPolicy("AllowOrigin", options => options.AllowAnyOrigin());
+            });
             services.AddCors();
             services.AddIdentity<IdentityUser, IdentityRole>().AddEntityFrameworkStores <bnbar022dce4hrtds2xdContext>();
             services.AddDbContext<bnbar022dce4hrtds2xdContext>(options => options.UseMySql(Configuration.GetConnectionString("Default"))); 
@@ -42,6 +46,7 @@ namespace internship_Ailogic
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
+            app.UseCors(options => options.AllowAnyOrigin());
 
             //app.UseSwagger();
             //app.UseSwaggerUI(c => {
