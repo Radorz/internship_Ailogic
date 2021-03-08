@@ -12,6 +12,7 @@ using Microsoft.IdentityModel.Tokens;
 using System.Text;
 using Database.Models;
 using DTO;
+using Repository.Repository;
 
 namespace internship_Ailogic.Controllers
 {
@@ -22,18 +23,18 @@ namespace internship_Ailogic.Controllers
         private readonly UserManager<IdentityUser> _userManager;
         private readonly SignInManager<IdentityUser> _signInManager;
         private readonly IConfiguration _configuration;
-
+        private readonly RequestInternshipRepository _requestInternshipDTO;
 
 
         public AuthController(
             UserManager<IdentityUser> userManager,
             SignInManager<IdentityUser> signInManager,
-            IConfiguration configuration
-            )
+            IConfiguration configuration, RequestInternshipRepository requestInternshipDTO)
         {
             _userManager = userManager;
             _signInManager = signInManager;
             _configuration = configuration;
+            _requestInternshipDTO = requestInternshipDTO;
         }
 
 
@@ -76,7 +77,8 @@ namespace internship_Ailogic.Controllers
         [HttpPost("apply")]
         public async Task<ActionResult> Apply(ApplyInternshipDTO userInfo)
         {
-            
+            await _requestInternshipDTO.Apply(userInfo);
+            return Ok();
 
 
         }

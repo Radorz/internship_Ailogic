@@ -1,9 +1,11 @@
-﻿using Database.Models;
+﻿using AutoMapper;
+using Database.Models;
 using DTO;
 using Microsoft.EntityFrameworkCore;
 using Repository.RepositoryBase;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -11,14 +13,24 @@ namespace Repository.Repository
 {
     public class RequestInternshipRepository : RepositoryBase<RequestInternship, bnbar022dce4hrtds2xdContext>
     {
-        public RequestInternshipRepository(bnbar022dce4hrtds2xdContext context) : base(context)
+        private readonly IMapper _mapper;
+
+      
+
+        public RequestInternshipRepository(bnbar022dce4hrtds2xdContext context, IMapper mapper) : base(context)
         {
+            _mapper = mapper;
 
         }
-        //public async Task<bool> Apply(ApplyInternshipDTO dto)
-        //{
+        public async Task<bool> Apply(ApplyInternshipDTO dto)
+        {
+            var request = _mapper.Map<RequestInternship>(dto);
+            var idinternship = _context.Internship.FirstOrDefault(a => a.Status == true);
+            request.IdInternship = idinternship.IdInternship;
+           await Add(request);
+            return true;
             
 
-        //}
+        }
     }
 }

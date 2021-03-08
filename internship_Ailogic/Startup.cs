@@ -1,3 +1,4 @@
+using AutoMap;
 using Database.Models;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -10,10 +11,9 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Microsoft.OpenApi.Models;
+using Repository.Repository;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+using System.Reflection;
 
 namespace internship_Ailogic
 {
@@ -48,6 +48,13 @@ namespace internship_Ailogic
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "internship_Ailogic", Version = "v1" });
             });
+            services.AddScoped<RequestInternshipRepository>();
+            services.AddScoped<InternshipRepository>();
+
+
+            services.AddAutoMapper(typeof(Automapping).GetTypeInfo().Assembly);
+
+
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -55,21 +62,22 @@ namespace internship_Ailogic
         {
             //app.UseCors(options => options.AllowAnyOrigin());
 
-            app.UseSwagger();
-            app.UseSwaggerUI(c =>
-            {
-                c.SwaggerEndpoint("/swagger/v1/swagger.json", "internship_Ailogic v1");
-                c.RoutePrefix = string.Empty;
+            //app.UseSwagger();
+            //app.UseSwaggerUI(c =>
+            //{
+            //    c.SwaggerEndpoint("/swagger/v1/swagger.json", "internship_Ailogic v1");
+            //    c.RoutePrefix = string.Empty;
 
-            });
+            //});
             if (env.IsDevelopment())
             {
-                //app.UseDeveloperExceptionPage();
-                //app.UseSwagger();
-                //app.UseSwaggerUI(c => {
-                //    c.SwaggerEndpoint("/swagger/v1/swagger.json", "internship_Ailogic v1");
+                app.UseDeveloperExceptionPage();
+                app.UseSwagger();
+                app.UseSwaggerUI(c =>
+                {
+                    c.SwaggerEndpoint("/swagger/v1/swagger.json", "internship_Ailogic v1");
 
-                //});
+                });
 
             }
 
