@@ -7,9 +7,9 @@ using System.Collections.Generic;
 
 namespace Database.Models
 {
-    public partial class EfmigrationsHistory
+    public partial class InternTeam
     {
-        public string MigrationId { get; set; }
-        public string ProductVersion { get; set; }
+        public int IdInternt { get; set; }
+        public int IdTeam { get; set; }
     }
 }

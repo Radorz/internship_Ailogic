@@ -7,16 +7,8 @@ using System.Collections.Generic;
 
 namespace Database.Models
 {
-    public partial class AspNetUsers
+    public partial class Aspnetusers1
     {
-        public AspNetUsers()
-        {
-            AspNetUserClaims = new HashSet<AspNetUserClaims>();
-            AspNetUserLogins = new HashSet<AspNetUserLogins>();
-            AspNetUserRoles = new HashSet<AspNetUserRoles>();
-            AspNetUserTokens = new HashSet<AspNetUserTokens>();
-        }
-
         public string Id { get; set; }
         public string UserName { get; set; }
         public string NormalizedUserName { get; set; }
@@ -32,10 +24,5 @@ namespace Database.Models
         public DateTime? LockoutEnd { get; set; }
         public bool LockoutEnabled { get; set; }
         public int AccessFailedCount { get; set; }
-
-        public virtual ICollection<AspNetUserClaims> AspNetUserClaims { get; set; }
-        public virtual ICollection<AspNetUserLogins> AspNetUserLogins { get; set; }
-        public virtual ICollection<AspNetUserRoles> AspNetUserRoles { get; set; }
-        public virtual ICollection<AspNetUserTokens> AspNetUserTokens { get; set; }
     }
 }

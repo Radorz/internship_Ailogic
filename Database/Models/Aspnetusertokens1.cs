@@ -7,9 +7,11 @@ using System.Collections.Generic;
 
 namespace Database.Models
 {
-    public partial class EfmigrationsHistory
+    public partial class Aspnetusertokens1
     {
-        public string MigrationId { get; set; }
-        public string ProductVersion { get; set; }
+        public string UserId { get; set; }
+        public string LoginProvider { get; set; }
+        public string Name { get; set; }
+        public string Value { get; set; }
     }
 }

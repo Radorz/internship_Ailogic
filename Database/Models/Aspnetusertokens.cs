@@ -7,13 +7,13 @@ using System.Collections.Generic;
 
 namespace Database.Models
 {
-    public partial class Aspnetusertokens
+    public partial class AspNetUserTokens
     {
         public string UserId { get; set; }
         public string LoginProvider { get; set; }
         public string Name { get; set; }
         public string Value { get; set; }
 
-        public virtual Aspnetusers User { get; set; }
+        public virtual AspNetUsers User { get; set; }
     }
 }

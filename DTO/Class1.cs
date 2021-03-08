@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Database
+namespace DTO
 {
     public class Class1
     {

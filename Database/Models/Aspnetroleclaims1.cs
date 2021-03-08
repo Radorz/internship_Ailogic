@@ -7,9 +7,11 @@ using System.Collections.Generic;
 
 namespace Database.Models
 {
-    public partial class EfmigrationsHistory
+    public partial class Aspnetroleclaims1
     {
-        public string MigrationId { get; set; }
-        public string ProductVersion { get; set; }
+        public int Id { get; set; }
+        public string RoleId { get; set; }
+        public string ClaimType { get; set; }
+        public string ClaimValue { get; set; }
     }
 }

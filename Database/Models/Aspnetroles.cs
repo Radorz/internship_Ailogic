@@ -7,12 +7,12 @@ using System.Collections.Generic;
 
 namespace Database.Models
 {
-    public partial class Aspnetroles
+    public partial class AspNetRoles
     {
-        public Aspnetroles()
+        public AspNetRoles()
         {
-            Aspnetroleclaims = new HashSet<Aspnetroleclaims>();
-            Aspnetuserroles = new HashSet<Aspnetuserroles>();
+            AspNetRoleClaims = new HashSet<AspNetRoleClaims>();
+            AspNetUserRoles = new HashSet<AspNetUserRoles>();
         }
 
         public string Id { get; set; }
@@ -20,7 +20,7 @@ namespace Database.Models
         public string NormalizedName { get; set; }
         public string ConcurrencyStamp { get; set; }
 
-        public virtual ICollection<Aspnetroleclaims> Aspnetroleclaims { get; set; }
-        public virtual ICollection<Aspnetuserroles> Aspnetuserroles { get; set; }
+        public virtual ICollection<AspNetRoleClaims> AspNetRoleClaims { get; set; }
+        public virtual ICollection<AspNetUserRoles> AspNetUserRoles { get; set; }
     }
 }
