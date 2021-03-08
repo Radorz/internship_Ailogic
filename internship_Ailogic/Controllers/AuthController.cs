@@ -51,7 +51,7 @@ namespace internship_Ailogic.Controllers
         }
 
         [HttpPost("login")]
-        public async Task<ActionResult<UserToken>> Login([FromBody] UserInfo userInfo)
+        public async Task<ActionResult<UserToken>> Login(UserInfo userInfo)
         {
             var result = await _signInManager.PasswordSignInAsync(userInfo.Email, userInfo.Password, isPersistent: false, lockoutOnFailure: false);
             if (result.Succeeded)

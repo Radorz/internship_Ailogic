@@ -19,6 +19,8 @@ namespace internship_Ailogic
 {
     public class Startup
     {
+        readonly string MyAllowSpecificOrigins = "_myAllowSpecificOrigins";
+
         public Startup(IConfiguration configuration)
         {
             Configuration = configuration;
@@ -29,11 +31,16 @@ namespace internship_Ailogic
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddCors(c =>
+            services.AddCors(options =>
             {
-                c.AddPolicy("AllowOrigin", options => options.AllowAnyOrigin());
+                options.AddPolicy(name: MyAllowSpecificOrigins,
+                                  builder =>
+                                  {
+                                      builder.WithOrigins("http://localhost:4200", "http://apirequest.io", "https://reqbin.com")
+                                                                                        .AllowAnyHeader()
+;
+                                  });
             });
-            services.AddCors();
             services.AddIdentity<IdentityUser, IdentityRole>().AddEntityFrameworkStores <bnbar022dce4hrtds2xdContext>();
             services.AddDbContext<bnbar022dce4hrtds2xdContext>(options => options.UseMySql(Configuration.GetConnectionString("Default"))); 
             services.AddControllers();
@@ -46,28 +53,30 @@ namespace internship_Ailogic
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
-            app.UseCors(options => options.AllowAnyOrigin());
+            //app.UseCors(options => options.AllowAnyOrigin());
 
-            //app.UseSwagger();
-            //app.UseSwaggerUI(c => {
-            //    c.SwaggerEndpoint("/swagger/v1/swagger.json", "internship_Ailogic v1");
-            //    c.RoutePrefix = string.Empty;
+            app.UseSwagger();
+            app.UseSwaggerUI(c =>
+            {
+                c.SwaggerEndpoint("/swagger/v1/swagger.json", "internship_Ailogic v1");
+                c.RoutePrefix = string.Empty;
 
-            //});
+            });
             if (env.IsDevelopment())
             {
-                app.UseDeveloperExceptionPage();
-                app.UseSwagger();
-                app.UseSwaggerUI(c => {
-                    c.SwaggerEndpoint("/swagger/v1/swagger.json", "internship_Ailogic v1");
+                //app.UseDeveloperExceptionPage();
+                //app.UseSwagger();
+                //app.UseSwaggerUI(c => {
+                //    c.SwaggerEndpoint("/swagger/v1/swagger.json", "internship_Ailogic v1");
 
-                });
+                //});
 
             }
 
             app.UseHttpsRedirection();
 
             app.UseRouting();
+            app.UseCors(MyAllowSpecificOrigins);
 
             app.UseAuthorization();
             app.UseAuthentication();
