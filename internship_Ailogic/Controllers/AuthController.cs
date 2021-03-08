@@ -5,6 +5,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Database;
 using System.Security.Claims;
 using System.IdentityModel.Tokens.Jwt;
 using Microsoft.IdentityModel.Tokens;
@@ -48,6 +49,12 @@ namespace internship_Ailogic.Controllers
             {
                 return BadRequest("Username or password invalid");
             }
+        }
+
+        [HttpGet]
+        public string Get()
+        {
+            return "Hola";
         }
 
         [HttpPost("login")]
