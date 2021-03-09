@@ -9,7 +9,7 @@ namespace Database.Models
 {
     public partial class RequestInternship
     {
-        public int IdRequestInternship { get; set; }
+        public int IdRequestInternship { get; set; } 
         public string Name { get; set; }
         public string Lastname { get; set; }
         public int Cedula { get; set; }
@@ -19,5 +19,7 @@ namespace Database.Models
         public string Cv { get; set; }
         public DateTime BirthDate { get; set; }
         public int IdInternship { get; set; }
+
+        
     }
 }
