@@ -11,13 +11,13 @@ using System.Threading.Tasks;
 
 namespace Repository.Repository
 {
-    public class RequestInternshipRepository : RepositoryBase<RequestInternship, bnbar022dce4hrtds2xdContext>
+    public class RequestInternshipRepository : RepositoryBase<RequestInternship, bp6pznqoywrjk82ucfnmContext>
     {
         private readonly IMapper _mapper;
 
       
 
-        public RequestInternshipRepository(bnbar022dce4hrtds2xdContext context, IMapper mapper) : base(context)
+        public RequestInternshipRepository(bp6pznqoywrjk82ucfnmContext context, IMapper mapper) : base(context)
         {
             _mapper = mapper;
 

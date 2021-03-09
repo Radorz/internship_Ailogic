@@ -11,5 +11,8 @@ namespace Database.Models
     {
         public int IdInternt { get; set; }
         public int IdTeam { get; set; }
+
+        public virtual Interns IdInterntNavigation { get; set; }
+        public virtual Team IdTeamNavigation { get; set; }
     }
 }

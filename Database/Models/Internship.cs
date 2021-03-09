@@ -9,10 +9,17 @@ namespace Database.Models
 {
     public partial class Internship
     {
+        public Internship()
+        {
+            RequestInternship = new HashSet<RequestInternship>();
+        }
+
         public int IdInternship { get; set; }
         public string Name { get; set; }
         public string Description { get; set; }
         public DateTime Date { get; set; }
         public bool Status { get; set; }
+
+        public virtual ICollection<RequestInternship> RequestInternship { get; set; }
     }
 }

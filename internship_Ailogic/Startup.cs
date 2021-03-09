@@ -33,16 +33,18 @@ namespace internship_Ailogic
         {
             services.AddCors(options =>
             {
-                options.AddPolicy(name: MyAllowSpecificOrigins,
+                options.AddPolicy(MyAllowSpecificOrigins,
                                   builder =>
                                   {
-                                      builder.WithOrigins("http://localhost:4200", "http://apirequest.io", "https://reqbin.com")
-                                                                                        .AllowAnyHeader()
-;
+                                      builder.AllowAnyOrigin()
+                                                          .AllowAnyHeader()
+                                                          .AllowAnyMethod();
                                   });
             });
-            services.AddIdentity<IdentityUser, IdentityRole>().AddEntityFrameworkStores <bnbar022dce4hrtds2xdContext>();
-            services.AddDbContext<bnbar022dce4hrtds2xdContext>(options => options.UseMySql(Configuration.GetConnectionString("Default"))); 
+
+            
+            services.AddIdentity<IdentityUser, IdentityRole>().AddEntityFrameworkStores<bp6pznqoywrjk82ucfnmContext>();
+            services.AddDbContext<bp6pznqoywrjk82ucfnmContext>(options => options.UseMySql(Configuration.GetConnectionString("Default"))); 
             services.AddControllers();
             services.AddSwaggerGen(c =>
             {
@@ -60,15 +62,9 @@ namespace internship_Ailogic
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
-            //app.UseCors(options => options.AllowAnyOrigin());
 
-            //app.UseSwagger();
-            //app.UseSwaggerUI(c =>
-            //{
-            //    c.SwaggerEndpoint("/swagger/v1/swagger.json", "internship_Ailogic v1");
-            //    c.RoutePrefix = string.Empty;
 
-            //});
+           
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
@@ -79,6 +75,16 @@ namespace internship_Ailogic
 
                 });
 
+            }
+            else
+            {
+                app.UseSwagger();
+                app.UseSwaggerUI(c =>
+                {
+                    c.SwaggerEndpoint("/swagger/v1/swagger.json", "internship_Ailogic v1");
+                    c.RoutePrefix = string.Empty;
+
+                });
             }
 
             app.UseHttpsRedirection();

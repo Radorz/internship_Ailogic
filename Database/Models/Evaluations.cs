@@ -9,8 +9,17 @@ namespace Database.Models
 {
     public partial class Evaluations
     {
+        public Evaluations()
+        {
+            Questions = new HashSet<Questions>();
+            Results = new HashSet<Results>();
+        }
+
         public int IdEvaluation { get; set; }
         public string Name { get; set; }
         public string Description { get; set; }
+
+        public virtual ICollection<Questions> Questions { get; set; }
+        public virtual ICollection<Results> Results { get; set; }
     }
 }

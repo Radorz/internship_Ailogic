@@ -13,6 +13,7 @@ using System.Text;
 using Database.Models;
 using DTO;
 using Repository.Repository;
+using Microsoft.AspNetCore.Cors;
 
 namespace internship_Ailogic.Controllers
 {
@@ -39,7 +40,7 @@ namespace internship_Ailogic.Controllers
 
 
         [HttpPost("create")]
-        public async Task<ActionResult<UserToken>> CreateUser([FromBody] UserInfo model)
+        public async Task<ActionResult<UserToken>> CreateUser(UserInfo model)
         {
             var user = new IdentityUser { UserName = model.Email, Email = model.Email };
             var result = await _userManager.CreateAsync(user, model.Password);

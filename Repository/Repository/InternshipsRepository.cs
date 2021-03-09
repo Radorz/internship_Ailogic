@@ -12,9 +12,9 @@ using Microsoft.AspNetCore.Http;
 
 namespace Repository.Repository
 {
-    public class InternshipsRepository : RepositoryBase<Internship, bnbar022dce4hrtds2xdContext>
+    public class InternshipsRepository : RepositoryBase<Internship, bp6pznqoywrjk82ucfnmContext>
     {
-        public InternshipsRepository(bnbar022dce4hrtds2xdContext context) : base(context)
+        public InternshipsRepository(bp6pznqoywrjk82ucfnmContext context) : base(context)
         {
 
         }

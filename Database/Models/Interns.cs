@@ -9,6 +9,11 @@ namespace Database.Models
 {
     public partial class Interns
     {
+        public Interns()
+        {
+            Results = new HashSet<Results>();
+        }
+
         public int IdInternt { get; set; }
         public string Name { get; set; }
         public string Lastname { get; set; }
@@ -20,5 +25,7 @@ namespace Database.Models
         public string Linkedin { get; set; }
         public string Cv { get; set; }
         public DateTime BirthDate { get; set; }
+
+        public virtual ICollection<Results> Results { get; set; }
     }
 }
