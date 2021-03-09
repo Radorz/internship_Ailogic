@@ -49,7 +49,7 @@ namespace internship_Ailogic
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "internship_Ailogic", Version = "v1" });
             });
             services.AddScoped<RequestInternshipRepository>();
-            services.AddScoped<InternshipRepository>();
+            services.AddScoped<InternshipsRepository>();
 
 
             services.AddAutoMapper(typeof(Automapping).GetTypeInfo().Assembly);
