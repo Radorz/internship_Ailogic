@@ -50,6 +50,7 @@ namespace internship_Ailogic
             });
             services.AddScoped<RequestInternshipRepository>();
             services.AddScoped<InternshipsRepository>();
+            services.AddScoped<InternRepository>();
 
 
             services.AddAutoMapper(typeof(Automapping).GetTypeInfo().Assembly);

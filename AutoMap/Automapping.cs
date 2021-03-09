@@ -9,12 +9,20 @@ namespace AutoMap
     {
         public Automapping()
         {
-
             Maprequest();
+            MapIntern();
         }
         private void Maprequest()
         {
             CreateMap<ApplyInternshipDTO, RequestInternship>().ReverseMap();
+           
+        }
+
+        private void MapIntern()
+        {
+            CreateMap<InternDTO, Interns>().ReverseMap().
+            ForMember(dest => dest.User, opt => opt.Ignore());
+            
         }
         //private void MapearElecciones()
         //{
