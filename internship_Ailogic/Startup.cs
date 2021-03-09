@@ -37,7 +37,7 @@ namespace internship_Ailogic
                                   builder =>
                                   {
                                       builder.WithOrigins("http://localhost:4200", "http://apirequest.io", "https://reqbin.com")
-                                                                                        .AllowAnyHeader()
+                                                                                        .AllowAnyHeader().AllowAnyOrigin().AllowAnyMethod()
 ;
                                   });
             });
