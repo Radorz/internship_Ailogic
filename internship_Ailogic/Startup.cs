@@ -36,9 +36,9 @@ namespace internship_Ailogic
                 options.AddPolicy(MyAllowSpecificOrigins,
                                   builder =>
                                   {
-                                      builder.AllowAnyOrigin()
-                                                          .AllowAnyHeader()
-                                                          .AllowAnyMethod();
+                                      builder.WithOrigins("http://localhost:4200", "http://apirequest.io", "https://reqbin.com")
+                                                                                        .AllowAnyHeader().AllowAnyOrigin().AllowAnyMethod()
+;
                                   });
             });
 
@@ -52,6 +52,7 @@ namespace internship_Ailogic
             });
             services.AddScoped<RequestInternshipRepository>();
             services.AddScoped<InternshipsRepository>();
+            services.AddScoped<InternRepository>();
 
 
             services.AddAutoMapper(typeof(Automapping).GetTypeInfo().Assembly);
