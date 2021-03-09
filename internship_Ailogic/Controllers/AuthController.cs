@@ -77,10 +77,23 @@ namespace internship_Ailogic.Controllers
         [HttpPost("apply")]
         public async Task<ActionResult> Apply(ApplyInternshipDTO userInfo)
         {
-            await _requestInternshipDTO.Apply(userInfo);
-            return Ok();
 
-
+            if (ModelState.IsValid)
+            {
+                var response = await _requestInternshipDTO.Apply(userInfo);
+                if (response)
+                {
+                    return Ok();
+                }
+                else
+                {
+                    return BadRequest();
+                }
+            }
+            else
+            {
+               return BadRequest();
+            }
         }
 
 

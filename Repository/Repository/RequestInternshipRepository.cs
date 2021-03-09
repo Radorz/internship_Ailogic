@@ -24,11 +24,17 @@ namespace Repository.Repository
         }
         public async Task<bool> Apply(ApplyInternshipDTO dto)
         {
-            var request = _mapper.Map<RequestInternship>(dto);
-            var idinternship = _context.Internship.FirstOrDefault(a => a.Status == true);
-            request.IdInternship = idinternship.IdInternship;
-           await Add(request);
-            return true;
+            try
+            {
+                var request = _mapper.Map<RequestInternship>(dto);
+                var idinternship = _context.Internship.FirstOrDefault(a => a.Status == true);
+                request.IdInternship = idinternship.IdInternship;
+                await Add(request);
+                return true;
+            }catch(Exception e)
+            {
+                return (false);
+            }
             
 
         }
