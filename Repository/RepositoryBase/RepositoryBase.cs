@@ -29,7 +29,7 @@ namespace Repository.RepositoryBase
             if (entity == null)
             {
 
-                return entity;
+                return entity;  
             }
             _context.Set<TEntity>().Remove(entity);
             await _context.SaveChangesAsync();

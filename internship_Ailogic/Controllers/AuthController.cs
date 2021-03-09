@@ -74,12 +74,12 @@ namespace internship_Ailogic.Controllers
         }
 
         [HttpPost("apply")]
-        public async Task<ActionResult> Apply(ApplyInternshipDTO userInfo)
-        {
+        //public async Task<ActionResult> Apply(ApplyInternshipDTO userInfo)
+        //{
             
 
 
-        }
+        //}
 
 
 
