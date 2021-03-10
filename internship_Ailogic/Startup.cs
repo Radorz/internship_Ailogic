@@ -36,8 +36,8 @@ namespace internship_Ailogic
                 options.AddPolicy(name: MyAllowSpecificOrigins,
                                   builder =>
                                   {
-                                      builder.WithOrigins("http://localhost:4200", "http://apirequest.io", "https://reqbin.com")
-                                                                                        .AllowAnyHeader().AllowAnyOrigin().AllowAnyMethod()
+                                      builder.WithOrigins("http://localhost:4200", "http://apirequest.io", "https://reqbin.com", "https://frontend-pasantes.vercel.app")
+                                                                                        .AllowAnyHeader().AllowAnyMethod()
 ;
                                   });
             });
