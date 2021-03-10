@@ -12,7 +12,5 @@ namespace Database.Models
         public int IdAnswer { get; set; }
         public int IdQuestion { get; set; }
         public string Answer { get; set; }
-
-        public virtual Questions IdQuestionNavigation { get; set; }
     }
 }

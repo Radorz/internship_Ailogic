@@ -12,8 +12,5 @@ namespace Database.Models
         public int IdResult { get; set; }
         public int IdEvaluation { get; set; }
         public int IdIntern { get; set; }
-
-        public virtual Evaluations IdEvaluationNavigation { get; set; }
-        public virtual Interns IdInternNavigation { get; set; }
     }
 }

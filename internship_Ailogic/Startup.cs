@@ -33,18 +33,18 @@ namespace internship_Ailogic
         {
             services.AddCors(options =>
             {
-                options.AddPolicy(MyAllowSpecificOrigins,
+                options.AddPolicy(name: MyAllowSpecificOrigins,
                                   builder =>
                                   {
-                                      builder.WithOrigins("http://localhost:4200", "http://apirequest.io", "https://reqbin.com")
-                                                                                        .AllowAnyHeader().AllowAnyOrigin().AllowAnyMethod()
-;
+                                      builder.WithOrigins("https://frontend-pasantes.vercel.app", "https://localhost:4200");
+                                      builder.WithHeaders("accept", "content-type", "origin", "x-custom-header");
+                                      builder.AllowAnyHeader();
+                                      builder.AllowAnyMethod();
+                                      builder.WithExposedHeaders("x-custom-header");
                                   });
             });
-
-            
-            services.AddIdentity<IdentityUser, IdentityRole>().AddEntityFrameworkStores<bp6pznqoywrjk82ucfnmContext>();
-            services.AddDbContext<bp6pznqoywrjk82ucfnmContext>(options => options.UseMySql(Configuration.GetConnectionString("Default"))); 
+            services.AddIdentity<IdentityUser, IdentityRole>().AddEntityFrameworkStores <bnbar022dce4hrtds2xdContext>();
+            services.AddDbContext<bnbar022dce4hrtds2xdContext>(options => options.UseMySql(Configuration.GetConnectionString("Default"))); 
             services.AddControllers();
             services.AddSwaggerGen(c =>
             {
@@ -63,9 +63,8 @@ namespace internship_Ailogic
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
+            app.UseCors(MyAllowSpecificOrigins);
 
-
-           
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
@@ -79,6 +78,8 @@ namespace internship_Ailogic
             }
             else
             {
+                app.UseCors(options => options.AllowAnyOrigin());
+
                 app.UseSwagger();
                 app.UseSwaggerUI(c =>
                 {
@@ -86,13 +87,12 @@ namespace internship_Ailogic
                     c.RoutePrefix = string.Empty;
 
                 });
+
             }
 
             app.UseHttpsRedirection();
 
             app.UseRouting();
-            app.UseCors(MyAllowSpecificOrigins);
-
             app.UseAuthorization();
             app.UseAuthentication();
             app.UseEndpoints(endpoints =>

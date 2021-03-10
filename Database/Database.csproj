@@ -18,14 +18,4 @@
     <PackageReference Include="Pomelo.EntityFrameworkCore.MySql" Version="3.2.4" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="Models\" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Compile Update="Migrations\20210309174109_identitypeleas - Copy.Designer.cs">
-      <DependentUpon>20210309174109_identitypeleas.Designer.cs</DependentUpon>
-    </Compile>
-  </ItemGroup>
-
 </Project>

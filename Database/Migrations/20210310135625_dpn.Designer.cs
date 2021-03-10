@@ -8,9 +8,9 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace Database.Migrations
 {
-    [DbContext(typeof(bp6pznqoywrjk82ucfnmContext))]
-    [Migration("20210309174109_identitypeleas")]
-    partial class identitypeleas
+    [DbContext(typeof(bnbar022dce4hrtds2xdContext))]
+    [Migration("20210310135625_dpn")]
+    partial class dpn
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -24,7 +24,7 @@ namespace Database.Migrations
                     b.Property<int>("IdAnswer")
                         .ValueGeneratedOnAdd()
                         .HasColumnName("id_answer")
-                        .HasColumnType("int(11)");
+                        .HasColumnType("int");
 
                     b.Property<string>("Answer")
                         .IsRequired()
@@ -35,7 +35,7 @@ namespace Database.Migrations
 
                     b.Property<int>("IdQuestion")
                         .HasColumnName("id_question")
-                        .HasColumnType("int(11)");
+                        .HasColumnType("int");
 
                     b.HasKey("IdAnswer")
                         .HasName("PRIMARY");
@@ -46,12 +46,50 @@ namespace Database.Migrations
                     b.ToTable("answers");
                 });
 
+            modelBuilder.Entity("Database.Models.EfmigrationsHistory", b =>
+                {
+                    b.Property<string>("MigrationId")
+                        .HasColumnType("varchar(95)")
+                        .HasAnnotation("MySql:CharSet", "utf8")
+                        .HasAnnotation("MySql:Collation", "utf8_general_ci");
+
+                    b.Property<string>("ProductVersion")
+                        .IsRequired()
+                        .HasColumnType("varchar(32)")
+                        .HasAnnotation("MySql:CharSet", "utf8")
+                        .HasAnnotation("MySql:Collation", "utf8_general_ci");
+
+                    b.HasKey("MigrationId")
+                        .HasName("PRIMARY");
+
+                    b.ToTable("__EFMigrationsHistory");
+                });
+
+            modelBuilder.Entity("Database.Models.Efmigrationshistory1", b =>
+                {
+                    b.Property<string>("MigrationId")
+                        .HasColumnType("varchar(95)")
+                        .HasAnnotation("MySql:CharSet", "utf8mb4")
+                        .HasAnnotation("MySql:Collation", "utf8mb4_0900_ai_ci");
+
+                    b.Property<string>("ProductVersion")
+                        .IsRequired()
+                        .HasColumnType("varchar(32)")
+                        .HasAnnotation("MySql:CharSet", "utf8mb4")
+                        .HasAnnotation("MySql:Collation", "utf8mb4_0900_ai_ci");
+
+                    b.HasKey("MigrationId")
+                        .HasName("PRIMARY");
+
+                    b.ToTable("__efmigrationshistory");
+                });
+
             modelBuilder.Entity("Database.Models.Evaluations", b =>
                 {
                     b.Property<int>("IdEvaluation")
                         .ValueGeneratedOnAdd()
                         .HasColumnName("id_evaluation")
-                        .HasColumnType("int(11)");
+                        .HasColumnType("int");
 
                     b.Property<string>("Description")
                         .IsRequired()
@@ -78,7 +116,7 @@ namespace Database.Migrations
                     b.Property<int>("IdFiles")
                         .ValueGeneratedOnAdd()
                         .HasColumnName("id_files")
-                        .HasColumnType("int(11)");
+                        .HasColumnType("int");
 
                     b.Property<string>("FileName")
                         .IsRequired()
@@ -89,7 +127,7 @@ namespace Database.Migrations
 
                     b.Property<int>("IdUser")
                         .HasColumnName("id_user")
-                        .HasColumnType("int(11)");
+                        .HasColumnType("int");
 
                     b.Property<string>("Path")
                         .IsRequired()
@@ -108,11 +146,11 @@ namespace Database.Migrations
                 {
                     b.Property<int>("IdInternt")
                         .HasColumnName("id_internt")
-                        .HasColumnType("int(11)");
+                        .HasColumnType("int");
 
                     b.Property<int>("IdTeam")
                         .HasColumnName("id_team")
-                        .HasColumnType("int(11)");
+                        .HasColumnType("int");
 
                     b.HasIndex("IdTeam")
                         .HasName("id_team");
@@ -128,7 +166,7 @@ namespace Database.Migrations
                     b.Property<int>("IdInternt")
                         .ValueGeneratedOnAdd()
                         .HasColumnName("id_internt")
-                        .HasColumnType("int(11)");
+                        .HasColumnType("int");
 
                     b.Property<DateTime>("BirthDate")
                         .HasColumnName("birth_date")
@@ -139,65 +177,62 @@ namespace Database.Migrations
                         .HasColumnName("cedula")
                         .HasColumnType("varchar(15)")
                         .HasAnnotation("MySql:CharSet", "utf8mb4")
-                        .HasAnnotation("MySql:Collation", "utf8mb4_0900_ai_ci");
+                        .HasAnnotation("MySql:Collation", "utf8mb4_general_ci");
 
                     b.Property<string>("Cv")
                         .HasColumnName("cv")
                         .HasColumnType("varchar(100)")
                         .HasAnnotation("MySql:CharSet", "utf8mb4")
-                        .HasAnnotation("MySql:Collation", "utf8mb4_0900_ai_ci");
+                        .HasAnnotation("MySql:Collation", "utf8mb4_general_ci");
 
                     b.Property<string>("Github")
                         .HasColumnName("github")
                         .HasColumnType("varchar(100)")
                         .HasAnnotation("MySql:CharSet", "utf8mb4")
-                        .HasAnnotation("MySql:Collation", "utf8mb4_0900_ai_ci");
+                        .HasAnnotation("MySql:Collation", "utf8mb4_general_ci");
 
                     b.Property<string>("IdUser")
                         .IsRequired()
                         .HasColumnName("id_user")
                         .HasColumnType("varchar(450)")
                         .HasAnnotation("MySql:CharSet", "utf8mb4")
-                        .HasAnnotation("MySql:Collation", "utf8mb4_0900_ai_ci");
+                        .HasAnnotation("MySql:Collation", "utf8mb4_general_ci");
 
                     b.Property<string>("Lastname")
                         .IsRequired()
                         .HasColumnName("lastname")
                         .HasColumnType("varchar(50)")
                         .HasAnnotation("MySql:CharSet", "utf8mb4")
-                        .HasAnnotation("MySql:Collation", "utf8mb4_0900_ai_ci");
+                        .HasAnnotation("MySql:Collation", "utf8mb4_general_ci");
 
                     b.Property<string>("Linkedin")
                         .HasColumnName("linkedin")
                         .HasColumnType("varchar(100)")
                         .HasAnnotation("MySql:CharSet", "utf8mb4")
-                        .HasAnnotation("MySql:Collation", "utf8mb4_0900_ai_ci");
+                        .HasAnnotation("MySql:Collation", "utf8mb4_general_ci");
 
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasColumnName("name")
                         .HasColumnType("varchar(30)")
                         .HasAnnotation("MySql:CharSet", "utf8mb4")
-                        .HasAnnotation("MySql:Collation", "utf8mb4_0900_ai_ci");
+                        .HasAnnotation("MySql:Collation", "utf8mb4_general_ci");
 
                     b.Property<string>("Phone")
                         .IsRequired()
                         .HasColumnName("phone")
                         .HasColumnType("varchar(12)")
                         .HasAnnotation("MySql:CharSet", "utf8mb4")
-                        .HasAnnotation("MySql:Collation", "utf8mb4_0900_ai_ci");
+                        .HasAnnotation("MySql:Collation", "utf8mb4_general_ci");
 
                     b.Property<string>("UserImg")
                         .HasColumnName("user_img")
                         .HasColumnType("varchar(100)")
                         .HasAnnotation("MySql:CharSet", "utf8mb4")
-                        .HasAnnotation("MySql:Collation", "utf8mb4_0900_ai_ci");
+                        .HasAnnotation("MySql:Collation", "utf8mb4_general_ci");
 
                     b.HasKey("IdInternt")
                         .HasName("PRIMARY");
-
-                    b.HasIndex("IdUser")
-                        .HasName("id_user");
 
                     b.ToTable("interns");
                 });
@@ -207,7 +242,7 @@ namespace Database.Migrations
                     b.Property<int>("IdInternship")
                         .ValueGeneratedOnAdd()
                         .HasColumnName("id_internship")
-                        .HasColumnType("int(11)");
+                        .HasColumnType("int");
 
                     b.Property<DateTime>("Date")
                         .HasColumnName("date")
@@ -240,13 +275,12 @@ namespace Database.Migrations
             modelBuilder.Entity("Database.Models.Questions", b =>
                 {
                     b.Property<int>("IdQuestion")
-                        .ValueGeneratedOnAdd()
                         .HasColumnName("id_question")
-                        .HasColumnType("int(11)");
+                        .HasColumnType("int");
 
                     b.Property<int>("IdEvaluation")
                         .HasColumnName("id_evaluation")
-                        .HasColumnType("int(11)");
+                        .HasColumnType("int");
 
                     b.Property<string>("Question")
                         .IsRequired()
@@ -267,9 +301,8 @@ namespace Database.Migrations
             modelBuilder.Entity("Database.Models.RequestInternship", b =>
                 {
                     b.Property<int>("IdRequestInternship")
-                        .ValueGeneratedOnAdd()
                         .HasColumnName("id_request_internship")
-                        .HasColumnType("int(11)");
+                        .HasColumnType("int");
 
                     b.Property<DateTime>("BirthDate")
                         .HasColumnName("birth_date")
@@ -277,7 +310,7 @@ namespace Database.Migrations
 
                     b.Property<int>("Cedula")
                         .HasColumnName("cedula")
-                        .HasColumnType("int(15)");
+                        .HasColumnType("int");
 
                     b.Property<string>("Cv")
                         .IsRequired()
@@ -295,7 +328,7 @@ namespace Database.Migrations
 
                     b.Property<int>("IdInternship")
                         .HasColumnName("id_internship")
-                        .HasColumnType("int(11)");
+                        .HasColumnType("int");
 
                     b.Property<string>("Lastname")
                         .IsRequired()
@@ -320,7 +353,7 @@ namespace Database.Migrations
 
                     b.Property<int>("Phone")
                         .HasColumnName("phone")
-                        .HasColumnType("int(12)");
+                        .HasColumnType("int");
 
                     b.HasKey("IdRequestInternship")
                         .HasName("PRIMARY");
@@ -334,17 +367,16 @@ namespace Database.Migrations
             modelBuilder.Entity("Database.Models.Results", b =>
                 {
                     b.Property<int>("IdResult")
-                        .ValueGeneratedOnAdd()
                         .HasColumnName("id_result")
-                        .HasColumnType("int(11)");
+                        .HasColumnType("int");
 
                     b.Property<int>("IdEvaluation")
                         .HasColumnName("id_evaluation")
-                        .HasColumnType("int(11)");
+                        .HasColumnType("int");
 
                     b.Property<int>("IdIntern")
                         .HasColumnName("id_intern")
-                        .HasColumnType("int(11)");
+                        .HasColumnType("int");
 
                     b.HasKey("IdResult")
                         .HasName("PRIMARY");
@@ -361,13 +393,12 @@ namespace Database.Migrations
             modelBuilder.Entity("Database.Models.Team", b =>
                 {
                     b.Property<int>("IdTeam")
-                        .ValueGeneratedOnAdd()
                         .HasColumnName("id_team")
-                        .HasColumnType("int(11)");
+                        .HasColumnType("int");
 
                     b.Property<int>("IdInternship")
                         .HasColumnName("id_internship")
-                        .HasColumnType("int(11)");
+                        .HasColumnType("int");
 
                     b.Property<string>("Name")
                         .IsRequired()
@@ -575,67 +606,6 @@ namespace Database.Migrations
                     b.HasKey("UserId", "LoginProvider", "Name");
 
                     b.ToTable("AspNetUserTokens");
-                });
-
-            modelBuilder.Entity("Database.Models.Answers", b =>
-                {
-                    b.HasOne("Database.Models.Questions", "IdQuestionNavigation")
-                        .WithMany("Answers")
-                        .HasForeignKey("IdQuestion")
-                        .HasConstraintName("answers_ibfk_1")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-                });
-
-            modelBuilder.Entity("Database.Models.InternTeam", b =>
-                {
-                    b.HasOne("Database.Models.Interns", "IdInterntNavigation")
-                        .WithMany()
-                        .HasForeignKey("IdInternt")
-                        .HasConstraintName("intern_team_ibfk_1")
-                        .IsRequired();
-
-                    b.HasOne("Database.Models.Team", "IdTeamNavigation")
-                        .WithMany()
-                        .HasForeignKey("IdTeam")
-                        .HasConstraintName("intern_team_ibfk_2")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-                });
-
-            modelBuilder.Entity("Database.Models.Questions", b =>
-                {
-                    b.HasOne("Database.Models.Evaluations", "IdEvaluationNavigation")
-                        .WithMany("Questions")
-                        .HasForeignKey("IdEvaluation")
-                        .HasConstraintName("questions_ibfk_1")
-                        .IsRequired();
-                });
-
-            modelBuilder.Entity("Database.Models.RequestInternship", b =>
-                {
-                    b.HasOne("Database.Models.Internship", "IdInternshipNavigation")
-                        .WithMany("RequestInternship")
-                        .HasForeignKey("IdInternship")
-                        .HasConstraintName("request_internship_ibfk_1")
-                        .IsRequired();
-                });
-
-            modelBuilder.Entity("Database.Models.Results", b =>
-                {
-                    b.HasOne("Database.Models.Evaluations", "IdEvaluationNavigation")
-                        .WithMany("Results")
-                        .HasForeignKey("IdEvaluation")
-                        .HasConstraintName("results_ibfk_1")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("Database.Models.Interns", "IdInternNavigation")
-                        .WithMany("Results")
-                        .HasForeignKey("IdIntern")
-                        .HasConstraintName("results_ibfk_2")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>

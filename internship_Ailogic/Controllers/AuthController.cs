@@ -13,7 +13,6 @@ using System.Text;
 using Database.Models;
 using DTO;
 using Repository.Repository;
-using Microsoft.AspNetCore.Cors;
 
 namespace internship_Ailogic.Controllers
 {
@@ -40,7 +39,7 @@ namespace internship_Ailogic.Controllers
 
 
         [HttpPost("create")]
-        public async Task<ActionResult<UserToken>> CreateUser(UserInfo model)
+        public async Task<ActionResult<UserToken>> CreateUser([FromBody] UserInfo model)
         {
             var user = new IdentityUser { UserName = model.Email, Email = model.Email };
             var result = await _userManager.CreateAsync(user, model.Password);
@@ -61,7 +60,7 @@ namespace internship_Ailogic.Controllers
         }
 
         [HttpPost("login")]
-        public async Task<ActionResult<UserToken>> Login(UserInfo userInfo)
+        public async Task<ActionResult<UserToken>> Login([FromBody] UserInfo userInfo)
         {
             var result = await _signInManager.PasswordSignInAsync(userInfo.Email, userInfo.Password, isPersistent: false, lockoutOnFailure: false);
             if (result.Succeeded)
@@ -78,7 +77,7 @@ namespace internship_Ailogic.Controllers
         [HttpPost("apply")]
         public async Task<ActionResult> Apply(ApplyInternshipDTO userInfo)
         {
-
+            
             if (ModelState.IsValid)
             {
                 var response = await _requestInternshipDTO.Apply(userInfo);

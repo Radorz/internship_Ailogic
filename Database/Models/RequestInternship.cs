@@ -19,7 +19,5 @@ namespace Database.Models
         public string Cv { get; set; }
         public DateTime BirthDate { get; set; }
         public int IdInternship { get; set; }
-
-        public virtual Internship IdInternshipNavigation { get; set; }
     }
 }

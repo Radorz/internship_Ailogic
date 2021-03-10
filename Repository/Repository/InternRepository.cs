@@ -6,9 +6,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using DTO;
-using Database.Models;
 using AutoMapper;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.AspNetCore.Identity;
 
 namespace Repository.Repository
 {
@@ -16,9 +16,12 @@ namespace Repository.Repository
     {
 
         private readonly IMapper _mapper;
-        public InternRepository(bnbar022dce4hrtds2xdContext context, IMapper mapper) :base(context)
+        private readonly UserManager<IdentityUser> _userManager;
+
+        public InternRepository(bnbar022dce4hrtds2xdContext context, IMapper mapper, UserManager<IdentityUser> userManager) :base(context)
         {
             this._mapper = mapper;
+            _userManager = userManager;
         }
 
         public async Task<bool> AddCustom(InternDTO dto)
@@ -41,19 +44,19 @@ namespace Repository.Repository
         {
             List<InternDTO> InternList = new List<InternDTO>();
             var interns = await _context.Set<Interns>().ToListAsync();
-            
+
             foreach (var i in interns)
             {
 
                 var intern = _mapper.Map<InternDTO>(i);
-                var user = await _context.AspNetUsers.FirstOrDefaultAsync(x => x.Id == i.IdUser);
+                var user = await _userManager.FindByIdAsync(i.IdUser);
                 var internReturn = new UserDTO();
                 internReturn.UserName = user.UserName;
                 internReturn.Email = user.Email;
                 internReturn.PhoneNumber = user.PhoneNumber;
                 intern.User = internReturn;
                 InternList.Add(intern);
-                
+
             }
             return InternList;
         }
@@ -62,7 +65,7 @@ namespace Repository.Repository
         {
             var intern = await _context.Set<Interns>().FindAsync(id);
             var internDTO = _mapper.Map<InternDTO>(intern);
-            var user = await _context.AspNetUsers.FirstOrDefaultAsync(x => x.Id == internDTO.IdUser);
+            var user = await _userManager.FindByIdAsync(internDTO.IdUser);
             var internReturn = new UserDTO();
             internReturn.UserName = user.UserName;
             internReturn.Email = user.Email;

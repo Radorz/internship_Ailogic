@@ -9,16 +9,8 @@ namespace Database.Models
 {
     public partial class Questions
     {
-        public Questions()
-        {
-            Answers = new HashSet<Answers>();
-        }
-
         public int IdQuestion { get; set; }
         public int IdEvaluation { get; set; }
         public string Question { get; set; }
-
-        public virtual Evaluations IdEvaluationNavigation { get; set; }
-        public virtual ICollection<Answers> Answers { get; set; }
     }
 }
