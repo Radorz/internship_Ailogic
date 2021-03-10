@@ -60,7 +60,11 @@ namespace internship_Ailogic.Controllers
         }
 
         [HttpPost("login")]
+<<<<<<< HEAD
         public async Task<ActionResult<UserToken>> Login([FromBody]  UserInfo userInfo)
+=======
+        public async Task<ActionResult<UserToken>> Login([FromBody] UserInfo userInfo)
+>>>>>>> 67233d84b8ec6b9d34f0282287d8c600b442abf4
         {
             var result = await _signInManager.PasswordSignInAsync(userInfo.Email, userInfo.Password, isPersistent: false, lockoutOnFailure: false);
             if (result.Succeeded)
@@ -77,7 +81,7 @@ namespace internship_Ailogic.Controllers
         [HttpPost("apply")]
         public async Task<ActionResult> Apply(ApplyInternshipDTO userInfo)
         {
-
+            
             if (ModelState.IsValid)
             {
                 var response = await _requestInternshipDTO.Apply(userInfo);

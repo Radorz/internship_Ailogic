@@ -15,24 +15,24 @@ namespace internship_Ailogic.Controllers
     {
         private readonly InternRepository _internRepository;
 
-        public InternController(InternRepository internRepository)
-        {
-            this._internRepository = internRepository;
-        }
+        //public InternController(InternRepository internRepository)
+        //{
+        //    this._internRepository = internRepository;
+        //}
            
-        [HttpGet]
-        public async Task<List<InternDTO>> Get()
-        {
+        //[HttpGet]
+        //public async Task<List<InternDTO>> Get()
+        //{
 
-            return await _internRepository.GetAllCustom();
+        //    //return await _internRepository.GetAllCustom();
 
-        }
+        //}
 
-        [HttpGet("{id}")]
-        public async Task<ActionResult<InternDTO>> Get(int id)
-        {
-            return await _internRepository.GetByIdCustom(id);
-        }
+        //[HttpGet("{id}")]
+        //public async Task<ActionResult<InternDTO>> Get(int id)
+        //{
+        //    return await _internRepository.GetByIdCustom(id);
+        //}
 
         [HttpPost]
         public async Task<ActionResult> Post(InternDTO dto)
