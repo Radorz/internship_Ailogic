@@ -11,17 +11,22 @@ namespace AutoMap
         {
             Maprequest();
             MapIntern();
+            MapInternCreation();
         }
         private void Maprequest()
         {
             CreateMap<ApplyInternshipDTO, RequestInternship>().ReverseMap();
-           
         }
 
         private void MapIntern()
         {
             CreateMap<InternDTO, Interns>().ReverseMap().
             ForMember(dest => dest.User, opt => opt.Ignore());
+        }
+
+        private void MapInternCreation()
+        {
+            CreateMap<InternCreationDTO, Interns>().ReverseMap();
             
         }
         //private void MapearElecciones()
