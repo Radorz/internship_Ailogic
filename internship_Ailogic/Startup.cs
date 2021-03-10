@@ -36,7 +36,7 @@ namespace internship_Ailogic
                 options.AddPolicy(name: MyAllowSpecificOrigins,
                                   builder =>
                                   {
-                                      builder.WithOrigins("https://frontend-pasantes.vercel.app", "https://localhost:4200");
+                                      builder.WithOrigins("https://frontend-pasantes.vercel.app", "http://localhost:4200");
                                       builder.WithHeaders("accept", "content-type", "origin", "x-custom-header");
                                       builder.AllowAnyHeader();
                                       builder.AllowAnyMethod();
