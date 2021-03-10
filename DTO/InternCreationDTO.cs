@@ -1,5 +1,4 @@
-﻿using Database.Models;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -7,13 +6,10 @@ using System.Threading.Tasks;
 
 namespace DTO
 {
-   public class InternDTO
+   public class InternCreationDTO
     {
-        public int IdInternt { get; set; }
         public string Name { get; set; }
         public string Lastname { get; set; }
-        public string IdUser { get; set; }
-        public UserDTO User { get; set; }
         public string Cedula { get; set; }
         public string Phone { get; set; }
         public string UserImg { get; set; }

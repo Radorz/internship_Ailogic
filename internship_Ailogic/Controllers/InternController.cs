@@ -1,4 +1,6 @@
 ﻿
+using AutoMapper;
+using Database.Models;
 using DTO;
 using Microsoft.AspNetCore.Mvc;
 using Repository.Repository;
@@ -15,9 +17,12 @@ namespace internship_Ailogic.Controllers
     {
         private readonly InternRepository _internRepository;
 
-        public InternController(InternRepository internRepository)
+        private readonly IMapper _mapper;
+
+        public InternController(InternRepository internRepository, IMapper mapper)
         {
-            this._internRepository = internRepository;
+            _internRepository = internRepository;
+            _mapper = mapper;
         }
 
         [HttpGet]
@@ -28,18 +33,20 @@ namespace internship_Ailogic.Controllers
 
         }
 
-        [HttpGet("{id}")]
+        [HttpGet("{id}", Name = "GetIntern")]
         public async Task<ActionResult<InternDTO>> Get(int id)
         {
             return await _internRepository.GetByIdCustom(id);
         }
 
         [HttpPost]
-        public async Task<ActionResult> Post(InternDTO dto)
+        public async Task<ActionResult> Post([FromBody] InternCreationDTO dto)
         {
-            if(await _internRepository.AddCustom(dto))
+            var intern = await _internRepository.AddCustom(dto);
+            if (intern != null)
             {
-                return Ok(dto);
+                var internDTO = _mapper.Map<InternDTO>(intern);
+                return new CreatedAtRouteResult("GetIntern", new { id = intern.IdInternt }, internDTO);
             }
             else
             {
@@ -49,7 +56,7 @@ namespace internship_Ailogic.Controllers
         }
 
         [HttpPut("{id}")]
-        public async Task<ActionResult<InternDTO>> Put(int id, InternDTO dto)
+        public async Task<ActionResult<InternDTO>> Put(int id, InternCreationDTO dto)
         {
             if(await _internRepository.UpdateCustom(id, dto))
             {
@@ -65,7 +72,7 @@ namespace internship_Ailogic.Controllers
         [HttpDelete("{id}")]
         public async Task<ActionResult> Delete(int id)
         {
-            var intern = _internRepository.Delete(id);
+            var intern = await _internRepository.Delete(id);
             if (intern != null)
             {
                 return Ok("Se ha borrado Correctamente");

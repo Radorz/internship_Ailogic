@@ -13,6 +13,7 @@ namespace Database.Models
         public string Name { get; set; }
         public string Lastname { get; set; }
         public int Cedula { get; set; }
+        public string Email { get; set; }
         public int Phone { get; set; }
         public string Github { get; set; }
         public string Linkedin { get; set; }

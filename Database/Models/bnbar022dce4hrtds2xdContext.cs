@@ -321,6 +321,13 @@ namespace Database.Models
 
                 entity.Property(e => e.Cedula).HasColumnName("cedula");
 
+                entity.Property(e => e.Email)
+                   .IsRequired()
+                   .HasColumnName("Email")
+                   .HasColumnType("varchar(50)")
+                   .HasCharSet("utf8mb4")
+                   .HasCollation("utf8_general_ci");
+
                 entity.Property(e => e.Cv)
                     .IsRequired()
                     .HasColumnName("cv")
