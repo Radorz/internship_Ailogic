@@ -23,6 +23,16 @@ namespace internship_Ailogic.Controllers
 
         }
 
+        [HttpGet]
+        public async Task<List<ApplyInternshipDTO>> Get()
+        {
+
+            return await _requestInternshiprepo.getlist();
+
+
+        }
+
+
         [HttpPost("apply")]
         public async Task<ActionResult> Apply(ApplyInternshipDTO userInfo)
         {
@@ -36,7 +46,7 @@ namespace internship_Ailogic.Controllers
                 }
                 else
                 {
-                    return BadRequest();
+                    return BadRequest("There are no active internships");
                 }
             }
             else

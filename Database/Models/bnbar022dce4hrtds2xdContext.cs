@@ -335,6 +335,13 @@ namespace Database.Models
                     .HasCharSet("utf8mb4")
                     .HasCollation("utf8mb4_0900_ai_ci");
 
+                entity.Property(e => e.Email)
+                   .IsRequired()
+                   .HasColumnName("Email")
+                   .HasColumnType("varchar(50)")
+                   .HasCharSet("utf8mb4")
+                   .HasCollation("utf8_general_ci");
+
                 entity.Property(e => e.IdInternship).HasColumnName("id_internship");
 
                 entity.Property(e => e.Lastname)

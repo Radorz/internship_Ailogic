@@ -28,15 +28,34 @@ namespace Repository.Repository
             {
                 var request = _mapper.Map<RequestInternship>(dto);
                 var idinternship = _context.Internship.FirstOrDefault(a => a.Status == true);
-                request.IdInternship = idinternship.IdInternship;
-                await Add(request);
-                return true;
+                if (idinternship == null)
+                {
+                    return false;
+                }
+                else {
+                    request.IdInternship = idinternship.IdInternship;
+                    await Add(request);
+                    return true;
+                }
             }catch(Exception e)
             {
                 return (false);
             }
             
 
+        }
+
+        public async Task<List<ApplyInternshipDTO>> getlist()
+        {
+            List<RequestInternship> list = await _context.RequestInternship.ToListAsync();
+            List<ApplyInternshipDTO> listdto = new List<ApplyInternshipDTO>();
+            foreach(var i in list)
+            {
+                var request = _mapper.Map<ApplyInternshipDTO>(i);
+                listdto.Add(request);
+            }
+
+            return listdto;
         }
     }
 }
