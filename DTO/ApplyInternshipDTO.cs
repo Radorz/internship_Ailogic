@@ -13,5 +13,7 @@ namespace DTO
         public string Linkedin { get; set; }
         public string Cv { get; set; }
         public DateTime BirthDate { get; set; }
+        public string Email { get; set; }
+
     }
 }

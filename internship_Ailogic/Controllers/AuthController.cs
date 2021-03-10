@@ -77,31 +77,7 @@ namespace internship_Ailogic.Controllers
             }
         }
 
-        [HttpPost("apply")]
-        public async Task<ActionResult> Apply(ApplyInternshipDTO userInfo)
-        {
-            
-            if (ModelState.IsValid)
-            {
-                var response = await _requestInternshipDTO.Apply(userInfo);
-                if (response)
-                {
-                    return Ok();
-                }
-                else
-                {
-                    return BadRequest();
-                }
-            }
-            else
-            {
-               return BadRequest();
-            }
-        }
-
-
-
-
+        
 
         private UserToken BuildToken(UserInfo userInfo)
         {
