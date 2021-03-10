@@ -33,21 +33,20 @@ namespace internship_Ailogic
         {
             services.AddCors(options =>
             {
-                options.AddPolicy(name: MyAllowSpecificOrigins,
-                                  builder =>
-                                  {
-<<<<<<< HEAD
-                                      builder.WithOrigins("http://localhost:4200", "http://apirequest.io", "https://reqbin.com", "https://frontend-pasantes.vercel.app")
-                                                                                        .AllowAnyHeader().AllowAnyMethod()
+                options.AddPolicy(name: MyAllowSpecificOrigins, builder =>
+                {
+
+                    builder.WithOrigins("http://localhost:4200", "http://apirequest.io", "https://reqbin.com", "https://frontend-pasantes.vercel.app")
+                                                                    .AllowAnyHeader().AllowAnyMethod()
 ;
-=======
-                                      builder.WithOrigins("https://frontend-pasantes.vercel.app", "https://localhost:4200");
-                                      builder.WithHeaders("accept", "content-type", "origin", "x-custom-header");
-                                      builder.AllowAnyHeader();
-                                      builder.AllowAnyMethod();
-                                      builder.WithExposedHeaders("x-custom-header");
->>>>>>> 67233d84b8ec6b9d34f0282287d8c600b442abf4
-                                  });
+
+                    builder.WithOrigins("https://frontend-pasantes.vercel.app", "https://localhost:4200");
+                    builder.WithHeaders("accept", "content-type", "origin", "x-custom-header");
+                    builder.AllowAnyHeader();
+                    builder.AllowAnyMethod();
+                    builder.WithExposedHeaders("x-custom-header");
+
+                });
             });
             services.AddIdentity<IdentityUser, IdentityRole>().AddEntityFrameworkStores <bnbar022dce4hrtds2xdContext>();
             services.AddDbContext<bnbar022dce4hrtds2xdContext>(options => options.UseMySql(Configuration.GetConnectionString("Default"))); 
