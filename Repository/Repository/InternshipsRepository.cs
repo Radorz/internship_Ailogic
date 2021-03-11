@@ -23,7 +23,7 @@ namespace Repository.Repository
         public async Task<List<InternshipsDTO>> GetAllCustom()
         {
             List<InternshipsDTO> InternshipList = new List<InternshipsDTO>();
-            var internships = _context.Set<Internship>().ToList();
+            var internships = await _context.Set<Internship>().ToListAsync();
             foreach (var i in internships)
             {
                 var internship = new InternshipsDTO()
