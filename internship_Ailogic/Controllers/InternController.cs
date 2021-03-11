@@ -2,6 +2,8 @@
 using AutoMapper;
 using Database.Models;
 using DTO;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Repository.Repository;
 using System;
@@ -13,6 +15,7 @@ namespace internship_Ailogic.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme, Roles = "Admin")]
     public class InternController :ControllerBase
     {
         private readonly InternRepository _internRepository;
