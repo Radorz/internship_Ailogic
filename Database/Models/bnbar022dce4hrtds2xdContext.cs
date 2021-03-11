@@ -39,7 +39,7 @@ namespace Database.Models
             if (!optionsBuilder.IsConfigured)
             {
 #warning To protect potentially sensitive information in your connection string, you should move it out of source code. See http://go.microsoft.com/fwlink/?LinkId=723263 for guidance on storing connection strings.
-                optionsBuilder.UseMySql("server=bnbar022dce4hrtds2xd-mysql.services.clever-cloud.com;port=3306;uid=ul7poqkp44qw3zvt;pwd=aVMvJcBo4Ezvop8kZT9M;database=bnbar022dce4hrtds2xd", x => x.ServerVersion("8.0.22-mysql"));
+                optionsBuilder.UseMySql("server=bnbar022dce4hrtds2xd-mysql.services.clever-cloud.com;port=3306;uid=ul7poqkp44qw3zvt;pwd=aVMvJcBo4Ezvop8kZT9M;database=bnbar022dce4hrtds2xd;ConvertZeroDateTime=True;", x => x.ServerVersion("8.0.22-mysql"));
             }
         }
 
