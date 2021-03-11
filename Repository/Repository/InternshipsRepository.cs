@@ -9,14 +9,17 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Repository.RepositoryBase;
 using Microsoft.AspNetCore.Http;
+using AutoMapper;
 
 namespace Repository.Repository
 {
     public class InternshipsRepository : RepositoryBase<Internship, bnbar022dce4hrtds2xdContext>
     {
-        public InternshipsRepository(bnbar022dce4hrtds2xdContext context) : base(context)
-        {
+        private readonly IMapper _mapper;
 
+        public InternshipsRepository(bnbar022dce4hrtds2xdContext context, IMapper mapper) : base(context)
+        {
+            this._mapper = mapper;
         }
 
         // This method get all information about table Internships.
@@ -26,28 +29,37 @@ namespace Repository.Repository
             var internships = await _context.Set<Internship>().ToListAsync();
             foreach (var i in internships)
             {
-                var internship = new InternshipsDTO()
-                {
-                    Name = i.Name,
-                    Description = i.Description,
-                    Date = i.Date,
-                    Status = i.Status
-                };
-                InternshipList.Add(internship);
+                var internshipDTO = _mapper.Map<InternshipsDTO>(i);
+
+                InternshipList.Add(internshipDTO);
             }
             return InternshipList;
 
 
         }
-
-        public async Task<bool> AddCustom(InternshipsDTO DTO)
+        public async Task<InternshipsDTO> GetByIdCustom(int id)
         {
+            var internship = await _context.Set<Internship>().FindAsync(id);
+            var internshipDTO = _mapper.Map<InternshipsDTO>(internship);
 
+         
+            return internshipDTO;
+        }
+
+        public async Task<bool> AddCustom(InternshipsDTOPost DTO)
+        {
+            if (_context.Internship.FirstOrDefault(a => a.Status == true) != null)
+            {
+                DTO.Status = false;
+
+            }
             var internship = new Internship()
             {
                 Name = DTO.Name,
                 Description = DTO.Description,
-                Date = DTO.Date,
+                Initial_date = DTO.Initial_date,
+                Final_date= DTO.Final_date,
+                Intern_limit= DTO.Intern_limit,
                 Status = DTO.Status
             };
 
@@ -64,12 +76,14 @@ namespace Repository.Repository
             }
         }
 
-        public async Task<ActionResult<InternshipsDTO>> UpdateCustom(int id, InternshipsDTO dto)
+        public async Task<ActionResult<InternshipsDTOPost>> UpdateCustom(int id, InternshipsDTOPost dto)
         {
             var internship = _context.Set<Internship>().Find(id);
             internship.Name = dto.Name;
             internship.Description = dto.Description;
-            internship.Date = dto.Date;
+            internship.Initial_date = dto.Initial_date;
+            internship.Final_date = dto.Final_date;
+            internship.Intern_limit = dto.Intern_limit;
             internship.Status = dto.Status;
             _context.Entry(internship).State = EntityState.Modified;
             await _context.SaveChangesAsync();

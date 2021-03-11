@@ -28,8 +28,14 @@ namespace internship_Ailogic.Controllers
             return await _internshipsRepository.GetAllCustom();
         }
 
+        [HttpGet("{id}", Name = "GetInternship")]
+        public async Task<ActionResult<InternshipsDTO>> Get(int id)
+        {
+            return await _internshipsRepository.GetByIdCustom(id);
+        }
+
         [HttpPost]
-        public async Task<ActionResult> Save(InternshipsDTO DTO)
+        public async Task<ActionResult> Save(InternshipsDTOPost DTO)
         {
             if (ModelState.IsValid)
             {
@@ -58,7 +64,7 @@ namespace internship_Ailogic.Controllers
         }
 
         [HttpPut("{id}")]
-        public async Task<ActionResult<InternshipsDTO>> Update(int id, InternshipsDTO dto)
+        public async Task<ActionResult<InternshipsDTO>> Update(int id, InternshipsDTOPost dto)
         {
 
             await _internshipsRepository.UpdateCustom(id, dto);

@@ -12,9 +12,9 @@ namespace Database.Models
         public int IdRequestInternship { get; set; }
         public string Name { get; set; }
         public string Lastname { get; set; }
-        public int Cedula { get; set; }
+        public string Cedula { get; set; }
         public string Email { get; set; }
-        public int Phone { get; set; }
+        public string Phone { get; set; }
         public string Github { get; set; }
         public string Linkedin { get; set; }
         public string Cv { get; set; }

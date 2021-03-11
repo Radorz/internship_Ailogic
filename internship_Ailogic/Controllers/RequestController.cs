@@ -51,7 +51,7 @@ namespace internship_Ailogic.Controllers
             }
             else
             {
-                return BadRequest();
+                return BadRequest(ModelState);
             }
         }
 

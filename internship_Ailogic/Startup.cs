@@ -16,6 +16,7 @@ using Microsoft.OpenApi.Models;
 using Repository.Repository;
 using System;
 using System.Reflection;
+using System.Threading.Tasks;
 using System.Text;
 
 namespace internship_Ailogic
@@ -29,7 +30,7 @@ namespace internship_Ailogic
             Configuration = configuration;
         }
 
-        public IConfiguration Configuration { get; }
+            public IConfiguration Configuration { get; }
 
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
@@ -46,20 +47,7 @@ namespace internship_Ailogic
                                       builder.WithExposedHeaders("x-custom-header");
                                   });
             });
-            services.AddIdentity<IdentityUser, IdentityRole>()
-            .AddEntityFrameworkStores <bnbar022dce4hrtds2xdContext>()
-            .AddDefaultTokenProviders();
-            services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
-                .AddJwtBearer(options => options.TokenValidationParameters = new TokenValidationParameters
-                {
-                    ValidateIssuer = false,
-                    ValidateAudience = false,
-                    ValidateLifetime = true,
-                    ValidateIssuerSigningKey = true,
-                    IssuerSigningKey = new SymmetricSecurityKey(
-                        Encoding.UTF8.GetBytes(Configuration["JWT:Key"])),
-                        ClockSkew = TimeSpan.Zero
-                });
+
 
             services.AddDbContext<bnbar022dce4hrtds2xdContext>(options => options.UseMySql(Configuration.GetConnectionString("Default"))); 
             services.AddControllers();
@@ -70,7 +58,30 @@ namespace internship_Ailogic
             services.AddScoped<RequestInternshipRepository>();
             services.AddScoped<InternshipsRepository>();
             services.AddScoped<InternRepository>();
+            services.AddIdentity<IdentityUser, IdentityRole>(options => {
 
+                options.Password = new PasswordOptions
+                {
+
+                    RequireDigit = true,
+                    RequireLowercase = false,
+                    RequireNonAlphanumeric = false,
+                    RequireUppercase = false,
+                    RequiredLength = 6
+                };
+
+            }).AddEntityFrameworkStores<bnbar022dce4hrtds2xdContext>() .AddDefaultTokenProviders();
+            services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+                .AddJwtBearer(options => options.TokenValidationParameters = new TokenValidationParameters
+                {
+                    ValidateIssuer = false,
+                    ValidateAudience = false,
+                    ValidateLifetime = true,
+                    ValidateIssuerSigningKey = true,
+                    IssuerSigningKey = new SymmetricSecurityKey(
+                        Encoding.UTF8.GetBytes(Configuration["JWT:Key"])),
+                        ClockSkew = TimeSpan.Zero
+                });;
 
             services.AddAutoMapper(typeof(Automapping).GetTypeInfo().Assembly);
 
@@ -78,10 +89,10 @@ namespace internship_Ailogic
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
+        public void Configure(IApplicationBuilder app, IWebHostEnvironment env, IServiceProvider serviceProvider)
         {
             app.UseCors(MyAllowSpecificOrigins);
-
+            CreateRoles(serviceProvider).Wait();
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
@@ -117,5 +128,21 @@ namespace internship_Ailogic
                 endpoints.MapControllers();
             });
         }
-    }
+
+        private async Task CreateRoles(IServiceProvider serviceProvider)
+        {
+            var RoleManager = serviceProvider.GetRequiredService<RoleManager<IdentityRole>>();
+            string[] roleNames = { "Admin", "Intern", "Secretary" };
+            IdentityResult roleResult;
+
+            foreach (var roleName in roleNames)
+            {
+                var roleExist = await RoleManager.RoleExistsAsync(roleName);
+                if (!roleExist)
+                {
+                    roleResult = await RoleManager.CreateAsync(new IdentityRole(roleName));
+                }
+            }
+        }
+        }
 }

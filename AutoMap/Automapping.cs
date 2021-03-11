@@ -12,6 +12,7 @@ namespace AutoMap
             Maprequest();
             MapIntern();
             MapInternCreation();
+            MapInternships();
         }
         private void Maprequest()
         {
@@ -28,6 +29,13 @@ namespace AutoMap
         {
             CreateMap<InternCreationDTO, Interns>().ReverseMap();
             
+        }
+
+
+        private void MapInternships()
+        {
+            CreateMap<InternshipsDTO, Internship>().ReverseMap();
+
         }
         //private void MapearElecciones()
         //{
