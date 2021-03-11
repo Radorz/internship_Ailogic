@@ -11,19 +11,21 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "internship_Ailogic", "inter
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Database", "Database\Database.csproj", "{7BC77193-DA45-447A-983A-0641C3673BF9}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Repository", "Repository\Repository.csproj", "{9A0F16F1-4B4D-4F15-BA6C-2B9551488FD4}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Repository", "Repository\Repository.csproj", "{9A0F16F1-4B4D-4F15-BA6C-2B9551488FD4}"
 	ProjectSection(ProjectDependencies) = postProject
 		{7BC77193-DA45-447A-983A-0641C3673BF9} = {7BC77193-DA45-447A-983A-0641C3673BF9}
 		{633F7397-FB5F-41FA-86F4-D9B26F179386} = {633F7397-FB5F-41FA-86F4-D9B26F179386}
 	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DTO", "DTO\DTO.csproj", "{633F7397-FB5F-41FA-86F4-D9B26F179386}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DTO", "DTO\DTO.csproj", "{633F7397-FB5F-41FA-86F4-D9B26F179386}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AutoMap", "AutoMap\AutoMap.csproj", "{F1D5EBEE-A293-4DE5-94FA-D3C706A7FCCE}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AutoMap", "AutoMap\AutoMap.csproj", "{F1D5EBEE-A293-4DE5-94FA-D3C706A7FCCE}"
 	ProjectSection(ProjectDependencies) = postProject
 		{7BC77193-DA45-447A-983A-0641C3673BF9} = {7BC77193-DA45-447A-983A-0641C3673BF9}
 		{633F7397-FB5F-41FA-86F4-D9B26F179386} = {633F7397-FB5F-41FA-86F4-D9B26F179386}
 	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EmailHandler", "EmailHandler\EmailHandler.csproj", "{7D994D2A-51CE-4CB8-AC12-8892B8D5A468}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -51,6 +53,10 @@ Global
 		{F1D5EBEE-A293-4DE5-94FA-D3C706A7FCCE}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{F1D5EBEE-A293-4DE5-94FA-D3C706A7FCCE}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{F1D5EBEE-A293-4DE5-94FA-D3C706A7FCCE}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7D994D2A-51CE-4CB8-AC12-8892B8D5A468}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7D994D2A-51CE-4CB8-AC12-8892B8D5A468}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7D994D2A-51CE-4CB8-AC12-8892B8D5A468}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7D994D2A-51CE-4CB8-AC12-8892B8D5A468}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

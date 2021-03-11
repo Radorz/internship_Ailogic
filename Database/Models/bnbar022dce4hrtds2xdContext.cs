@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.Extensions.Configuration;
 
 // Code scaffolded by EF Core assumes nullable reference types (NRTs) are not used or disabled.
 // If you have enabled NRTs for your project, then un-comment the following line:
@@ -11,13 +12,14 @@ namespace Database.Models
 {
     public partial class bnbar022dce4hrtds2xdContext : IdentityDbContext
     {
-        public bnbar022dce4hrtds2xdContext()
-        {
-        }
+     
 
-        public bnbar022dce4hrtds2xdContext(DbContextOptions<bnbar022dce4hrtds2xdContext> options)
-            : base(options)
+        public IConfiguration Configuration { get; }
+        public bnbar022dce4hrtds2xdContext(DbContextOptions<bnbar022dce4hrtds2xdContext> options, IConfiguration configuration)
+         : base(options)
         {
+            Configuration = configuration;
+
         }
 
         public virtual DbSet<Answers> Answers { get; set; }
@@ -39,7 +41,7 @@ namespace Database.Models
             if (!optionsBuilder.IsConfigured)
             {
 #warning To protect potentially sensitive information in your connection string, you should move it out of source code. See http://go.microsoft.com/fwlink/?LinkId=723263 for guidance on storing connection strings.
-                optionsBuilder.UseMySql("server=bnbar022dce4hrtds2xd-mysql.services.clever-cloud.com;port=3306;uid=ul7poqkp44qw3zvt;pwd=aVMvJcBo4Ezvop8kZT9M;database=bnbar022dce4hrtds2xd;ConvertZeroDateTime=True;", x => x.ServerVersion("8.0.22-mysql"));
+                optionsBuilder.UseMySql(Configuration.GetConnectionString("Default"));
             }
         }
 
@@ -327,8 +329,12 @@ namespace Database.Models
                     .HasColumnName("birth_date")
                     .HasColumnType("date");
 
-                entity.Property(e => e.Cedula).HasColumnName("cedula");
-
+                entity.Property(e => e.Cedula)
+                                  .IsRequired()
+                                  .HasColumnName("cedula")
+                                  .HasColumnType("varchar(15)")
+                                  .HasCharSet("utf8mb4")
+                                  .HasCollation("utf8mb4_general_ci");
                 entity.Property(e => e.Email)
                    .IsRequired()
                    .HasColumnName("Email")
@@ -380,7 +386,12 @@ namespace Database.Models
                     .HasCharSet("utf8mb4")
                     .HasCollation("utf8mb4_0900_ai_ci");
 
-                entity.Property(e => e.Phone).HasColumnName("phone");
+                entity.Property(e => e.Phone)
+                                   .IsRequired()
+                                   .HasColumnName("phone")
+                                   .HasColumnType("varchar(12)")
+                                   .HasCharSet("utf8mb4")
+                                   .HasCollation("utf8mb4_general_ci");
             });
 
             modelBuilder.Entity<Results>(entity =>

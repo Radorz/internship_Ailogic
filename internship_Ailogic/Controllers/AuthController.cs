@@ -64,16 +64,23 @@ namespace internship_Ailogic.Controllers
         
         public async Task<ActionResult<UserToken>> Login([FromBody] UserInfo userInfo)
 
-        {
-            var result = await _signInManager.PasswordSignInAsync(userInfo.Email, userInfo.Password, isPersistent: false, lockoutOnFailure: false);
-            if (result.Succeeded)
+        {  if (ModelState.IsValid)
             {
-                return BuildToken(userInfo);
+                var result = await _signInManager.PasswordSignInAsync(userInfo.Email, userInfo.Password, isPersistent: false, lockoutOnFailure: false);
+                if (result.Succeeded)
+                {
+                    return BuildToken(userInfo);
+                }
+                else
+                {
+                    ModelState.AddModelError(string.Empty, "Invalid login attempt.");
+                    return BadRequest(ModelState);
+                }
             }
             else
             {
-                ModelState.AddModelError(string.Empty, "Invalid login attempt.");
                 return BadRequest(ModelState);
+
             }
         }
 

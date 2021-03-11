@@ -14,6 +14,7 @@ using Microsoft.OpenApi.Models;
 using Repository.Repository;
 using System;
 using System.Reflection;
+using System.Threading.Tasks;
 
 namespace internship_Ailogic
 {
@@ -26,7 +27,7 @@ namespace internship_Ailogic
             Configuration = configuration;
         }
 
-        public IConfiguration Configuration { get; }
+            public IConfiguration Configuration { get; }
 
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
@@ -43,6 +44,17 @@ namespace internship_Ailogic
                                       builder.WithExposedHeaders("x-custom-header");
                                   });
             });
+            
+
+            services.AddDbContext<bnbar022dce4hrtds2xdContext>(options => options.UseMySql(Configuration.GetConnectionString("Default"))); 
+            services.AddControllers();
+            services.AddSwaggerGen(c =>
+            {
+                c.SwaggerDoc("v1", new OpenApiInfo { Title = "internship_Ailogic", Version = "v1" });
+            });
+            services.AddScoped<RequestInternshipRepository>();
+            services.AddScoped<InternshipsRepository>();
+            services.AddScoped<InternRepository>();
             services.AddIdentity<IdentityUser, IdentityRole>(options => {
 
                 options.Password = new PasswordOptions
@@ -55,18 +67,7 @@ namespace internship_Ailogic
                     RequiredLength = 6
                 };
 
-            }).AddEntityFrameworkStores <bnbar022dce4hrtds2xdContext>();
-
-            services.AddDbContext<bnbar022dce4hrtds2xdContext>(options => options.UseMySql(Configuration.GetConnectionString("Default"))); 
-            services.AddControllers();
-            services.AddSwaggerGen(c =>
-            {
-                c.SwaggerDoc("v1", new OpenApiInfo { Title = "internship_Ailogic", Version = "v1" });
-            });
-            services.AddScoped<RequestInternshipRepository>();
-            services.AddScoped<InternshipsRepository>();
-            services.AddScoped<InternRepository>();
-
+            }).AddEntityFrameworkStores<bnbar022dce4hrtds2xdContext>();
 
             services.AddAutoMapper(typeof(Automapping).GetTypeInfo().Assembly);
 
@@ -74,10 +75,10 @@ namespace internship_Ailogic
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
+        public void Configure(IApplicationBuilder app, IWebHostEnvironment env, IServiceProvider serviceProvider)
         {
             app.UseCors(MyAllowSpecificOrigins);
-
+            CreateRoles(serviceProvider).Wait();
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
@@ -113,5 +114,21 @@ namespace internship_Ailogic
                 endpoints.MapControllers();
             });
         }
-    }
+
+        private async Task CreateRoles(IServiceProvider serviceProvider)
+        {
+            var RoleManager = serviceProvider.GetRequiredService<RoleManager<IdentityRole>>();
+            string[] roleNames = { "Admin", "Intern", "Secretary" };
+            IdentityResult roleResult;
+
+            foreach (var roleName in roleNames)
+            {
+                var roleExist = await RoleManager.RoleExistsAsync(roleName);
+                if (!roleExist)
+                {
+                    roleResult = await RoleManager.CreateAsync(new IdentityRole(roleName));
+                }
+            }
+        }
+        }
 }

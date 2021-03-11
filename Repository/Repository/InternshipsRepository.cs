@@ -9,14 +9,17 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Repository.RepositoryBase;
 using Microsoft.AspNetCore.Http;
+using AutoMapper;
 
 namespace Repository.Repository
 {
     public class InternshipsRepository : RepositoryBase<Internship, bnbar022dce4hrtds2xdContext>
     {
-        public InternshipsRepository(bnbar022dce4hrtds2xdContext context) : base(context)
-        {
+        private readonly IMapper _mapper;
 
+        public InternshipsRepository(bnbar022dce4hrtds2xdContext context, IMapper mapper) : base(context)
+        {
+            this._mapper = mapper;
         }
 
         // This method get all information about table Internships.
@@ -41,10 +44,22 @@ namespace Repository.Repository
 
 
         }
-
-        public async Task<bool> AddCustom(InternshipsDTO DTO)
+        public async Task<InternshipsDTO> GetByIdCustom(int id)
         {
+            var internship = await _context.Set<Internship>().FindAsync(id);
+            var internshipDTO = _mapper.Map<InternshipsDTO>(internship);
 
+         
+            return internshipDTO;
+        }
+
+        public async Task<bool> AddCustom(InternshipsDTOPost DTO)
+        {
+            if (_context.Internship.FirstOrDefault(a => a.Status == true) != null)
+            {
+                DTO.Status = false;
+
+            }
             var internship = new Internship()
             {
                 Name = DTO.Name,
@@ -68,7 +83,7 @@ namespace Repository.Repository
             }
         }
 
-        public async Task<ActionResult<InternshipsDTO>> UpdateCustom(int id, InternshipsDTO dto)
+        public async Task<ActionResult<InternshipsDTOPost>> UpdateCustom(int id, InternshipsDTOPost dto)
         {
             var internship = _context.Set<Internship>().Find(id);
             internship.Name = dto.Name;
