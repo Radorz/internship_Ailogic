@@ -29,16 +29,9 @@ namespace Repository.Repository
             var internships = await _context.Set<Internship>().ToListAsync();
             foreach (var i in internships)
             {
-                var internship = new InternshipsDTO()
-                {
-                    Name = i.Name,
-                    Description = i.Description,
-                    Initial_date = i.Initial_date,
-                    Final_date = i.Final_date,
-                    Intern_limit = i.Intern_limit,
-                    Status = i.Status
-                };
-                InternshipList.Add(internship);
+                var internshipDTO = _mapper.Map<InternshipsDTO>(i);
+
+                InternshipList.Add(internshipDTO);
             }
             return InternshipList;
 
