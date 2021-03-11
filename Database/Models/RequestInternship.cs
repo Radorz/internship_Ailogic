@@ -1,6 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 
+// Code scaffolded by EF Core assumes nullable reference types (NRTs) are not used or disabled.
+// If you have enabled NRTs for your project, then un-comment the following line:
+// #nullable disable
 
 namespace Database.Models
 {
@@ -17,6 +20,7 @@ namespace Database.Models
         public string Cv { get; set; }
         public DateTime BirthDate { get; set; }
         public int IdInternship { get; set; }
+       
 
     }
 }

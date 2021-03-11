@@ -42,6 +42,8 @@ namespace internship_Ailogic.Controllers
         [HttpPost]
         public async Task<ActionResult> Post([FromBody] InternCreationDTO dto)
         {
+
+
             var intern = await _internRepository.AddCustom(dto);
             if (intern != null)
             {
