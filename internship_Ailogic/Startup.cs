@@ -43,7 +43,20 @@ namespace internship_Ailogic
                                       builder.WithExposedHeaders("x-custom-header");
                                   });
             });
-            services.AddIdentity<IdentityUser, IdentityRole>().AddEntityFrameworkStores <bnbar022dce4hrtds2xdContext>();
+            services.AddIdentity<IdentityUser, IdentityRole>(options => {
+
+                options.Password = new PasswordOptions
+                {
+
+                    RequireDigit = true,
+                    RequireLowercase = false,
+                    RequireNonAlphanumeric = false,
+                    RequireUppercase = false,
+                    RequiredLength = 6
+                };
+
+            }).AddEntityFrameworkStores <bnbar022dce4hrtds2xdContext>();
+
             services.AddDbContext<bnbar022dce4hrtds2xdContext>(options => options.UseMySql(Configuration.GetConnectionString("Default"))); 
             services.AddControllers();
             services.AddSwaggerGen(c =>

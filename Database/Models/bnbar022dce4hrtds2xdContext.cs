@@ -256,9 +256,17 @@ namespace Database.Models
 
                 entity.Property(e => e.IdInternship).HasColumnName("id_internship");
 
-                entity.Property(e => e.Date)
-                    .HasColumnName("date")
+                entity.Property(e => e.Initial_date)
+                    .HasColumnName("initial_date")
                     .HasColumnType("date");
+
+                entity.Property(e => e.Final_date)
+                   .HasColumnName("final_date")
+                   .HasColumnType("date");
+
+                entity.Property(e => e.Intern_limit)
+                  .HasColumnName("intern_limit")
+                  .HasColumnType("int");
 
                 entity.Property(e => e.Description)
                     .IsRequired()

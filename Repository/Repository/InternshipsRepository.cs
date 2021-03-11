@@ -30,7 +30,9 @@ namespace Repository.Repository
                 {
                     Name = i.Name,
                     Description = i.Description,
-                    Date = i.Date,
+                    Initial_date = i.Initial_date,
+                    Final_date = i.Final_date,
+                    Intern_limit = i.Intern_limit,
                     Status = i.Status
                 };
                 InternshipList.Add(internship);
@@ -47,7 +49,9 @@ namespace Repository.Repository
             {
                 Name = DTO.Name,
                 Description = DTO.Description,
-                Date = DTO.Date,
+                Initial_date = DTO.Initial_date,
+                Final_date= DTO.Final_date,
+                Intern_limit= DTO.Intern_limit,
                 Status = DTO.Status
             };
 
@@ -69,7 +73,9 @@ namespace Repository.Repository
             var internship = _context.Set<Internship>().Find(id);
             internship.Name = dto.Name;
             internship.Description = dto.Description;
-            internship.Date = dto.Date;
+            internship.Initial_date = dto.Initial_date;
+            internship.Final_date = dto.Final_date;
+            internship.Intern_limit = dto.Intern_limit;
             internship.Status = dto.Status;
             _context.Entry(internship).State = EntityState.Modified;
             await _context.SaveChangesAsync();

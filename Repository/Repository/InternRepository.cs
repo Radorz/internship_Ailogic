@@ -53,7 +53,6 @@ namespace Repository.Repository
                 intern.IdUser = i.IdUser;
                 var user = await _userManager.FindByIdAsync(i.IdUser);
                 var internReturn = new UserDTO();
-                internReturn.UserName = user.UserName;
                 internReturn.Email = user.Email;
                 internReturn.PhoneNumber = user.PhoneNumber;
                 intern.User = internReturn;
@@ -70,7 +69,6 @@ namespace Repository.Repository
             
             var user = await _userManager.FindByIdAsync(internDTO.IdUser);
             var internReturn = new UserDTO();
-            internReturn.UserName = user.UserName;
             internReturn.Email = user.Email;
             internReturn.PhoneNumber = user.PhoneNumber;
             internDTO.User = internReturn;
