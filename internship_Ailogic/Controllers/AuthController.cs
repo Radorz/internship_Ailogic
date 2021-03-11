@@ -62,8 +62,6 @@ namespace internship_Ailogic.Controllers
         }
 
         [HttpPost("login")]
-
-        
         public async Task<ActionResult<UserToken>> Login([FromBody] UserInfo userInfo)
 
         {

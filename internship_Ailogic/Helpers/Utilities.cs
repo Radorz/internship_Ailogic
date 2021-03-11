@@ -8,9 +8,13 @@ namespace internship_Ailogic.Helpers
     public class Utilities
     {
 
-       public string CreatePassword()
+       public string CreatePassword(string name, string lastname, string cedula ,DateTime date)
        {
-            return "Password12345*";
+            string password = name.Substring(0, 3)
+                + lastname.Substring(0, 3)
+                + cedula.Substring(4, 3)
+                + Convert.ToString(date).Substring(0, 6);
+            return password;
        }
 
 
