@@ -68,19 +68,23 @@ namespace internship_Ailogic.Controllers
 
         {  if (ModelState.IsValid)
             {
-                var result = await _signInManager.PasswordSignInAsync(userInfo.Email, userInfo.Password, isPersistent: false, lockoutOnFailure: false);
-                if (result.Succeeded)
-                {
-                    var user = await _userManager.FindByEmailAsync(userInfo.Email);
-                    var roles = await _userManager.GetRolesAsync(user);
-                    return BuildToken(userInfo, roles);
+                var find = await _userManager.FindByEmailAsync(userInfo.Email);
+                if (find != null) {
+                    var result = await _signInManager.PasswordSignInAsync(find.UserName, userInfo.Password, isPersistent: false, lockoutOnFailure: false);
+                    if (result.Succeeded)
+                    {
+                        var user = await _userManager.FindByEmailAsync(userInfo.Email);
+                        var roles = await _userManager.GetRolesAsync(user);
+                        return BuildToken(userInfo, roles);
+                    }
+                   
                 }
                 else
                 {
                     ModelState.AddModelError(string.Empty, "Invalid login attempt.");
                     return BadRequest(ModelState);
                 }
-                
+
             }
             else
             {

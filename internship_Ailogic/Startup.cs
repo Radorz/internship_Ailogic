@@ -132,6 +132,7 @@ namespace internship_Ailogic
         private async Task CreateRoles(IServiceProvider serviceProvider)
         {
             var RoleManager = serviceProvider.GetRequiredService<RoleManager<IdentityRole>>();
+            var UserManager = serviceProvider.GetRequiredService<UserManager<IdentityUser>>();
             string[] roleNames = { "Admin", "Intern", "Secretary" };
             IdentityResult roleResult;
 
@@ -141,6 +142,25 @@ namespace internship_Ailogic
                 if (!roleExist)
                 {
                     roleResult = await RoleManager.CreateAsync(new IdentityRole(roleName));
+                }
+            }
+            //Here you could create a super user who will maintain the web app
+            var poweruser = new IdentityUser
+            {
+
+                UserName = Configuration["AppSettings:UserName"],
+                Email = Configuration["AppSettings:UserEmail"],
+            };
+            string userPWD = Configuration["AppSettings:UserPassword"];
+            var _user = await UserManager.FindByEmailAsync(Configuration["AppSettings:UserEmail"]);
+
+            if (_user == null)
+            {
+                var createPowerUser = await UserManager.CreateAsync(poweruser, userPWD);
+                if (createPowerUser.Succeeded)
+                {
+                    await UserManager.AddToRoleAsync(poweruser, "Admin");
+
                 }
             }
         }
