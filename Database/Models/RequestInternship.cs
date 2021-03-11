@@ -20,7 +20,7 @@ namespace Database.Models
         public string Cv { get; set; }
         public DateTime BirthDate { get; set; }
         public int IdInternship { get; set; }
-        public string Email { get; set; }
+       
 
     }
 }

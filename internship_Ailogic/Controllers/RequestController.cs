@@ -55,6 +55,22 @@ namespace internship_Ailogic.Controllers
             }
         }
 
+        [HttpDelete("{id}")]
+        public async Task<ActionResult> Delete(int id)
+        {
+
+            var request = await _requestInternshiprepo.Delete(id); 
+            if (request != null)
+            {
+                return Ok("Deleted Successfully.");
+            }
+            else
+            {
+                return NotFound("Could not delete :c");
+            }
+
+        }
+
 
     }
 }
