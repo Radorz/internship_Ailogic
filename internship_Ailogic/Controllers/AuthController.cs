@@ -45,7 +45,9 @@ namespace internship_Ailogic.Controllers
             var result = await _userManager.CreateAsync(user, model.Password);
             if (result.Succeeded)
             {
-                return BuildToken(model);
+                List<string> role = new List<string>();
+                role.Add("Intern");
+                return BuildToken(model, role);
             }
             else
             {
@@ -76,6 +78,9 @@ namespace internship_Ailogic.Controllers
                     ModelState.AddModelError(string.Empty, "Invalid login attempt.");
                     return BadRequest(ModelState);
                 }
+                var user = await _userManager.FindByEmailAsync(userInfo.Email);
+                var roles = await _userManager.GetRolesAsync(user);
+                return BuildToken(userInfo, roles);
             }
             else
             {
@@ -86,14 +91,19 @@ namespace internship_Ailogic.Controllers
 
         
 
-        private UserToken BuildToken(UserInfo userInfo)
+        private UserToken BuildToken(UserInfo userInfo, IList<string> roles)
         {
-            var claims = new[]
+            var claims = new List<Claim>
             {
                 new Claim(JwtRegisteredClaimNames.UniqueName, userInfo.Email),
                 new Claim("miValor", "Loqueseamanito"),
                 new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString())
             };
+
+            foreach(var rol in roles)
+            {
+                claims.Add(new Claim(ClaimTypes.Role, rol));
+            }
 
             var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_configuration["JWT:key"]));
             var creds = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);

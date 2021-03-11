@@ -1,5 +1,6 @@
 using AutoMap;
 using Database.Models;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
@@ -10,11 +11,13 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
+using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using Repository.Repository;
 using System;
 using System.Reflection;
 using System.Threading.Tasks;
+using System.Text;
 
 namespace internship_Ailogic
 {
@@ -44,7 +47,7 @@ namespace internship_Ailogic
                                       builder.WithExposedHeaders("x-custom-header");
                                   });
             });
-            
+
 
             services.AddDbContext<bnbar022dce4hrtds2xdContext>(options => options.UseMySql(Configuration.GetConnectionString("Default"))); 
             services.AddControllers();
@@ -67,7 +70,18 @@ namespace internship_Ailogic
                     RequiredLength = 6
                 };
 
-            }).AddEntityFrameworkStores<bnbar022dce4hrtds2xdContext>();
+            }).AddEntityFrameworkStores<bnbar022dce4hrtds2xdContext>() .AddDefaultTokenProviders();
+            services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+                .AddJwtBearer(options => options.TokenValidationParameters = new TokenValidationParameters
+                {
+                    ValidateIssuer = false,
+                    ValidateAudience = false,
+                    ValidateLifetime = true,
+                    ValidateIssuerSigningKey = true,
+                    IssuerSigningKey = new SymmetricSecurityKey(
+                        Encoding.UTF8.GetBytes(Configuration["JWT:Key"])),
+                        ClockSkew = TimeSpan.Zero
+                });;
 
             services.AddAutoMapper(typeof(Automapping).GetTypeInfo().Assembly);
 
