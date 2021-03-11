@@ -77,7 +77,12 @@ namespace internship_Ailogic.Controllers
                         var roles = await _userManager.GetRolesAsync(user);
                         return BuildToken(userInfo, roles);
                     }
-                   
+                    else
+                    {
+                        ModelState.AddModelError(string.Empty, "Invalid login attempt.");
+                        return BadRequest(ModelState);
+                    }
+
                 }
                 else
                 {
