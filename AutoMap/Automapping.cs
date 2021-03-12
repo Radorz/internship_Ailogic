@@ -13,12 +13,16 @@ namespace AutoMap
             MapIntern();
             MapInternCreation();
             MapInternships();
+            Maprequestpost();
         }
         private void Maprequest()
         {
             CreateMap<ApplyInternshipDTO, RequestInternship>().ReverseMap();
         }
-
+        private void Maprequestpost()
+        {
+            CreateMap<ApplyInternshipDTOPost, RequestInternship>().ReverseMap();
+        }
         private void MapIntern()
         {
             CreateMap<InternDTO, Interns>().ReverseMap().

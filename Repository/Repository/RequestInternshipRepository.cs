@@ -22,7 +22,7 @@ namespace Repository.Repository
             _mapper = mapper;
 
         }
-        public async Task<bool> Apply(ApplyInternshipDTO dto)
+        public async Task<bool> Apply(ApplyInternshipDTOPost dto)
         {
             try
             {

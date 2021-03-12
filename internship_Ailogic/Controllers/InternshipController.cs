@@ -79,6 +79,16 @@ namespace internship_Ailogic.Controllers
 
 
         }
+        AcceptVerbs("GET", "POST")]
+public IActionResult VerifyName(string firstName, string lastName)
+        {
+            if (!_userService.VerifyName(firstName, lastName))
+            {
+                return Json($"A user named {firstName} {lastName} already exists.");
+            }
+
+            return Json(true);
+        }
 
     }
 }

@@ -4,9 +4,8 @@ using System.ComponentModel.DataAnnotations;
 
 namespace DTO
 {
-    public class ApplyInternshipDTO
+    public class ApplyInternshipDTOPost
     {
-        public int IdRequestInternship { get; set; }
 
         [Required(ErrorMessage = "The Name is required")]
         public string Name { get; set; }
