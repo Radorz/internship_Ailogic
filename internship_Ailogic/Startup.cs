@@ -18,6 +18,8 @@ using System;
 using System.Reflection;
 using System.Threading.Tasks;
 using System.Text;
+using internship_Ailogic.Helpers;
+using EmailHandler;
 
 namespace internship_Ailogic
 {
@@ -58,6 +60,7 @@ namespace internship_Ailogic
             services.AddScoped<RequestInternshipRepository>();
             services.AddScoped<InternshipsRepository>();
             services.AddScoped<InternRepository>();
+            services.AddScoped<Utilities>();
             services.AddIdentity<IdentityUser, IdentityRole>(options => {
 
                 options.Password = new PasswordOptions
@@ -84,6 +87,9 @@ namespace internship_Ailogic
                 });;
 
             services.AddAutoMapper(typeof(Automapping).GetTypeInfo().Assembly);
+            var emailConfig = Configuration.GetSection("EmailConfiguration").Get<EMconfi>();
+            services.AddSingleton(emailConfig);
+            services.AddScoped<Iemailsender, Gmailsender>();
 
 
         }

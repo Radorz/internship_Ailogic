@@ -26,7 +26,7 @@ namespace internship_Ailogic.Controllers
         }
 
 
-        [HttpPost("AsignarUsuarioRol")]
+        [HttpPost("AssignSecretaryRole")]
         public async Task<ActionResult> RoleAssignment(RolesDTO dto)
         {
             var usuario = await userManager.FindByIdAsync(dto.IdUser);
@@ -40,7 +40,7 @@ namespace internship_Ailogic.Controllers
         }
 
 
-        [HttpPost("RemoverUsuarioRol")]
+        [HttpPost("RemoveSecretaryRole")]
         public async Task<ActionResult> RoleRemovement(RolesDTO dto)
         {
             var usuario = await userManager.FindByIdAsync(dto.IdUser);
