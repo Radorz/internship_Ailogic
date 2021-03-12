@@ -9,6 +9,7 @@ using DTO;
 using AutoMapper;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Identity;
+using EmailHandler;
 
 namespace Repository.Repository
 {
@@ -17,20 +18,34 @@ namespace Repository.Repository
 
         private readonly IMapper _mapper;
         private readonly UserManager<IdentityUser> _userManager;
+        private readonly Iemailsender _emailSender;
 
-        public InternRepository(bnbar022dce4hrtds2xdContext context, IMapper mapper, UserManager<IdentityUser> userManager) :base(context)
+        public InternRepository(bnbar022dce4hrtds2xdContext context, IMapper mapper, 
+            UserManager<IdentityUser> userManager, Iemailsender iemailsender) :base(context)
         {
             this._mapper = mapper;
             _userManager = userManager;
+            _emailSender = iemailsender;
         }
 
-        public async Task<Interns> AddCustom(InternCreationDTO dto)
-        {
-          
+        public async Task<Interns> AddCustom(ApplyInternshipDTO dto, string password)
+        {  
+            var user = new IdentityUser { UserName = dto.Email, Email = dto.Email };
+            var result = await _userManager.CreateAsync(user, password);
+            if (!result.Succeeded)
+            {
+                return null;
+            }
+            var find = await _userManager.FindByEmailAsync(dto.Email);
             var Intern = _mapper.Map<Interns>(dto);
-            Intern.IdUser = "7db4a185-b351-45f3-a2b4-ca939897c6ec";
+            var message = new Message(new string[] {dto.Email }, "Informacion Pasantias AILogic",
+                "Felicidades " + dto.Name + dto.Lastname + @" ha sido seleccionado para participar en nuestra gran pasantia. Para iniciar sesion en la plataforma visite
+              https://frontend-pasantes.vercel.app/login Su usuario es su mismo correo y su contraseña es " + password  );
+            await _emailSender.SendMailAsync(message);
+            Intern.IdUser = find.Id;
             try
             {
+
                 await _context.Set<Interns>().AddAsync(Intern);
                 await _context.SaveChangesAsync();
                 return Intern;
@@ -54,7 +69,6 @@ namespace Repository.Repository
                 var user = await _userManager.FindByIdAsync(i.IdUser);
                 var internReturn = new UserDTO();
                 internReturn.Email = user.Email;
-                internReturn.PhoneNumber = user.PhoneNumber;
                 intern.User = internReturn;
                 InternList.Add(intern);
 
@@ -70,7 +84,7 @@ namespace Repository.Repository
             var user = await _userManager.FindByIdAsync(internDTO.IdUser);
             var internReturn = new UserDTO();
             internReturn.Email = user.Email;
-            internReturn.PhoneNumber = user.PhoneNumber;
+           
             internDTO.User = internReturn;
             return internDTO;
         }
@@ -82,15 +96,12 @@ namespace Repository.Repository
             {
                 return false;
             }
-
             try
             {
                 //intern = _mapper.Map<Interns>(dto);
                 intern.IdInternt = id;
-               
                 intern.Name = dto.Name;
                 intern.Lastname = dto.Lastname;
-                intern.IdUser = "7db4a185-b351-45f3-a2b4-ca939897c6ec";
                 intern.Cedula = dto.Cedula;
                 intern.Phone = dto.Phone;
                 intern.UserImg = dto.UserImg;
@@ -104,12 +115,12 @@ namespace Repository.Repository
                 return true;
             }catch(Exception e)
             {
-                
                 return false;
             }
             
 
-
+           
+           
             
         } 
 

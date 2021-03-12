@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
+
 namespace DTO
 {
     public class ApplyInternshipDTO
@@ -27,7 +28,10 @@ namespace DTO
 
         [EmailAddress(ErrorMessage = "The Email is no valid")]
         [Required(ErrorMessage = "The Email is required")]
+       
         public string Email { get; set; }
+
+
 
     }
 }

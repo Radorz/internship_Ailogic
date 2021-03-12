@@ -2,14 +2,17 @@
 using AutoMapper;
 using Database.Models;
 using DTO;
+using internship_Ailogic.Helpers;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Repository.Repository;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+
 
 namespace internship_Ailogic.Controllers
 {
@@ -19,21 +22,26 @@ namespace internship_Ailogic.Controllers
     public class InternController :ControllerBase
     {
         private readonly InternRepository _internRepository;
-
         private readonly IMapper _mapper;
+        private readonly Utilities _utilities;
+        private readonly UserManager<IdentityUser> _userManager;
 
-        public InternController(InternRepository internRepository, IMapper mapper)
+
+        public InternController(InternRepository internRepository,
+            IMapper mapper,
+            Utilities utilities,
+            UserManager<IdentityUser> userManager)
         {
             _internRepository = internRepository;
             _mapper = mapper;
+            _utilities = utilities;
+            _userManager = userManager;
         }
 
         [HttpGet]
         public async Task<List<InternDTO>> Get()
         {
-
             return await _internRepository.GetAllCustom();
-
         }
 
         [HttpGet("{id}", Name = "GetIntern")]
@@ -43,11 +51,14 @@ namespace internship_Ailogic.Controllers
         }
 
         [HttpPost]
-        public async Task<ActionResult> Post([FromBody] InternCreationDTO dto)
+        public async Task<ActionResult> Post([FromBody] ApplyInternshipDTO dto)
         {
-
-
-            var intern = await _internRepository.AddCustom(dto);
+            if(await _userManager.FindByEmailAsync(dto.Email) != null)
+            {
+                return BadRequest("This email is already in use");
+            }
+            var password = _utilities.CreatePassword(dto.Name, dto.Lastname, dto.Cedula, dto.BirthDate);
+            var intern = await _internRepository.AddCustom(dto,  password);
             if (intern != null)
             {
                 var internDTO = _mapper.Map<InternDTO>(intern);
@@ -57,7 +68,6 @@ namespace internship_Ailogic.Controllers
             {
                 return BadRequest();
             }
-
         }
 
         [HttpPut("{id}")]
@@ -87,6 +97,8 @@ namespace internship_Ailogic.Controllers
                 return NotFound();
             }
         }
+
+        
 
     }
 }

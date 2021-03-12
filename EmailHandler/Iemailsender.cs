@@ -8,6 +8,6 @@ namespace EmailHandler
     public interface Iemailsender
     {
 
-        Task SendMailAsync(Message message);
+        Task SendMailAsync( Message message);
     }
 }

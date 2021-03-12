@@ -13,6 +13,7 @@ using System.Text;
 using Database.Models;
 using DTO;
 using Repository.Repository;
+using internship_Ailogic.Helpers;
 
 namespace internship_Ailogic.Controllers
 {
@@ -24,17 +25,21 @@ namespace internship_Ailogic.Controllers
         private readonly SignInManager<IdentityUser> _signInManager;
         private readonly IConfiguration _configuration;
         private readonly RequestInternshipRepository _requestInternshipDTO;
+        private readonly Utilities _utilities;
 
 
         public AuthController(
             UserManager<IdentityUser> userManager,
             SignInManager<IdentityUser> signInManager,
-            IConfiguration configuration, RequestInternshipRepository requestInternshipDTO)
+            IConfiguration configuration,
+            RequestInternshipRepository requestInternshipDTO,
+            Utilities utilities)
         {
             _userManager = userManager;
             _signInManager = signInManager;
             _configuration = configuration;
             _requestInternshipDTO = requestInternshipDTO;
+            _utilities = utilities;
         }
 
 
@@ -96,43 +101,11 @@ namespace internship_Ailogic.Controllers
             }
         }
 
-        
-
-        private UserToken BuildToken(UserInfo userInfo, IList<string> roles)
-        {
-            var claims = new List<Claim>
-            {
-                new Claim(JwtRegisteredClaimNames.UniqueName, userInfo.Email),
-                new Claim("miValor", "Loqueseamanito"),
-                new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString())
-            };
-
-            foreach(var rol in roles)
-            {
-                claims.Add(new Claim(ClaimTypes.Role, rol));
-            }
-
-            var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_configuration["JWT:key"]));
-            var creds = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
-
-            // Tiempo de expiracion del token.
-            var expiration = DateTime.UtcNow.AddHours(5);
-
-            JwtSecurityToken token = new JwtSecurityToken(
-                issuer: null,
-                audience: null,
-                claims: claims,
-                expires: expiration,
-                signingCredentials: creds);
-
-            return new UserToken()
-            {
-                Token = new JwtSecurityTokenHandler().WriteToken(token),
-                Expiration = expiration
-            };
+       
 
 
-        }
+
+      
     }
 
 }
