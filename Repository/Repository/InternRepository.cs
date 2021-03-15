@@ -28,7 +28,7 @@ namespace Repository.Repository
             _emailSender = iemailsender;
         }
 
-        public async Task<Interns> AddCustom(ApplyInternshipDTO dto, string password)
+        public async Task<Interns> AddCustom(ApplyInternshipDTOPost dto, string password)
         {  
             var user = new IdentityUser { UserName = dto.Email, Email = dto.Email };
             var result = await _userManager.CreateAsync(user, password);

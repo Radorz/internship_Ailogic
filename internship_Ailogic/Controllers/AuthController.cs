@@ -23,8 +23,6 @@ namespace internship_Ailogic.Controllers
     {
         private readonly UserManager<IdentityUser> _userManager;
         private readonly SignInManager<IdentityUser> _signInManager;
-        private readonly IConfiguration _configuration;
-        private readonly RequestInternshipRepository _requestInternshipDTO;
         private readonly Utilities _utilities;
 
 
@@ -37,8 +35,6 @@ namespace internship_Ailogic.Controllers
         {
             _userManager = userManager;
             _signInManager = signInManager;
-            _configuration = configuration;
-            _requestInternshipDTO = requestInternshipDTO;
             _utilities = utilities;
         }
 
@@ -52,7 +48,7 @@ namespace internship_Ailogic.Controllers
             {
                 List<string> role = new List<string>();
                 role.Add("Intern");
-                return BuildToken(model, role);
+                return _utilities.BuildToken(model, role);
             }
             else
             {
@@ -78,7 +74,7 @@ namespace internship_Ailogic.Controllers
                     {
                         var user = await _userManager.FindByEmailAsync(userInfo.Email);
                         var roles = await _userManager.GetRolesAsync(user);
-                        return BuildToken(userInfo, roles);
+                        return _utilities.BuildToken(userInfo, roles);
                     }
                     else
                     {

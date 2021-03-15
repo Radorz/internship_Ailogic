@@ -9,7 +9,7 @@ namespace DTO
 {
     public class UserInfo
     {
-
+        [EmailAddress(ErrorMessage = "The Email is no valid")]
         [Required(ErrorMessage = "The user is required")]
         public string Email { get; set; }
         [Required(ErrorMessage = "The password  is required")]

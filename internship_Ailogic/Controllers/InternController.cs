@@ -51,7 +51,7 @@ namespace internship_Ailogic.Controllers
         }
 
         [HttpPost]
-        public async Task<ActionResult> Post([FromBody] ApplyInternshipDTO dto)
+        public async Task<ActionResult> Post([FromBody] ApplyInternshipDTOPost dto)
         {
             if(await _userManager.FindByEmailAsync(dto.Email) != null)
             {
