@@ -19,33 +19,40 @@ namespace Repository.Repository
         private readonly IMapper _mapper;
         private readonly UserManager<IdentityUser> _userManager;
         private readonly Iemailsender _emailSender;
+        private readonly RoleManager<IdentityRole> _roleManager;
 
         public InternRepository(bnbar022dce4hrtds2xdContext context, IMapper mapper, 
-            UserManager<IdentityUser> userManager, Iemailsender iemailsender) :base(context)
+            UserManager<IdentityUser> userManager, Iemailsender iemailsender, RoleManager<IdentityRole> roleManager) :base(context)
         {
             this._mapper = mapper;
             _userManager = userManager;
             _emailSender = iemailsender;
+            _roleManager = roleManager;
         }
 
         public async Task<Interns> AddCustom(ApplyInternshipDTOPost dto, string password)
         {  
+            // Crear usuario
             var user = new IdentityUser { UserName = dto.Email, Email = dto.Email };
             var result = await _userManager.CreateAsync(user, password);
+            // Buscar usuario. Si se encuentra seguimos la ejecucion
             if (!result.Succeeded)
             {
                 return null;
             }
-            var find = await _userManager.FindByEmailAsync(dto.Email);
+
+            var CreatedUser = await _userManager.FindByEmailAsync(dto.Email);
             var Intern = _mapper.Map<Interns>(dto);
+            // Mensaje a enviar por correo
             var message = new Message(new string[] {dto.Email }, "Informacion Pasantias AILogic",
                 "Felicidades " + dto.Name + dto.Lastname + @" ha sido seleccionado para participar en nuestra gran pasantia. Para iniciar sesion en la plataforma visite
               https://frontend-pasantes.vercel.app/login Su usuario es su mismo correo y su contraseña es " + password  );
             await _emailSender.SendMailAsync(message);
-            Intern.IdUser = find.Id;
+            Intern.IdUser = CreatedUser.Id;
+            
             try
             {
-
+                await _userManager.AddToRoleAsync(CreatedUser, "Intern");
                 await _context.Set<Interns>().AddAsync(Intern);
                 await _context.SaveChangesAsync();
                 return Intern;
