@@ -21,7 +21,7 @@ namespace internship_Ailogic.Helpers
             _configuration = configuration;
         }
 
-       public string CreatePassword(string name, string lastname, string cedula ,DateTime date)
+       public string CreatePassword(string name, string lastname, string cedula ,string date)
        {
             string password = name.Substring(0, 3)
                 + lastname.Substring(0, 3)

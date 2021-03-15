@@ -30,7 +30,7 @@ namespace Repository.Repository
             _roleManager = roleManager;
         }
 
-        public async Task<Interns> AddCustom(ApplyInternshipDTOPost dto, string password)
+        public async Task<InternDTO> AddCustom(ApplyInternshipDTOPost dto, string password)
         {  
             // Crear usuario
             var user = new IdentityUser { UserName = dto.Email, Email = dto.Email };
@@ -55,7 +55,7 @@ namespace Repository.Repository
                 await _userManager.AddToRoleAsync(CreatedUser, "Intern");
                 await _context.Set<Interns>().AddAsync(Intern);
                 await _context.SaveChangesAsync();
-                return Intern;
+                return await GetByIdCustom(Intern.IdInternt);
             }
             catch (Exception e)
             {
@@ -103,6 +103,7 @@ namespace Repository.Repository
             {
                 return false;
             }
+           
             try
             {
                 //intern = _mapper.Map<Interns>(dto);
@@ -115,7 +116,7 @@ namespace Repository.Repository
                 intern.Github = dto.Github;
                 intern.Linkedin = dto.Linkedin;
                 intern.Cv = dto.Cv;
-                intern.BirthDate = dto.BirthDate;
+                intern.BirthDate = DateTime.Parse(dto.BirthDate);
                 intern.IdInternt = id;
                 _context.Entry(intern).State = EntityState.Modified;
                 await _context.SaveChangesAsync();

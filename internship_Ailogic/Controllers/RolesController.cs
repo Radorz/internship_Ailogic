@@ -40,17 +40,28 @@ namespace internship_Ailogic.Controllers
         }
 
 
-        [HttpPost("RemoveSecretaryRole")]
-        public async Task<ActionResult> RoleRemovement(RolesDTO dto)
+        [HttpPost("updateRole/{id}")]
+        public async Task<ActionResult> updaterole(string id, RolesDTO dto)
         {
-            var usuario = await userManager.FindByIdAsync(dto.IdUser);
+
+            if (id != dto.IdUser)
+            {
+                return BadRequest("Is not the same id");
+            }
+            var usuario = await userManager.FindByIdAsync(id);
             if (usuario == null)
             {
                 return NotFound();
             }
-            await userManager.RemoveClaimAsync(usuario, new Claim(ClaimTypes.Role, dto.RoleName));
-            await userManager.RemoveFromRoleAsync(usuario, dto.RoleName);
+           var rol = await userManager.GetRolesAsync(usuario);
+            await userManager.RemoveClaimAsync(usuario, new Claim(ClaimTypes.Role, rol.First().ToString()));
+            await userManager.RemoveFromRoleAsync(usuario, rol.First().ToString());
+            await userManager.AddClaimAsync(usuario, new Claim(ClaimTypes.Role, dto.RoleName));
+            await userManager.AddToRoleAsync(usuario, dto.RoleName);
             return Ok();
         }
+
+
+
     }
 }

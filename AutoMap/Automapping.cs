@@ -45,7 +45,7 @@ namespace AutoMap
 
         private void MapApplyInterns()
         {
-            CreateMap<ApplyInternshipDTO, Interns>().ReverseMap()
+            CreateMap<ApplyInternshipDTOPost, Interns>().ReverseMap()
                 .ForMember(dest => dest.Email, opt => opt.Ignore());
         }
         //private void MapearElecciones()

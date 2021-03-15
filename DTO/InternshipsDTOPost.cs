@@ -17,12 +17,14 @@ namespace DTO
         [Required(ErrorMessage = "The description is required")]
 
         public string Description { get; set; }
+
+        [RegularExpression(@"^\d{4}\-(0?[1-9]|1[012])\-(0?[1-9]|[12][0-9]|3[01])$", ErrorMessage = "Wrong format for Initial_date YYYY-MM-DD")]
         [Required(ErrorMessage = "The Initial Date is required")]
+        public string Initial_date { get; set; }
 
-        public DateTime Initial_date { get; set; }
-        [Required(ErrorMessage = "The Final Date is required")]
-
-        public DateTime Final_date { get; set; }
+        [RegularExpression(@"^\d{4}\-(0?[1-9]|1[012])\-(0?[1-9]|[12][0-9]|3[01])$", ErrorMessage = "Wrong format for Initial_date YYYY-MM-DD")]
+        [Required(ErrorMessage = "The Initial Date is required")]
+        public string Final_date { get; set; }
         [Required(ErrorMessage = "The Limit of interns is required")]
 
         public int Intern_limit { get; set; }

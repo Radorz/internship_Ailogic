@@ -9,26 +9,37 @@ namespace DTO
 {
    public class InternCreationDTO
     {
-        [Required(ErrorMessage = "The Name is required")]
 
+        [Required(ErrorMessage = "The id is required")]
+        public int Id { get; set; }
+    
+
+        [Required(ErrorMessage = "The Name is required")]
         public string Name { get; set; }
-        [Required(ErrorMessage = "The LasName is required")]
 
+        [Required(ErrorMessage = "The LastName is required")]
         public string Lastname { get; set; }
+
         [Required(ErrorMessage = "The Cedula is required")]
-
+        [RegularExpression(@"[0-9]{3}-?\d{7}-?\d{1}", ErrorMessage = "The cedula must contain 11 digits and 2 -")]
         public string Cedula { get; set; }
-        [Required(ErrorMessage = "The Name is required")]
 
+        [Required(ErrorMessage = "The Phone is required")]
+        [RegularExpression(@"[0-9]{3}-?\d{3}-?\d{4}", ErrorMessage = "The Phone Number must contain 10 digits and 2 -")]
         public string Phone { get; set; }
-        public string UserImg { get; set; }
+
         public string Github { get; set; }
         public string Linkedin { get; set; }
-        [Required(ErrorMessage = "The CV is required")]
-
         public string Cv { get; set; }
-        [Required(ErrorMessage = "The Birth Date is required")]
 
-        public DateTime BirthDate { get; set; }
+        [RegularExpression(@"^\d{4}\-(0?[1-9]|1[012])\-(0?[1-9]|[12][0-9]|3[01])$", ErrorMessage = "Wrong format for Birthdate YYYY-MM-DD")]
+        public string BirthDate { get; set; }
+
+        [EmailAddress(ErrorMessage = "The Email is no valid")]
+        [Required(ErrorMessage = "The Email is required")]
+        public string Email { get; set; }
+
+        public string UserImg { get; set; }
+       
     }
 }

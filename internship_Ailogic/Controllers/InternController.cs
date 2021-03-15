@@ -73,6 +73,11 @@ namespace internship_Ailogic.Controllers
         [HttpPut("{id}")]
         public async Task<ActionResult<InternDTO>> Put(int id, InternCreationDTO dto)
         {
+            if(id != dto.Id)
+            {
+                return BadRequest("Is not the same id");
+            }
+
             if(await _internRepository.UpdateCustom(id, dto))
             {
                 return Ok(dto);
