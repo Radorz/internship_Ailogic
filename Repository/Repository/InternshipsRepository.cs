@@ -57,8 +57,8 @@ namespace Repository.Repository
             {
                 Name = DTO.Name,
                 Description = DTO.Description,
-                Initial_date = DTO.Initial_date,
-                Final_date= DTO.Final_date,
+                Initial_date = DateTime.Parse(DTO.Initial_date),
+                Final_date= DateTime.Parse(DTO.Final_date),
                 Intern_limit= DTO.Intern_limit,
                 Status = DTO.Status
             };
@@ -81,8 +81,8 @@ namespace Repository.Repository
             var internship = _context.Set<Internship>().Find(id);
             internship.Name = dto.Name;
             internship.Description = dto.Description;
-            internship.Initial_date = dto.Initial_date;
-            internship.Final_date = dto.Final_date;
+            internship.Initial_date = DateTime.Parse(dto.Initial_date);
+            internship.Final_date = DateTime.Parse(dto.Final_date);
             internship.Intern_limit = dto.Intern_limit;
             internship.Status = dto.Status;
             _context.Entry(internship).State = EntityState.Modified;

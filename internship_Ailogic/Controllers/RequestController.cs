@@ -40,9 +40,10 @@ namespace internship_Ailogic.Controllers
             if (ModelState.IsValid)
             {
                 var response = await _requestInternshiprepo.Apply(userInfo);
-                if (response)
+                var validation = await _requestInternshiprepo.ifExistRequest(userInfo);
+                if (response && validation)
                 {
-                    return Ok();
+                    return StatusCode(201);
                 }
                 else
                 {

@@ -20,6 +20,6 @@ namespace DTO
         public string Github { get; set; }
         public string Linkedin { get; set; }
         public string Cv { get; set; }
-        public DateTime BirthDate { get; set; }
+        public string BirthDate { get; set; }
     }
 }

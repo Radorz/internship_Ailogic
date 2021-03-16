@@ -57,5 +57,17 @@ namespace Repository.Repository
 
             return listdto;
         }
+
+        public async Task<bool> ifExistRequest( ApplyInternshipDTOPost dto)
+        {
+            RequestInternship cedula = await _context.RequestInternship.FirstOrDefaultAsync(a => a.Cedula == dto.Cedula || a.Email == dto.Email);
+
+            if (cedula == null)
+            {
+                return true;
+            }
+
+            return false;
+        }
     }
 }

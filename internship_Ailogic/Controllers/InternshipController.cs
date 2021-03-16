@@ -8,11 +8,14 @@ using DTO;
 using Repository;
 using Repository.Repository;
 using Database.Models;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 
 namespace internship_Ailogic.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme, Roles = "Admin")]
     public class InternshipController : ControllerBase
     {
 
@@ -31,7 +34,13 @@ namespace internship_Ailogic.Controllers
         [HttpGet("{id}", Name = "GetInternship")]
         public async Task<ActionResult<InternshipsDTO>> Get(int id)
         {
-            return await _internshipsRepository.GetByIdCustom(id);
+            var result = await _internshipsRepository.GetByIdCustom(id);
+            if(result == null)
+            {
+                return NotFound();
+            }
+
+            return result;
         }
 
         [HttpPost]
@@ -70,7 +79,7 @@ namespace internship_Ailogic.Controllers
             await _internshipsRepository.UpdateCustom(id, dto);
             if (ModelState.IsValid)
             {
-                return NoContent();
+                return StatusCode(201);
             }
             else
             {

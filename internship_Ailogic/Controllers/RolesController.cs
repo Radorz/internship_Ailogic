@@ -43,20 +43,29 @@ namespace internship_Ailogic.Controllers
         }
 
 
-        [HttpPost("RemoveSecretaryRole")]
-        public async Task<ActionResult> RoleRemovement(RolesDTO dto)
+        [HttpPost("updateRole/{id}")]
+        public async Task<ActionResult> updaterole(string id, RolesDTO dto)
         {
-            var usuario = await userManager.FindByIdAsync(dto.IdUser);
+
+            if (id != dto.IdUser)
+            {
+                return BadRequest("Is not the same id");
+            }
+            var usuario = await userManager.FindByIdAsync(id);
             if (usuario == null)
             {
                 return NotFound();
             }
-            await userManager.RemoveClaimAsync(usuario, new Claim(ClaimTypes.Role, dto.RoleName));
-            await userManager.RemoveFromRoleAsync(usuario, dto.RoleName);
+           var rol = await userManager.GetRolesAsync(usuario);
+            await userManager.RemoveClaimAsync(usuario, new Claim(ClaimTypes.Role, rol.First().ToString()));
+            await userManager.RemoveFromRoleAsync(usuario, rol.First().ToString());
+            await userManager.AddClaimAsync(usuario, new Claim(ClaimTypes.Role, dto.RoleName));
+            await userManager.AddToRoleAsync(usuario, dto.RoleName);
             return Ok();
         }
 
 
+<<<<<<< HEAD
         [HttpGet("{email}")]
         // This method retrieves a role of any user 
         public async Task<ActionResult> GetUserRole(string email)
@@ -69,5 +78,8 @@ namespace internship_Ailogic.Controllers
             //var role = context.Roles.FirstOrDefault(x => x.Id == roleName.RoleId);
             return Ok(roleName.First().ToString());
         }
+=======
+
+>>>>>>> 33e042a2be50b5725364f322b5fff22dde1f394d
     }
 }

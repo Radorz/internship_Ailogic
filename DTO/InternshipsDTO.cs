@@ -13,8 +13,8 @@ namespace DTO
         public int IdInternship { get; set; }
         public string Name { get; set; }
         public string Description { get; set; }
-        public DateTime Initial_date { get; set; }
-        public DateTime Final_date { get; set; }
+        public string Initial_date { get; set; }
+        public string Final_date { get; set; }
         public int Intern_limit { get; set; }
         public bool Status { get; set; }
     }
