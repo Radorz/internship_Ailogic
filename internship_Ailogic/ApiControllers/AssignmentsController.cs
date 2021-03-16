@@ -11,7 +11,7 @@ namespace internship_Ailogic.Controllers
     
     [Route("api/[controller]")]
     [ApiController]
-    public class AssignmentsController
+    public class AssignmentsController : ControllerBase
     {
         private readonly AssignmentsRepository _assignmentsRepository;
         public AssignmentsController(AssignmentsRepository assignmentsRepository)

@@ -65,10 +65,7 @@ namespace internship_Ailogic.Controllers
         }
 
 
-<<<<<<< HEAD:internship_Ailogic/Controllers/RolesController.cs
 
-=======
->>>>>>> f2f7800057b0d3b5ea31c8edb4d0e96041999c5d:internship_Ailogic/ApiControllers/RolesController.cs
         [HttpGet("{email}")]
         // This method retrieves a role of any user 
         public async Task<ActionResult> GetUserRole(string email)
