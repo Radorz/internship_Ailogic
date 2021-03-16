@@ -65,7 +65,6 @@ namespace internship_Ailogic.Controllers
         }
 
 
-<<<<<<< HEAD
         [HttpGet("{email}")]
         // This method retrieves a role of any user 
         public async Task<ActionResult> GetUserRole(string email)
@@ -78,8 +77,6 @@ namespace internship_Ailogic.Controllers
             //var role = context.Roles.FirstOrDefault(x => x.Id == roleName.RoleId);
             return Ok(roleName.First().ToString());
         }
-=======
 
->>>>>>> 33e042a2be50b5725364f322b5fff22dde1f394d
     }
 }
