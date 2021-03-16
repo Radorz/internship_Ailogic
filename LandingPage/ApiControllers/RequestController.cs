@@ -39,15 +39,22 @@ namespace LandingPage.Controllers
 
             if (ModelState.IsValid)
             {
-                var response = await _requestInternshiprepo.Apply(userInfo);
                 var validation = await _requestInternshiprepo.ifExistRequest(userInfo);
-                if (response && validation)
+                if (validation)
                 {
-                    return StatusCode(201);
+                    var response = await _requestInternshiprepo.Apply(userInfo);
+                    if (response)
+                    {
+                        return StatusCode(201);
+                    }
+                    else
+                    {
+                        return BadRequest("There are no active internships");
+                    }
                 }
                 else
                 {
-                    return BadRequest("There are no active internships");
+                    return BadRequest("There are active Request with this information");
                 }
             }
             else
