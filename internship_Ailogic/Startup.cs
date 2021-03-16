@@ -60,6 +60,7 @@ namespace internship_Ailogic
             services.AddScoped<RequestInternshipRepository>();
             services.AddScoped<InternshipsRepository>();
             services.AddScoped<InternRepository>();
+            services.AddScoped<AssignmentsRepository>();
             services.AddScoped<Utilities>();
             services.AddIdentity<IdentityUser, IdentityRole>(options => {
 
