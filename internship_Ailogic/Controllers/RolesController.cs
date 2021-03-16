@@ -17,12 +17,15 @@ namespace internship_Ailogic.Controllers
     {
         private readonly bnbar022dce4hrtds2xdContext context;
         private readonly UserManager<IdentityUser> userManager;
+        private readonly RoleManager<IdentityRole> _roleManager;
 
         public RolesController(bnbar022dce4hrtds2xdContext context,
-            UserManager<IdentityUser> userManager)
+            UserManager<IdentityUser> userManager,
+            RoleManager<IdentityRole> roleManager)
         {
             this.context = context;
             this.userManager = userManager;
+            this._roleManager = roleManager;
         }
 
 
@@ -51,6 +54,20 @@ namespace internship_Ailogic.Controllers
             await userManager.RemoveClaimAsync(usuario, new Claim(ClaimTypes.Role, dto.RoleName));
             await userManager.RemoveFromRoleAsync(usuario, dto.RoleName);
             return Ok();
+        }
+
+
+        [HttpGet("{email}")]
+        // This method retrieves a role of any user 
+        public async Task<ActionResult> GetUserRole(string email)
+        {
+            var user = await userManager.FindByEmailAsync(email);
+            var roleName = await userManager.GetRolesAsync(user);
+
+
+            //var roleName = context.UserRoles.FirstOrDefault(x => x.UserId == user.Id);
+            //var role = context.Roles.FirstOrDefault(x => x.Id == roleName.RoleId);
+            return Ok(roleName.First().ToString());
         }
     }
 }
