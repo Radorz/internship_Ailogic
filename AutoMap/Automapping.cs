@@ -19,7 +19,7 @@ namespace AutoMap
             MapFilespost();
             MapAssignments();
             MapAssignmentsPost();
-
+            MapAEvaluations();
         }
         private void Maprequest()
         {
