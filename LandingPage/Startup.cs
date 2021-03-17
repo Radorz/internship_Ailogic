@@ -64,6 +64,7 @@ namespace LandingPage
             services.AddScoped<FilesRepository>();
             services.AddScoped<Utilities>();
             services.AddScoped<AssignmentsRepository>();
+            services.AddScoped<EvaluationsRepository>();
             services.AddIdentity<IdentityUser, IdentityRole>(options => {
 
                 options.Password = new PasswordOptions

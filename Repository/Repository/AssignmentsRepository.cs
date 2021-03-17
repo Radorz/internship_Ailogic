@@ -53,10 +53,11 @@ namespace Repository.Repository
             var assignment = _mapper.Map<Assignments>(dto);
             try
             {
-              var assigmentReturn =  await _context.Set<Assignments>().AddAsync(assignment);
+                await _context.Set<Assignments>().AddAsync(assignment);
                 await _context.SaveChangesAsync();
                 return dto;
-            }catch(Exception e)
+            }
+            catch (Exception e)
             {
                 e.Message.ToString();
                 return null;

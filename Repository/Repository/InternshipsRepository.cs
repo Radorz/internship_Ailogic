@@ -87,11 +87,7 @@ namespace Repository.Repository
             internship.Status = dto.Status;
             _context.Entry(internship).State = EntityState.Modified;
             await _context.SaveChangesAsync();
-
             return dto;
-
-
-
         }
 
      
