@@ -48,18 +48,18 @@ namespace Repository.Repository
             return assignmentDTO;
         }
 
-        public async Task<bool> AddCustom(AssignmentsDTOPost dto)
+        public async Task<AssignmentsDTOPost> AddCustom(AssignmentsDTOPost dto)
         {
             var assignment = _mapper.Map<Assignments>(dto);
             try
             {
-                await _context.Set<Assignments>().AddAsync(assignment);
+              var assigmentReturn =  await _context.Set<Assignments>().AddAsync(assignment);
                 await _context.SaveChangesAsync();
-                return true;
+                return dto;
             }catch(Exception e)
             {
                 e.Message.ToString();
-                return false;
+                return null;
             }
 
         }
@@ -78,7 +78,7 @@ namespace Repository.Repository
                 assignment.Id_Internship = dto.Id_Internship;
                 assignment.Title = dto.Title;
                 assignment.Description = dto.Description;
-                assignment.Limit_Date = DateTime.Parse(dto.LimitDate);
+                assignment.Limit_Date = dto.LimitDate;
                 assignment.Modality = dto.Modality;
                 _context.Entry(assignment).State = EntityState.Modified;
                 await _context.SaveChangesAsync();
