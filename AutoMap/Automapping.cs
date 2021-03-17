@@ -16,7 +16,7 @@ namespace AutoMap
             Maprequestpost();
             MapApplyInterns();
             MapFiles();
-            MapFilespost()
+            MapFilespost();
             MapAssignments();
             MapAssignmentsPost();
 
