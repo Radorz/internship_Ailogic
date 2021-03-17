@@ -73,6 +73,10 @@ namespace AutoMap
         {
             CreateMap<AssignmentsDTOPost, Assignments>().ReverseMap();
         }
+        private void MapAEvaluations()
+        {
+            CreateMap<EvaluationsDTO, Evaluations>().ReverseMap();
+        }
 
         //private void MapearElecciones()
         //{
