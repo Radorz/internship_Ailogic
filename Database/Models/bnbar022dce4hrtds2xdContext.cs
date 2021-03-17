@@ -36,6 +36,7 @@ namespace Database.Models
         public virtual DbSet<RequestInternship> RequestInternship { get; set; }
         public virtual DbSet<Results> Results { get; set; }
         public virtual DbSet<Team> Team { get; set; }
+        public virtual DbSet<Assignments> Assignments { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
@@ -438,6 +439,41 @@ namespace Database.Models
                     .HasColumnType("varchar(50)")
                     .HasCharSet("utf8mb4")
                     .HasCollation("utf8mb4_0900_ai_ci");
+            });
+
+            modelBuilder.Entity<Assignments>(entity =>
+            {
+                entity.HasKey(e => e.Id_Assignment)
+                    .HasName("PRIMARY");
+               
+
+                entity.ToTable("assignments");
+
+                entity.HasIndex(e => e.Id_Internship)
+                   .HasName("id_internship");
+
+                entity.Property(e => e.Title)
+                    .IsRequired()
+                    .HasColumnType("varchar(55)")
+                    .HasCharSet("utf8mb4")
+                    .HasCollation("utf8_general_ci");
+
+                entity.Property(e => e.Description)
+                    .IsRequired()
+                    .HasColumnType("varchar(1200)")
+                    .HasCharSet("utf8mb4")
+                    .HasCollation("utf8_general_ci");
+
+                entity.Property(e => e.Limit_Date)
+                    .IsRequired()
+                    .HasColumnType("date")
+                    .HasCharSet("utf8mb4");
+
+                entity.Property(e => e.Modality)
+                    .IsRequired()
+                    .HasColumnType("varchar(15")
+                    .HasCharSet("utf8mb4")
+                    .HasCollation("utf8_general_ci");
             });
 
             OnModelCreatingPartial(modelBuilder);

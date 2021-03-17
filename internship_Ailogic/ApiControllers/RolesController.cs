@@ -65,6 +65,7 @@ namespace internship_Ailogic.Controllers
         }
 
 
+
         [HttpGet("{email}")]
         // This method retrieves a role of any user 
         public async Task<ActionResult> GetUserRole(string email)
