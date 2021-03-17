@@ -78,7 +78,7 @@ namespace Repository.Repository
                 assignment.Id_Internship = dto.Id_Internship;
                 assignment.Title = dto.Title;
                 assignment.Description = dto.Description;
-                assignment.Limit_Date = dto.LimitDate;
+                assignment.Limit_Date = DateTime.Parse(dto.LimitDate);
                 assignment.Modality = dto.Modality;
                 _context.Entry(assignment).State = EntityState.Modified;
                 await _context.SaveChangesAsync();
