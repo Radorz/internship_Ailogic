@@ -47,8 +47,8 @@ namespace Repository.Repository
         public async Task<FilesDTO> updateCustom(int id, FilesDTOPost dto)
         {
             Files file = await GetbyId(id);
-            file.Path = dto.Path;
-            file.FileName = dto.FileName;
+            //file.Path = dto.Path;
+            //file.FileName = dto.FileName;
             var result = await Update(file);
             FilesDTO returns = _mapper.Map<FilesDTO>(result);
             return returns;

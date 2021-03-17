@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.AspNetCore.Http;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
@@ -13,10 +14,7 @@ namespace DTO
 
         public int IdUser { get; set; }
         [Required(ErrorMessage = "The FileName is required")]
+        public IFormFile File { get; set; }
 
-        public string FileName { get; set; }
-        [Required(ErrorMessage = "The Path is required")]
-
-        public string Path { get; set; }
     }
 }
