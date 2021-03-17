@@ -20,6 +20,8 @@ namespace AutoMap
             MapAssignments();
             MapAssignmentsPost();
             MapAEvaluations();
+            MapTeamPost();
+            MapTeamPost();
         }
         private void Maprequest()
         {
@@ -76,6 +78,14 @@ namespace AutoMap
         private void MapAEvaluations()
         {
             CreateMap<EvaluationsDTO, Evaluations>().ReverseMap();
+        }
+        private void MapTeam()
+        {
+            CreateMap<TeamDTO, Team>().ReverseMap();
+        }
+        private void MapTeamPost()
+        {
+            CreateMap<TeamDTOPost, Team>().ReverseMap();
         }
 
         //private void MapearElecciones()
