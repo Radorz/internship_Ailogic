@@ -32,13 +32,14 @@ namespace internship_Ailogic.Controllers
         }
 
         [HttpPost]
-        public async Task<ActionResult> Post( AssignmentsDTOPost dto)
+        public async Task<ActionResult> Post(AssignmentsDTOPost dto)
         {
             var assignment = await _assignmentsRepository.AddCustom(dto);
-            if (assignment != false)
+            if (assignment != null)
             {
-               
-                return StatusCode(201 , assignment);
+
+                return Ok(assignment);
+                    
             }
             else
             {
