@@ -15,8 +15,11 @@ namespace AutoMap
             MapInternships();
             Maprequestpost();
             MapApplyInterns();
+            MapFiles();
+            MapFilespost();
             MapAssignments();
             MapAssignmentsPost();
+
         }
         private void Maprequest()
         {
@@ -51,6 +54,15 @@ namespace AutoMap
                 .ForMember(dest => dest.Email, opt => opt.Ignore());
         }
 
+        private void MapFiles()
+        {
+            CreateMap<FilesDTO, Files>().ReverseMap();
+        }
+
+        private void MapFilespost()
+        {
+            CreateMap<FilesDTOPost, Files>().ReverseMap();
+        }
         private void MapAssignments()
         {
             CreateMap<AssignmentsDTO, Assignments>().ReverseMap().
@@ -61,7 +73,6 @@ namespace AutoMap
         {
             CreateMap<AssignmentsDTOPost, Assignments>().ReverseMap();
         }
-
 
         //private void MapearElecciones()
         //{
