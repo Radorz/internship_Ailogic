@@ -38,11 +38,11 @@ namespace internship_Ailogic.Controllers
             if (assignment != false)
             {
                
-                return new CreatedAtRouteResult("GetIntern", new { id = dto.Id_Internship });
+                return StatusCode(201 , assignment);
             }
             else
             {
-                return BadRequest();
+                return BadRequest("No se ha podido crear");
             }
         }
 
