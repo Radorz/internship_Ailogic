@@ -51,16 +51,11 @@ namespace Repository.Repository
         public async Task<bool> AddCustom(AssignmentsDTOPost dto)
         {
             var assignment = _mapper.Map<Assignments>(dto);
-            try
-            {
+           
                 await _context.Set<Assignments>().AddAsync(assignment);
                 await _context.SaveChangesAsync();
                 return true;
-            }catch(Exception e)
-            {
-                e.Message.ToString();
-                return false;
-            }
+           
 
         }
 

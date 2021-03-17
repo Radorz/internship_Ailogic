@@ -9,6 +9,7 @@ namespace DTO
     public class AssignmentsDTOPost
     {
 
+        public int Id_Assignment { get; set; }
         public int Id_Internship { get; set; }
         public string Title { get; set; }
         public string Description { get; set; }
