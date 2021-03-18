@@ -39,7 +39,7 @@ namespace LandingPage.ApiControllers
 
         }
 
-        [HttpPost]
+        [HttpPost, DisableRequestSizeLimit]
         public async Task<ActionResult<FilesDTO>> Add(FilesDTOPost dto)
         {
             if (ModelState.IsValid)
