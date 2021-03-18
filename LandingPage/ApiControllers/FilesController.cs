@@ -49,7 +49,7 @@ namespace LandingPage.ApiControllers
                 //{
                 //    return new CreatedAtRouteResult("GetFile", new { id = file.IdFiles }, file);
                 //}
-                return NotFound();
+                return Ok("Ahora si palomon");
             }
 
             return BadRequest();
