@@ -31,6 +31,12 @@ namespace internship_Ailogic.Controllers
             return await _assignmentsRepository.GetByIdCustom(id);
         }
 
+        [HttpGet("Internship/{idInternship}")]
+        public async Task<ActionResult<List<AssignmentsDTO>>> GetAssignmentsByInternships(int idInternship)
+        {
+            return await _assignmentsRepository.GetByInternship(idInternship);
+        }
+
         [HttpPost]
         public async Task<ActionResult> Post(AssignmentsDTOPost dto)
         {

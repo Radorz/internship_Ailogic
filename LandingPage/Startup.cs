@@ -65,6 +65,9 @@ namespace LandingPage
             services.AddScoped<FilesRepository>();
             services.AddScoped<Utilities>();
             services.AddScoped<AssignmentsRepository>();
+
+            services.AddScoped<EvaluationsRepository>();
+
             services.AddScoped<TeamRepository>();
 
             services.AddIdentity<IdentityUser, IdentityRole>(options => {
