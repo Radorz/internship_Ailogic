@@ -1,7 +1,9 @@
 using AutoMap;
+using Azure.Storage.Blobs;
 using Database.Models;
 using EmailHandler;
 using internship_Ailogic.Helpers;
+using LandingPage.Services;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -105,6 +107,8 @@ namespace LandingPage
                 o.MultipartBodyLengthLimit = int.MaxValue;
                 o.MemoryBufferThreshold = int.MaxValue;
             });
+
+            //services.AddSingleton(x => new BlobServiceClient(Configuration.GetValue<string>("AzureBlobStorageConnectionString")));
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
