@@ -1,9 +1,11 @@
 ﻿using DTO;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Net.Http.Headers;
 using Repository.Repository;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -39,23 +41,36 @@ namespace LandingPage.ApiControllers
 
         }
 
-        [HttpPost]
-        public async Task<ActionResult<FilesDTO>> Add(FilesDTOPost dto)
+        [HttpPost, DisableRequestSizeLimit]
+        public async Task<ActionResult<FilesDTO>> Add()
         {
-            if (ModelState.IsValid)
+            try
             {
-                var file = await _filesRepository.addCustom(dto);
-                if (file != null)
+                var file = Request.Form.Files[0];
+                var folderName = Path.Combine("Resources", "Images");
+                var pathToSave = Path.Combine(Directory.GetCurrentDirectory(), folderName);
+                if (file.Length > 0)
                 {
-                    return new CreatedAtRouteResult("GetFile", new { id = file.IdFiles }, file);
+                    var fileName = ContentDispositionHeaderValue.Parse(file.ContentDisposition).FileName;
+                    var fullPath = Path.Combine(pathToSave, fileName.ToString());  
+                    var dbPath = Path.Combine(folderName, fileName.ToString());
+                    using (var stream = new FileStream(fullPath, FileMode.Create))
+                    {
+                        file.CopyTo(stream);
+                    }
+                    return Ok(new { dbPath });
                 }
-                return NotFound();
+                else
+                {
+                    return BadRequest();
+                }
             }
-
-            return BadRequest();
-
+            catch (Exception ex)
+            {
+                return StatusCode(500, $"Internal server error: {ex}");
+            }
         }
-        [HttpPut("{id}")]
+            [HttpPut("{id}")]
         public async Task<ActionResult<FilesDTO>> Update(int id, FilesDTOPost dto)
         {
             if (ModelState.IsValid)
