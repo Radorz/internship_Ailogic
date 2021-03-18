@@ -22,6 +22,8 @@ namespace AutoMap
             MapAEvaluations();
             MapTeamPost();
             MapTeamPost();
+            MapQuestion();
+            MapQuestionPost();
         }
         private void Maprequest()
         {
@@ -86,6 +88,15 @@ namespace AutoMap
         private void MapTeamPost()
         {
             CreateMap<TeamDTOPost, Team>().ReverseMap();
+        }
+        private void MapQuestion()
+        {
+            CreateMap<QuestionsDTO, Questions>().ReverseMap();
+        }
+        private void MapQuestionPost()
+        {
+            CreateMap<QuestionsDTO, Questions>().ReverseMap()
+                .ForMember(dest => dest.Evaluations, opt => opt.Ignore());
         }
 
         //private void MapearElecciones()
