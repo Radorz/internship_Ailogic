@@ -50,7 +50,7 @@ namespace LandingPage.ApiControllers
             {
                
                 var file = Request.Form.Files[0];
-                var pathToSave = Path.Combine(_hostingEnvironment.WebRootPath, "Resources/Images"); ;
+                var pathToSave = Path.Combine("Resources/Images"); ;
                 if (file.Length > 0)
                 {
                     var fileName = ContentDispositionHeaderValue.Parse(file.ContentDisposition).FileName;
