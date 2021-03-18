@@ -6,7 +6,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Repository.Repository;
 
-namespace internship_Ailogic.Controllers
+namespace LandingPage.Controllers
 {
     
     [Route("api/[controller]")]
