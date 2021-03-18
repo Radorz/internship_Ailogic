@@ -43,35 +43,35 @@ namespace LandingPage.ApiControllers
 
         }
 
-        [HttpPost, DisableRequestSizeLimit]
-        public async Task<ActionResult<FilesDTO>> Add()
-        {
-            try
-            {
+        //[HttpPost, DisableRequestSizeLimit]
+        //public async Task<ActionResult<FilesDTO>> Add()
+        //{
+        //    //try
+        //    //{
                
-                var file = Request.Form.Files[0];
-                var pathToSave = Path.Combine("Resources/Images"); ;
-                if (file.Length > 0)
-                {
-                    var fileName = ContentDispositionHeaderValue.Parse(file.ContentDisposition).FileName;
-                    var fullPath = Path.Combine(pathToSave, fileName.ToString());  
-                    var dbPath = Path.Combine(pathToSave, fileName.ToString());
-                    using (var stream = new FileStream(fullPath, FileMode.Create))
-                    {
-                        file.CopyTo(stream);
-                    }
-                    return Ok(new { dbPath });
-                }
-                else
-                {
-                    return BadRequest();
-                }
-            }
-            catch (Exception ex)
-            {
-                return StatusCode(500, $"Internal server error: {ex}");
-            }
-        }
+        //    //    var file = Request.Form.Files[0];
+        //    //    var pathToSave = Microsoft.AspNetCore.Server.("~/pictures/uploaded");/*Path.Combine("Resources/Images");*/
+        //    //    if (file.Length > 0)
+        //    //    {
+        //    //        var fileName = ContentDispositionHeaderValue.Parse(file.ContentDisposition).FileName;
+        //    //        var fullPath = Path.Combine(pathToSave, fileName.ToString());  
+        //    //        var dbPath = Path.Combine(pathToSave, fileName.ToString());
+        //    //        using (var stream = new FileStream(fullPath, FileMode.Create))
+        ////    //        {
+        ////    //            file.CopyTo(stream);
+        ////    //        }
+        ////    //        return Ok(new { dbPath });
+        ////    //    }
+        ////    //    else
+        ////    //    {
+        ////    //        return BadRequest();
+        ////    //    }
+        ////    }
+        //    catch (Exception ex)
+        //    {
+        //        return StatusCode(500, $"Internal server error: {ex}");
+        //    }
+        //}
             [HttpPut("{id}")]
         public async Task<ActionResult<FilesDTO>> Update(int id, FilesDTOPost dto)
         {
