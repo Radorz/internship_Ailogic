@@ -1,4 +1,5 @@
 ﻿using DTO;
+using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Net.Http.Headers;
@@ -16,11 +17,12 @@ namespace LandingPage.ApiControllers
     public class FilesController : ControllerBase
     {
         private readonly FilesRepository _filesRepository;
+        private readonly IWebHostEnvironment _hostingEnvironment;
 
-        public  FilesController (FilesRepository filesRepository)
+        public FilesController (FilesRepository filesRepository, IWebHostEnvironment hostingEnvironment)
         {
             _filesRepository = filesRepository;
-
+            _hostingEnvironment = hostingEnvironment;
 
 
         }
@@ -46,14 +48,14 @@ namespace LandingPage.ApiControllers
         {
             try
             {
+               
                 var file = Request.Form.Files[0];
-                var folderName = Path.Combine("Resources", "Images");
-                var pathToSave = Path.Combine("https://ailogicinternship.azurewebsites.net", folderName);
+                var pathToSave = Path.Combine(_hostingEnvironment.WebRootPath, "Resources/Images"); ;
                 if (file.Length > 0)
                 {
                     var fileName = ContentDispositionHeaderValue.Parse(file.ContentDisposition).FileName;
                     var fullPath = Path.Combine(pathToSave, fileName.ToString());  
-                    var dbPath = Path.Combine(folderName, fileName.ToString());
+                    var dbPath = Path.Combine(pathToSave, fileName.ToString());
                     using (var stream = new FileStream(fullPath, FileMode.Create))
                     {
                         file.CopyTo(stream);
