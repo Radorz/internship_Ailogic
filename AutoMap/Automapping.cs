@@ -95,8 +95,8 @@ namespace AutoMap
         }
         private void MapQuestionPost()
         {
-            CreateMap<QuestionsDTO, Questions>().ReverseMap()
-                .ForMember(dest => dest.Evaluations, opt => opt.Ignore());
+            CreateMap<QuestionsDTOPost, Questions>().ReverseMap();
+                
         }
 
         //private void MapearElecciones()
