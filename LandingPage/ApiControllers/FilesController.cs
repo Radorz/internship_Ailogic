@@ -40,15 +40,15 @@ namespace LandingPage.ApiControllers
         }
 
         [HttpPost, DisableRequestSizeLimit]
-        public async Task<ActionResult<FilesDTO>> Add(FilesDTOPost dto)
+        public async Task<ActionResult<FilesDTO>> Add()
         {
             if (ModelState.IsValid)
             {
-                var file = await _filesRepository.addCustom(dto);
-                if (file != null)
-                {
-                    return new CreatedAtRouteResult("GetFile", new { id = file.IdFiles }, file);
-                }
+                //var file = await _filesRepository.addCustom(dto);
+                //if (file != null)
+                //{
+                //    return new CreatedAtRouteResult("GetFile", new { id = file.IdFiles }, file);
+                //}
                 return NotFound();
             }
 
