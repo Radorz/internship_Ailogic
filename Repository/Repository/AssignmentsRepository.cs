@@ -63,6 +63,24 @@ namespace Repository.Repository
             }
             return assignmentsList;
         }
+        public async Task<List<AssignmentsDTO>> GetByActiveInternship()
+        {
+            List<AssignmentsDTO> assignmentsList = new List<AssignmentsDTO>();
+            var active = await _context.Internship.FirstOrDefaultAsync(x => x.Status == true);
+            if (active != null)
+            {
+                var assignments = _context.Assignments.Where(x => x.Id_Internship == active.IdInternship).ToList();
+                foreach (var i in assignments)
+                {
+                    var assignmet = _mapper.Map<AssignmentsDTO>(i);
+                    assignmet.Id_Internship = i.Id_Internship;
+                    var internship = await _context.Internship.FirstOrDefaultAsync(x => x.IdInternship == i.Id_Internship);
+                    assignmet.Internship = _mapper.Map<InternshipsDTO>(internship);
+                    assignmentsList.Add(assignmet);
+                }
+            }
+            return assignmentsList;
+        }
 
         public async Task<AssignmentsDTOPost> AddCustom(AssignmentsDTOPost dto)
         {
