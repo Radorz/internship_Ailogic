@@ -20,6 +20,7 @@ namespace LandingPage.ApiControllers
             _azureConnectionString = configuration.GetValue<string>("AzureBlobStorageConnectionString");
             _azureContainerName = "filecontainer";
         }
+        [HttpGet]
         public async Task<IActionResult> Get()
         {
             var blobs = new List<BlobDto>();
