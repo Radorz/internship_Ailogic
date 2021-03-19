@@ -29,7 +29,7 @@ namespace Repository.Repository
             {
 
                 var assignmet = _mapper.Map<AssignmentsDTO>(i);
-                assignmet.LimitDate = i.Limit_Date;
+                assignmet.LimitDate = i.Limit_Date.ToString();
                 assignmet.Id_Internship = i.Id_Internship;
                 var internship = await _context.Internship.FirstOrDefaultAsync(x => x.IdInternship == i.Id_Internship);
                 assignmet.Internship = _mapper.Map<InternshipsDTO>(internship);
