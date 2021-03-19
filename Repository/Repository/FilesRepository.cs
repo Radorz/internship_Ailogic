@@ -31,6 +31,14 @@ namespace Repository.Repository
           
 
         }
+        public async Task<FilesDTO> getall()
+        {
+            var files = getall();
+            FilesDTO result = _mapper.Map<FilesDTO>(files);
+            return result;
+
+
+        }
 
         public async Task<FilesDTO> addCustom(FilesDTO dto)
         {
