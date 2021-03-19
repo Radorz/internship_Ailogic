@@ -24,8 +24,7 @@ namespace Repository.Repository
         }
         public async Task<bool> Apply(ApplyInternshipDTOPost dto)
         {
-            try
-            {
+           
                 var request = _mapper.Map<RequestInternship>(dto);
                 var idinternship = _context.Internship.FirstOrDefault(a => a.Status == true);
                 if (idinternship == null)
@@ -37,10 +36,7 @@ namespace Repository.Repository
                     await Add(request);
                     return true;
                 }
-            }   catch(Exception e)
-            {
-                return (false);
-            }
+          
             
 
         }

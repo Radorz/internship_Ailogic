@@ -15,7 +15,6 @@ namespace DTO
         public int IdUser { get; set; }
         [Required(ErrorMessage = "The FileName is required")]
         [FromForm]
-        
         public IFormFile File { get; set; }
        
     }

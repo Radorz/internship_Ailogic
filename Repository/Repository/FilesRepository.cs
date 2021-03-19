@@ -32,7 +32,7 @@ namespace Repository.Repository
 
         }
 
-        public async Task<FilesDTO> addCustom(FilesDTOPost dto)
+        public async Task<FilesDTO> addCustom(FilesDTO dto)
         {
            
                 Files file = _mapper.Map<Files>(dto);

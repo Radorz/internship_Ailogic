@@ -47,7 +47,7 @@ namespace LandingPage.ApiControllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> Upload()
+        public async Task<IActionResult> Upload( [FromForm]FilesDTOPost DTO)
         {
             try
             {
@@ -67,7 +67,9 @@ namespace LandingPage.ApiControllers
                     }
                     FilesDTO filesDTO = new FilesDTO();
                     filesDTO.FileName = file.Name;
+                    filesDTO.IdUser = DTO.IdUser;
                     filesDTO.Path = blob.Uri.ToString();
+                    
                     return Ok(blob.Uri.ToString());
                 }
                 return BadRequest();
