@@ -48,6 +48,7 @@ namespace Repository.Repository
             foreach(var i in list)
             {
                 var request = _mapper.Map<ApplyInternshipDTO>(i);
+                request.BirthDate = i.BirthDate.ToString("yyyy/MM/dd");
                 listdto.Add(request);
             }
 
