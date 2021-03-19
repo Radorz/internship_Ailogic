@@ -26,7 +26,7 @@ namespace DTO
         public string Github { get; set; }
         public string Linkedin { get; set; }
         public string Cv { get; set; }
-        public string BirthDate { get; set; }
+        public DateTime BirthDate { get; set; }
 
         [EmailAddress(ErrorMessage = "The Email is no valid")]
         [Required(ErrorMessage = "The Email is required")]
