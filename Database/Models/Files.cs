@@ -10,7 +10,7 @@ namespace Database.Models
     public partial class Files
     {
         public int IdFiles { get; set; }
-        public int IdUser { get; set; }
+        public string IdUser { get; set; }
         public string FileName { get; set; }
         public string Path { get; set; }
     }

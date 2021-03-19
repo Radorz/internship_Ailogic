@@ -12,6 +12,7 @@ using System.Threading.Tasks;
 using Microsoft.Extensions.Configuration;
 using Azure.Storage.Blobs;
 using Azure.Storage.Blobs.Models;
+using Microsoft.AspNetCore.Identity;
 
 namespace LandingPage.ApiControllers
 {
@@ -22,11 +23,31 @@ namespace LandingPage.ApiControllers
         private readonly FilesRepository _filesRepository;
         private readonly string _azureConnectionString;
         private readonly string _azureContainerName;
-        public FilesController (FilesRepository filesRepository, IConfiguration configuration)
+        private readonly UserManager<IdentityUser> _userManager;
+        private readonly InternRepository _internRepository;
+
+        public FilesController (FilesRepository filesRepository, IConfiguration configuration, InternRepository internRepository, UserManager<IdentityUser> userManager)
         {
             _filesRepository = filesRepository;
             _azureConnectionString = configuration.GetValue<string>("AzureBlobStorageConnectionString");
             _azureContainerName = "filecontainer";
+            _userManager = userManager;
+            _internRepository = internRepository;
+
+        }
+        [HttpGet]
+        public async Task<ActionResult<List<FilesDTO>>> Get()
+        {
+            if (ModelState.IsValid)
+            {
+                var file = await _filesRepository.getalla();
+                if (file != null)
+                {
+                    return file;
+                }
+            }
+
+            return NoContent();
 
         }
         [HttpGet(("{id}"), Name = "GetFile")]
@@ -66,9 +87,12 @@ namespace LandingPage.ApiControllers
                         await blob.UploadAsync(fileStream, new BlobHttpHeaders { ContentType = file.ContentType });
                     }
                     FilesDTO filesDTO = new FilesDTO();
-                    filesDTO.FileName = file.Name;
-                    filesDTO.IdUser = DTO.IdUser;
+                    filesDTO.FileName = file.FileName;
+                    var user = await _userManager.FindByEmailAsync(DTO.EmailUser);
+                    filesDTO.IdUser = user.Id ;
                     filesDTO.Path = blob.Uri.ToString();
+
+                   await _filesRepository.addCustom(filesDTO);
                     
                     return Ok(blob.Uri.ToString());
                 }

@@ -31,11 +31,17 @@ namespace Repository.Repository
           
 
         }
-        public async Task<FilesDTO> getall()
+        public async Task<List<FilesDTO>> getalla()
         {
-            var files = getall();
-            FilesDTO result = _mapper.Map<FilesDTO>(files);
-            return result;
+            var files = await GetAll();
+            var list = new List<FilesDTO>();
+            foreach (var i in files)
+            {
+                FilesDTO result = _mapper.Map<FilesDTO>(i);
+                list.Add(result);
+
+            }
+            return list;
 
 
         }
