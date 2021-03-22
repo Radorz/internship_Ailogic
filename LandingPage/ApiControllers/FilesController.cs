@@ -103,6 +103,39 @@ namespace LandingPage.ApiControllers
                 return StatusCode(500, $"Internal server error: {ex}");
             }
         }
+
+        //[HttpDelete("{filename}")]
+        //public async Task<IActionResult> Delete(string filename)
+        //{
+        //    try
+        //    {           
+        //            var container = new BlobContainerClient(_azureConnectionString, _azureContainerName);
+        //            var createResponse = await container.CreateIfNotExistsAsync();
+        //            if (createResponse != null && createResponse.GetRawResponse().Status == 201)
+        //                await container.SetAccessPolicyAsync(Azure.Storage.Blobs.Models.PublicAccessType.Blob);
+        //            var blob = container.GetBlobClient(filename);
+        //            await blob.DeleteIfExistsAsync(DeleteSnapshotsOption.IncludeSnapshots);
+                  
+        //                await blob.DeleteIfExistsAsync();
+               
+                  
+        //            FilesDTO filesDTO = new FilesDTO();
+        //            filesDTO.FileName = file.FileName;
+        //            var user = await _userManager.FindByEmailAsync(DTO.EmailUser);
+        //            filesDTO.IdUser = user.Id;
+        //            filesDTO.Path = blob.Uri.ToString();
+
+        //            await _filesRepository.addCustom(filesDTO);
+
+        //            return Ok(blob.Uri.ToString());
+        //        }
+        //        return BadRequest();
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        return StatusCode(500, $"Internal server error: {ex}");
+        //    }
+        //}
         //[HttpPut("{id}")]
         //public async Task<ActionResult<FilesDTO>> Update(int id, FilesDTOPost dto)
         //{
