@@ -14,6 +14,7 @@ using Database.Models;
 using DTO;
 using Repository.Repository;
 using internship_Ailogic.Helpers;
+using System.ComponentModel.DataAnnotations;
 
 namespace LandingPage.Controllers
 {
@@ -93,7 +94,7 @@ namespace LandingPage.Controllers
             }
         }
 
-        [HttpPost("{id}")]
+        [HttpPost("resetpassword/{id}")]
         public async Task<ActionResult> resetpassword(string id, resetpassword dto)
         {
             try
@@ -111,7 +112,22 @@ namespace LandingPage.Controllers
             }
         }
 
+        [HttpPost("linkchangepassword")]
+        public async Task<ActionResult> linkchangepassword([EmailAddress(ErrorMessage = "The Email is no valid")]
+                                                             string email)
+        {
+            try
+            {
+               
 
+                return Ok("Successful");
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, $"Internal server error: {ex}");
+
+            }
+        }
 
 
     }

@@ -45,8 +45,9 @@ namespace Repository.Repository
             var Intern = _mapper.Map<Interns>(dto);
             // Mensaje a enviar por correo
             var message = new Message(new string[] {dto.Email }, "Informacion Pasantias AILogic",
-                "Felicidades " + dto.Name + dto.Lastname + @" ha sido seleccionado para participar en nuestra gran pasantia. Para iniciar sesion en la plataforma visite
-              https://frontend-pasantes.vercel.app/login Su usuario es su mismo correo y su contraseña es " + password  );
+                "Felicidades " + dto.Name + dto.Lastname + @" ha sido seleccionado para participar en nuestra gran pasantia. Para iniciar sesion en la plataforma primero visite
+               este espacio para configurar su cuenta https://frontend-pasantes.vercel.app/recuperar-clave Su usuario es su mismo correo y su contraseña es " + password  );
+
             await _emailSender.SendMailAsync(message);
             Intern.IdUser = CreatedUser.Id;
             
@@ -108,18 +109,18 @@ namespace Repository.Repository
             return internDTO;
         }
 
-        public async Task<InternDTO> GetByIdUserbyintershipCustom(string id)
-        {
-            var intern = await _context.Set<Interns>().FirstOrDefaultAsync(x => x.i == id);
-            var internDTO = _mapper.Map<InternDTO>(intern);
+        //public async Task<InternDTO> GetByIdUserbyintershipCustom(string id)
+        //{
+        //    var intern = await _context.Set<Interns>().FirstOrDefaultAsync(x => x. == id);
+        //    var internDTO = _mapper.Map<InternDTO>(intern);
 
-            var user = await _userManager.FindByIdAsync(internDTO.IdUser);
-            var internReturn = new UserDTO();
-            internReturn.Email = user.Email;
+        //    var user = await _userManager.FindByIdAsync(internDTO.IdUser);
+        //    var internReturn = new UserDTO();
+        //    internReturn.Email = user.Email;
 
-            internDTO.User = internReturn;
-            return internDTO;
-        }
+        //    internDTO.User = internReturn;
+        //    return internDTO;
+        //}
         public async Task<bool> UpdateCustom(int id, InternCreationDTO dto)
         {
             var intern = await _context.Set<Interns>().FindAsync(id);
@@ -149,12 +150,32 @@ namespace Repository.Repository
             {
                 return false;
             }
-            
-
            
-           
-            
         } 
+
+        public async Task<bool> linkresetemail(string email)
+        {
+            var user = _userManager.FindByEmailAsync(email);
+            if (user == null)
+            {
+                return false;
+            }
+            try
+            {
+                var message = new Message(new string[] { email }, "Cambio de contraseña Pasantias AILogic",
+                    "Hemos sidos notificados de que ha perdido su contraseña, dirigase el link siguiente parea recuperar su cuenta " +
+                  "https://frontend-pasantes.vercel.app/recuperar-clave" + "/" + user.Id);
+                await _emailSender.SendMailAsync(message);
+                return true;
+
+            }
+            catch(Exception e)
+            {
+                return false;
+
+            }
+        }
+
 
     }
 }
