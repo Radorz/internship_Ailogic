@@ -93,11 +93,27 @@ namespace LandingPage.Controllers
             }
         }
 
-       
+        [HttpPost("{id}")]
+        public async Task<ActionResult> resetpassword(string id, resetpassword dto)
+        {
+            try
+            {
+                var useridentity = await _userManager.FindByIdAsync(id);
+                var token = await _userManager.GeneratePasswordResetTokenAsync(useridentity);
+                await _userManager.ResetPasswordAsync(useridentity, token, dto.Password);
+
+                return Ok("Successful");
+            }
+            catch ( Exception ex)
+            {
+                return StatusCode(500, $"Internal server error: {ex}");
+
+            }
+        }
 
 
 
-      
+
     }
 
 }
