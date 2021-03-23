@@ -45,9 +45,8 @@ namespace Repository.Repository
             var Intern = _mapper.Map<Interns>(dto);
             // Mensaje a enviar por correo
             var message = new Message(new string[] {dto.Email }, "Informacion Pasantias AILogic",
-                "Felicidades " + dto.Name + dto.Lastname + @" ha sido seleccionado para participar en nuestra gran pasantia. Para iniciar sesion en la plataforma primero visite
-               este espacio para configurar su cuenta https://frontend-pasantes.vercel.app/recuperar-clave Su usuario es su mismo correo y su contraseña es " + password  );
-
+             "Felicidades " + dto.Name+" " + dto.Lastname + @" ha sido seleccionado para participar en nuestra gran pasantia. Para iniciar sesion en la plataforma primero visite
+             este espacio para configurar su cuenta: https://frontend-pasantes.vercel.app/recuperar-clave"+"/"+ CreatedUser.Id + "Su usuario es su mismo correo");
             await _emailSender.SendMailAsync(message);
             Intern.IdUser = CreatedUser.Id;
             

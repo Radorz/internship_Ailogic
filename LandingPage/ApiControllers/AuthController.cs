@@ -25,6 +25,8 @@ namespace LandingPage.Controllers
         private readonly UserManager<IdentityUser> _userManager;
         private readonly SignInManager<IdentityUser> _signInManager;
         private readonly Utilities _utilities;
+        private readonly InternRepository _internRepository;
+
 
 
         public AuthController(
@@ -32,11 +34,14 @@ namespace LandingPage.Controllers
             SignInManager<IdentityUser> signInManager,
             IConfiguration configuration,
             RequestInternshipRepository requestInternshipDTO,
-            Utilities utilities)
+            Utilities utilities,
+            InternRepository internRepository
+            )
         {
             _userManager = userManager;
             _signInManager = signInManager;
             _utilities = utilities;
+            _internRepository = internRepository;
         }
 
 
@@ -118,7 +123,7 @@ namespace LandingPage.Controllers
         {
             try
             {
-               
+                await _internRepository.linkresetemail(email);
 
                 return Ok("Successful");
             }
