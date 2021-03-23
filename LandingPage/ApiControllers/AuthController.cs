@@ -123,9 +123,14 @@ namespace LandingPage.Controllers
         {
             try
             {
-                await _internRepository.linkresetemail(email);
+                if(await _internRepository.linkresetemail(email))
+                {
 
-                return Ok("Successful");
+                    return Ok("Successful");
+
+                }
+
+                return BadRequest();
             }
             catch (Exception ex)
             {
