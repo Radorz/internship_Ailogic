@@ -175,6 +175,39 @@ namespace Repository.Repository
             }
         }
 
+        public async Task<bool> deletedCustom(int id)
+        {
+
+
+            var intern = await Delete(id);
+
+
+            if (intern == null)
+            {
+                return false;
+
+            }
+            var user = await _userManager.FindByIdAsync(intern.IdUser);
+            if (user ==null)
+            {
+                return false;
+
+            }
+          await  _userManager.DeleteAsync(user);
+          var files = await _context.Files.Where(x => x.IdUser == intern.IdUser).ToListAsync();
+
+            foreach( var i in files)
+            {
+                _context.Set<Files>().Remove(i);
+            }
+            await _context.SaveChangesAsync();
+            return true;
+
+
+
+
+        }
+
 
     }
 }

@@ -95,8 +95,8 @@ namespace LandingPage.Controllers
         [HttpDelete("{id}")]
         public async Task<ActionResult> Delete(int id)
         {
-            var intern = await _internRepository.Delete(id);
-            if (intern != null)
+            var intern = await _internRepository.deletedCustom(id);
+            if (intern)
             {
                 return Ok("Se ha borrado Correctamente");
             }
