@@ -56,11 +56,7 @@ namespace LandingPage.Controllers
             }
         }
 
-        [HttpGet]
-        public string Get()
-        {
-            return "Hola";
-        }
+       
 
         [HttpPost("login")]
         public async Task<ActionResult<UserToken>> Login([FromBody] UserInfo userInfo)

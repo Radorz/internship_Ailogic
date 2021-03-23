@@ -29,7 +29,7 @@ namespace Repository.Repository
             {
 
                 var assignmet = _mapper.Map<AssignmentsDTO>(i);
-                assignmet.LimitDate = i.Limit_Date.ToString();
+                assignmet.LimitDate = i.Limit_Date.ToString("yyyy-MM-dd");
                 assignmet.Id_Internship = i.Id_Internship;
                 var internship = await _context.Internship.FirstOrDefaultAsync(x => x.IdInternship == i.Id_Internship);
                 assignmet.Internship = _mapper.Map<InternshipsDTO>(internship);
@@ -46,6 +46,7 @@ namespace Repository.Repository
             var assignmentDTO = _mapper.Map<AssignmentsDTO>(assignment);
             var internship = await _context.Internship.FirstOrDefaultAsync(x => x.IdInternship == assignmentDTO.Id_Internship);
             assignmentDTO.Internship = _mapper.Map<InternshipsDTO>(internship);
+            assignmentDTO.LimitDate = assignment.Limit_Date.ToString("yyyy-MM-dd");
             return assignmentDTO;
         }
 
@@ -57,7 +58,7 @@ namespace Repository.Repository
             {
                 var assignmet = _mapper.Map<AssignmentsDTO>(i);
                 assignmet.Id_Internship = i.Id_Internship;
-                assignmet.LimitDate = i.Limit_Date.ToString();
+                assignmet.LimitDate = i.Limit_Date.ToString("yyyy-MM-dd");
                 var internship = await _context.Internship.FirstOrDefaultAsync(x => x.IdInternship == i.Id_Internship);
                 assignmet.Internship = _mapper.Map<InternshipsDTO>(internship);
                 assignmentsList.Add(assignmet);
@@ -75,7 +76,7 @@ namespace Repository.Repository
                 {
                     var assignmet = _mapper.Map<AssignmentsDTO>(i);
                     assignmet.Id_Internship = i.Id_Internship;
-                    assignmet.LimitDate = i.Limit_Date.ToString();
+                    assignmet.LimitDate = i.Limit_Date.ToString("yyyy-MM-dd");
                     var internship = await _context.Internship.FirstOrDefaultAsync(x => x.IdInternship == i.Id_Internship);
                     assignmet.Internship = _mapper.Map<InternshipsDTO>(internship);
                     assignmentsList.Add(assignmet);

@@ -50,6 +50,12 @@ namespace LandingPage.Controllers
             return await _internRepository.GetByIdCustom(id);
         }
 
+        [HttpGet("{id}", Name = "GetInternbyinternship")]
+        public async Task<ActionResult<InternDTO>> Getbyinternship(int id)
+        {
+            return await _internRepository.GetByIdCustom(id);
+        }
+
         [HttpPost]
         public async Task<ActionResult> Post([FromBody] ApplyInternshipDTOPost dto)
         {
@@ -73,10 +79,7 @@ namespace LandingPage.Controllers
         [HttpPut("{id}")]
         public async Task<ActionResult<InternDTO>> Put(int id, InternCreationDTO dto)
         {
-            if(id != dto.Id)
-            {
-                return BadRequest("Is not the same id");
-            }
+            
 
             if(await _internRepository.UpdateCustom(id, dto))
             {

@@ -104,31 +104,46 @@ namespace LandingPage.ApiControllers
             }
         }
 
-        [HttpDelete("{filename}")]
-        public async Task<IActionResult> Delete(string filename)
+        [HttpDelete("{idfile}")]
+        public async Task<IActionResult> Delete(int idfile, FilesDTOdelete dto)
         {
             try
             {
+                if (await _filesRepository.Delete(idfile)==null)
+                {
+
+
+                }
                 var container = new BlobContainerClient(_azureConnectionString, _azureContainerName);
                 var createResponse = await container.CreateIfNotExistsAsync();
                 if (createResponse != null && createResponse.GetRawResponse().Status == 201)
                     await container.SetAccessPolicyAsync(Azure.Storage.Blobs.Models.PublicAccessType.Blob);
-                var blob = container.GetBlobClient(filename);
-                await blob.DeleteIfExistsAsync(DeleteSnapshotsOption.IncludeSnapshots);
+                var blob = container.GetBlobClient(dto.FileName);
+                var file = await container.GetBlobsAsync().FirstOrDefaultAsync(x => x.Name == dto.FileName);
 
-                if(await blob.DeleteIfExistsAsync())
+                if (file == null)
                 {
-
-                    return Ok(blob.Uri.ToString());
+                    return BadRequest("File not found");
 
                 }
+
+                var dec = await container.DeleteBlobIfExistsAsync(file.Name, DeleteSnapshotsOption.IncludeSnapshots);
+                   if (dec)
+                  {
+
+                    return Ok("Successful removed");
+
+
+                    }
                 return BadRequest();
+
+
             }
             catch (Exception ex)
             {
                 return StatusCode(500, $"Internal server error: {ex}");
-    }
-}
+            }
+        }
         //[HttpPut("{id}")]
         //public async Task<ActionResult<FilesDTO>> Update(int id, FilesDTOPost dto)
         //{
