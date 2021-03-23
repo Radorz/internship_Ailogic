@@ -154,7 +154,7 @@ namespace Repository.Repository
 
         public async Task<bool> linkresetemail(string email)
         {
-            var user = _userManager.FindByEmailAsync(email);    
+            var user = await _userManager.FindByEmailAsync(email);    
             if (user == null)
             {
                 return false;
