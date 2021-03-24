@@ -21,6 +21,6 @@ namespace DTO
         public string Linkedin { get; set; }
         public string Cv { get; set; }
         public string BirthDate { get; set; }
-        public int IdIntership { get; set; }
+        public int IdInternship { get; set; }
     }
 }

@@ -30,7 +30,7 @@ namespace Repository.Repository
             _roleManager = roleManager;
         }
 
-        public async Task<InternDTO> AddCustom(ApplyInternshipDTOPost dto, string password)
+        public async Task<InternDTO> AddCustom(CreateinterntDTO dto, string password)
         {
             // Crear usuario
             var user = new IdentityUser { UserName = dto.Email, Email = dto.Email };
@@ -50,7 +50,6 @@ namespace Repository.Repository
             await _emailSender.SendMailAsync(message);
             Intern.IdUser = CreatedUser.Id;
             try { 
-
             await _userManager.AddToRoleAsync(CreatedUser, "Intern");
             await _context.Set<Interns>().AddAsync(Intern);
             await _context.SaveChangesAsync();

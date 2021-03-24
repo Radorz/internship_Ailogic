@@ -57,7 +57,7 @@ namespace LandingPage.Controllers
         //}
 
         [HttpPost]
-        public async Task<ActionResult> Post([FromBody] ApplyInternshipDTOPost dto)
+        public async Task<ActionResult> Post([FromBody] CreateinterntDTO dto)
         {
             if(await _userManager.FindByEmailAsync(dto.Email) != null)
             {

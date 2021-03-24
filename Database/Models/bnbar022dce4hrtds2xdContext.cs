@@ -186,7 +186,7 @@ namespace Database.Models
                 entity.ToTable("interns");
 
                 entity.Property(e => e.IdInternt).HasColumnName("id_internt");
-                entity.Property(e => e.IdIntership).HasColumnName("id_internship");
+                entity.Property(e => e.IdInternship).HasColumnName("id_internship");
 
                 entity.Property(e => e.BirthDate)
                     .HasColumnName("birth_date")

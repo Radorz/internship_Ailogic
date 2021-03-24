@@ -24,6 +24,7 @@ namespace AutoMap
             MapTeamPost();
             MapQuestion();
             MapQuestionPost();
+            Mapcreationintern();
         }
         private void Maprequest()
         {
@@ -97,6 +98,11 @@ namespace AutoMap
         {
             CreateMap<QuestionsDTOPost, Questions>().ReverseMap();
                 
+        }
+
+        private void Mapcreationintern()
+        {
+            CreateMap<CreateinterntDTO, Interns>().ReverseMap();
         }
 
         //private void MapearElecciones()
