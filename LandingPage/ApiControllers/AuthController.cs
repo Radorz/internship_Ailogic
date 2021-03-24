@@ -118,12 +118,11 @@ namespace LandingPage.Controllers
         }
 
         [HttpPost("linkchangepassword")]
-        public async Task<ActionResult> linkchangepassword([EmailAddress(ErrorMessage = "The Email is no valid")]
-                                                             string email)
+        public async Task<ActionResult> linkchangepassword(emaildto dto)
         {
             try
             {
-                if(await _internRepository.linkresetemail(email))
+                if(await _internRepository.linkresetemail(dto.Email))
                 {
 
                     return Ok("Successful");

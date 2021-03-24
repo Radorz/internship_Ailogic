@@ -50,17 +50,14 @@ namespace Repository.Repository
             await _emailSender.SendMailAsync(message);
             Intern.IdUser = CreatedUser.Id;
             
-            try
-            {
+           
                 await _userManager.AddToRoleAsync(CreatedUser, "Intern");
                 await _context.Set<Interns>().AddAsync(Intern);
                 await _context.SaveChangesAsync();
                 return await GetByIdCustom(Intern.IdInternt);
-            }
-            catch (Exception e)
-            {
+           
                 return null;
-            }
+            
         }
 
         public async Task<List<InternDTO>> GetAllCustom()
