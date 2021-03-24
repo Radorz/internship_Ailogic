@@ -51,8 +51,6 @@ namespace Repository.Repository
             Intern.IdUser = CreatedUser.Id;
             try { 
 
-            var internship = await _context.Internship.FirstOrDefaultAsync(a => a.Status == "En Convocatoria");
-            Intern.IdIntership = internship.IdInternship;
             await _userManager.AddToRoleAsync(CreatedUser, "Intern");
             await _context.Set<Interns>().AddAsync(Intern);
             await _context.SaveChangesAsync();

@@ -49,21 +49,25 @@ namespace Repository.Repository
 
         public async Task<bool> AddCustom(InternshipsDTOPost DTO)
         {
+            var internship = new Internship();
+
             if (_context.Internship.FirstOrDefault(a => a.Status == "En Convocatoria") != null ||
                 _context.Internship.FirstOrDefault(a => a.Status == "En Curso") != null)
             {
-                DTO.Status = "Inactiva";
+                internship.Status = "Inactiva";
 
             }
-            var internship = new Internship()
+            else
             {
-                Name = DTO.Name,
-                Description = DTO.Description,
-                Initial_date = DateTime.Parse(DTO.Initial_date),
-                Final_date= DateTime.Parse(DTO.Final_date),
-                Intern_limit= DTO.Intern_limit,
-                Status = "En Convocatoria"
-            };
+                internship.Status = "En Convocatoria";
+            }
+
+            internship.Name = DTO.Name;
+            internship.Description = DTO.Description;
+            internship.Initial_date = DateTime.Parse(DTO.Initial_date);
+            internship.Final_date = DateTime.Parse(DTO.Final_date);
+            internship.Intern_limit = DTO.Intern_limit;
+            
 
 
             try
