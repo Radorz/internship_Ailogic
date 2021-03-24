@@ -49,8 +49,8 @@ namespace LandingPage.Controllers
             if (assignment != null)
             {
 
-                return Ok(assignment);
-                    
+                return Ok("Successful");
+
             }
             else
             {
@@ -59,7 +59,7 @@ namespace LandingPage.Controllers
         }
 
         [HttpPut("{id}")]
-        public async Task<ActionResult<AssignmentsDTOPost>> Put(int id, AssignmentsDTOPost dto)
+        public async Task<ActionResult<AssignmentsDTOPost>> Put(int id, AssignmentsDTOUpdate dto)
         {
             if (id != dto.Id_Assignment)
             {

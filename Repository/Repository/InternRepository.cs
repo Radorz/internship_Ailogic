@@ -109,18 +109,23 @@ namespace Repository.Repository
             return internDTO;
         }
 
-        //public async Task<InternDTO> GetByIdUserbyintershipCustom(string id)
-        //{
-        //    var intern = await _context.Set<Interns>().FirstOrDefaultAsync(x => x. == id);
-        //    var internDTO = _mapper.Map<InternDTO>(intern);
+        public async Task<List<InternDTO>> GetUsersbyintershipCustom(int id)
+        {
+            var intern = await _context.Set<Interns>().Where(x => x.IdInternship == id).ToListAsync();
+            var list = new List<InternDTO>();
+            foreach(var i in intern)
+            {
+                var internDTO = _mapper.Map<InternDTO>(intern);
+                var user = await _userManager.FindByIdAsync(internDTO.IdUser);
+                var internReturn = new UserDTO();
+                internReturn.Email = user.Email;
+                internDTO.User = internReturn;
+                list.Add(internDTO);
+            }
+         
 
-        //    var user = await _userManager.FindByIdAsync(internDTO.IdUser);
-        //    var internReturn = new UserDTO();
-        //    internReturn.Email = user.Email;
-
-        //    internDTO.User = internReturn;
-        //    return internDTO;
-        //}
+            return list;
+        }
         public async Task<bool> UpdateCustom(int id, InternCreationDTO dto)
         {
             var intern = await _context.Set<Interns>().FindAsync(id);

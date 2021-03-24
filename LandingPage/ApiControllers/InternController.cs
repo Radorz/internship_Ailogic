@@ -50,11 +50,11 @@ namespace LandingPage.Controllers
             return await _internRepository.GetByIdCustom(id);
         }
 
-        //[HttpGet("{id}", Name = "GetInternbyinternship")]
-        //public async Task<ActionResult<InternDTO>> Getbyinternship(int id)
-        //{
-        //    return await _internRepository.GetByIdCustom(id);
-        //}
+        [HttpGet("{id}", Name = "GetInternbyinternship")]
+        public async Task<ActionResult<List<InternDTO>>> Getbyinternship(int id)
+        {
+            return await _internRepository.GetUsersbyintershipCustom(id);
+        }
 
         [HttpPost]
         public async Task<ActionResult> Post([FromBody] CreateinterntDTO dto)
