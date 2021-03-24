@@ -31,7 +31,7 @@ namespace Repository.Repository
         }
 
         public async Task<InternDTO> AddCustom(ApplyInternshipDTOPost dto, string password)
-        {  
+        {
             // Crear usuario
             var user = new IdentityUser { UserName = dto.Email, Email = dto.Email };
             var result = await _userManager.CreateAsync(user, password);
@@ -44,20 +44,27 @@ namespace Repository.Repository
             var CreatedUser = await _userManager.FindByEmailAsync(dto.Email);
             var Intern = _mapper.Map<Interns>(dto);
             // Mensaje a enviar por correo
-            var message = new Message(new string[] {dto.Email }, "Informacion Pasantias AILogic",
-             "Felicidades " + dto.Name+" " + dto.Lastname + @" ha sido seleccionado para participar en nuestra gran pasantia. Para iniciar sesion en la plataforma primero visite
-             este espacio para configurar su cuenta: https://frontend-pasantes.vercel.app/recuperar-clave"+"/"+ CreatedUser.Id + "Su usuario es su mismo correo");
+            var message = new Message(new string[] { dto.Email }, "Informacion Pasantias AILogic",
+             "Felicidades " + dto.Name + " " + dto.Lastname + @" ha sido seleccionado para participar en nuestra gran pasantia. Para iniciar sesion en la plataforma primero visite
+             este espacio para configurar su cuenta: https://frontend-pasantes.vercel.app/recuperar-clave" + "/" + CreatedUser.Id + "Su usuario es su mismo correo");
             await _emailSender.SendMailAsync(message);
             Intern.IdUser = CreatedUser.Id;
-            
-           
-                await _userManager.AddToRoleAsync(CreatedUser, "Intern");
-                await _context.Set<Interns>().AddAsync(Intern);
-                await _context.SaveChangesAsync();
-                return await GetByIdCustom(Intern.IdInternt);
-           
+            try { 
+
+            var internship = await _context.Internship.FirstOrDefaultAsync(a => a.Status == "En Convocatoria");
+            Intern.IdIntership = internship.IdInternship;
+            await _userManager.AddToRoleAsync(CreatedUser, "Intern");
+            await _context.Set<Interns>().AddAsync(Intern);
+            await _context.SaveChangesAsync();
+            return await GetByIdCustom(Intern.IdInternt);
+        }
+            catch
+            {
                 return null;
-            
+
+            }
+
+
         }
 
         public async Task<List<InternDTO>> GetAllCustom()

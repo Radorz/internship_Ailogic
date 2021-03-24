@@ -41,7 +41,6 @@ namespace DTO
 
         public string UserImg { get; set; }
 
-        [Required(ErrorMessage = "The IdIntership is required")]
         public int IdIntership { get; set; }
 
 
