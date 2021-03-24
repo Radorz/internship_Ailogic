@@ -28,7 +28,7 @@ namespace DTO
         [Required(ErrorMessage = "The Limit of interns is required")]
 
         public int Intern_limit { get; set; }
-        public bool Status { get; set; }
+        public string Status { get; set; }
     }
 
 }

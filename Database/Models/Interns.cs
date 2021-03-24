@@ -20,5 +20,7 @@ namespace Database.Models
         public string Linkedin { get; set; }
         public string Cv { get; set; }
         public DateTime BirthDate { get; set; }
+
+        public int IdIntership { get; set; }
     }
 }

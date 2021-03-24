@@ -49,9 +49,10 @@ namespace Repository.Repository
 
         public async Task<bool> AddCustom(InternshipsDTOPost DTO)
         {
-            if (_context.Internship.FirstOrDefault(a => a.Status == true) != null)
+            if (_context.Internship.FirstOrDefault(a => a.Status == "En Convocatoria") != null ||
+                _context.Internship.FirstOrDefault(a => a.Status == "En Curso") != null)
             {
-                DTO.Status = false;
+                DTO.Status = "Inactiva";
 
             }
             var internship = new Internship()
@@ -61,7 +62,7 @@ namespace Repository.Repository
                 Initial_date = DateTime.Parse(DTO.Initial_date),
                 Final_date= DateTime.Parse(DTO.Final_date),
                 Intern_limit= DTO.Intern_limit,
-                Status = DTO.Status
+                Status = "En Convocatoria"
             };
 
 
