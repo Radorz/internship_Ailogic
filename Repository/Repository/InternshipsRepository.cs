@@ -90,7 +90,6 @@ namespace Repository.Repository
             internship.Initial_date = DateTime.Parse(dto.Initial_date);
             internship.Final_date = DateTime.Parse(dto.Final_date);
             internship.Intern_limit = dto.Intern_limit;
-            internship.Status = dto.Status;
             _context.Entry(internship).State = EntityState.Modified;
             await _context.SaveChangesAsync();
             return dto;
