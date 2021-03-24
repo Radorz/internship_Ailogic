@@ -10,6 +10,7 @@ using Microsoft.AspNetCore.Mvc;
 using Repository.Repository;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -54,6 +55,12 @@ namespace LandingPage.Controllers
         public async Task<ActionResult<List<InternDTO>>> Getbyinternship(int id)
         {
             return await _internRepository.GetInternbyintershipCustom(id);
+        }
+
+        [HttpGet("GetInternbyEmail/{Email}")]
+        public async Task<ActionResult<InternDTO>> Getbyinternship([EmailAddress] string Email)
+        {
+            return await _internRepository.GetByEmailIntern(Email);
         }
 
         [HttpPost]
