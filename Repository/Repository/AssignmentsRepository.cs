@@ -68,7 +68,7 @@ namespace Repository.Repository
         public async Task<List<AssignmentsDTO>> GetByActiveInternship()
         {
             List<AssignmentsDTO> assignmentsList = new List<AssignmentsDTO>();
-            var active = await _context.Internship.FirstOrDefaultAsync(x => x.Status == true);
+            var active = await _context.Internship.FirstOrDefaultAsync(x => x.Status == "");
             if (active != null)
             {
                 var assignments = _context.Assignments.Where(x => x.Id_Internship == active.IdInternship).ToList();

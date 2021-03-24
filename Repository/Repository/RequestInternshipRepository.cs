@@ -26,7 +26,7 @@ namespace Repository.Repository
         {
            
                 var request = _mapper.Map<RequestInternship>(dto);
-                var idinternship = _context.Internship.FirstOrDefault(a => a.Status == true);
+                var idinternship = _context.Internship.FirstOrDefault(a => a.Status == "En Convocatoria");
                 if (idinternship == null)
                 {
                     return false;
