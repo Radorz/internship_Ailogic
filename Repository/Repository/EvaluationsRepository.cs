@@ -43,14 +43,14 @@ namespace Repository.Repository
             return evaluationDTO;
         }
 
-        public async Task<EvaluationsDTO> AddCustom(EvaluationsDTO dto)
+        public async Task<Evaluations> AddCustom(EvaluationsDTOPost dto)
         {
             var evaluation = _mapper.Map<Evaluations>(dto); 
             try
             {
-                _context.Set<Evaluations>().Add(evaluation);
+              var eva=  _context.Set<Evaluations>().Add(evaluation);
                 await _context.SaveChangesAsync();
-                return dto;
+                return eva.Entity;
             }
             catch (Exception e)
             {

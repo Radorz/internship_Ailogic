@@ -25,6 +25,8 @@ namespace AutoMap
             MapQuestion();
             MapQuestionPost();
             Mapcreationintern();
+            MapAEvaluationsPost();
+            MapTeam();
         }
         private void Maprequest()
         {
@@ -81,6 +83,10 @@ namespace AutoMap
         private void MapAEvaluations()
         {
             CreateMap<EvaluationsDTO, Evaluations>().ReverseMap();
+        }
+        private void MapAEvaluationsPost()
+        {
+            CreateMap<EvaluationsDTOPost, Evaluations>().ReverseMap();
         }
         private void MapTeam()
         {

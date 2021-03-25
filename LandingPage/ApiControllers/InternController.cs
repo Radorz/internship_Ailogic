@@ -56,7 +56,7 @@ namespace LandingPage.Controllers
         {
             return await _internRepository.GetInternbyintershipCustom(id);
         }
-
+        [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme, Roles = "Admin,Intern")]
         [HttpGet("GetInternbyEmail/{Email}")]
         public async Task<ActionResult<InternDTO>> Getbyinternship([EmailAddress] string Email)
         {

@@ -36,7 +36,7 @@ namespace LandingPage.ApiControllers
         }
 
        [HttpPost]
-       public async Task<ActionResult<EvaluationsDTO>> Post([FromBody] EvaluationsDTO dto)
+       public async Task<ActionResult<EvaluationsDTO>> Post([FromBody] EvaluationsDTOPost dto)
         {
             if (ModelState.IsValid)
             {
