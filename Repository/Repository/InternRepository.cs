@@ -132,7 +132,7 @@ namespace Repository.Repository
             var list = new List<InternDTO>();
             foreach(var i in intern)
             {
-                var internDTO = _mapper.Map<InternDTO>(intern);
+                var internDTO = _mapper.Map<InternDTO>(i);
                 var user = await _userManager.FindByIdAsync(internDTO.IdUser);
                 var internReturn = new UserDTO();
                 internReturn.Email = user.Email;

@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using Database.Models;
 using DTO;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Repository.RepositoryBase;
 using System;
@@ -14,7 +15,7 @@ namespace Repository.Repository
     public class RequestInternshipRepository : RepositoryBase<RequestInternship, bnbar022dce4hrtds2xdContext>
     {
         private readonly IMapper _mapper;
-
+        private readonly UserManager<IdentityUser> _userManager;
       
 
         public RequestInternshipRepository(bnbar022dce4hrtds2xdContext context, IMapper mapper) : base(context)
@@ -58,8 +59,10 @@ namespace Repository.Repository
         public async Task<bool> ifExistRequest( ApplyInternshipDTOPost dto)
         {
             RequestInternship cedula = await _context.RequestInternship.FirstOrDefaultAsync(a => a.Cedula == dto.Cedula || a.Email == dto.Email);
+            Interns inter = await _context.Interns.FirstOrDefaultAsync(a => a.Cedula == dto.Cedula);
+            var user = await _userManager.FindByEmailAsync(dto.Email);
 
-            if (cedula == null)
+            if (cedula == null && inter == null && user == null)
             {
                 return true;
             }

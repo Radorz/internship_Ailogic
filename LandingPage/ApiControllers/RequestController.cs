@@ -54,7 +54,7 @@ namespace LandingPage.Controllers
                 }
                 else
                 {
-                    return BadRequest("There are active Request with this information");
+                    return BadRequest("There are active Request or intern with this information");
                 }
             }
             else
