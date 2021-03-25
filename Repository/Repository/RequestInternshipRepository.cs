@@ -18,9 +18,10 @@ namespace Repository.Repository
         private readonly UserManager<IdentityUser> _userManager;
       
 
-        public RequestInternshipRepository(bnbar022dce4hrtds2xdContext context, IMapper mapper) : base(context)
+        public RequestInternshipRepository(bnbar022dce4hrtds2xdContext context, IMapper mapper, UserManager<IdentityUser> userManager) : base(context)
         {
             _mapper = mapper;
+            _userManager = userManager;
 
         }
         public async Task<bool> Apply(ApplyInternshipDTOPost dto)
