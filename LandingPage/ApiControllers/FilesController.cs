@@ -76,18 +76,19 @@ namespace LandingPage.ApiControllers
                 var file = formCollection.Files.First();
                 if (file.Length > 0)
                 {
+                   var uniqueName = Guid.NewGuid().ToString() + "_" + file.FileName;
                     var container = new BlobContainerClient(_azureConnectionString, _azureContainerName);
                     var createResponse = await container.CreateIfNotExistsAsync();
                     if (createResponse != null && createResponse.GetRawResponse().Status == 201)
                         await container.SetAccessPolicyAsync(Azure.Storage.Blobs.Models.PublicAccessType.Blob);
-                    var blob = container.GetBlobClient(file.FileName);
+                    var blob = container.GetBlobClient(uniqueName);
                     await blob.DeleteIfExistsAsync(DeleteSnapshotsOption.IncludeSnapshots);
                     using (var fileStream = file.OpenReadStream())
                     {
                         await blob.UploadAsync(fileStream, new BlobHttpHeaders { ContentType = file.ContentType });
                     }
                     FilesDTO filesDTO = new FilesDTO();
-                    filesDTO.FileName = file.FileName;
+                    filesDTO.FileName = uniqueName;
                     var user = await _userManager.FindByEmailAsync(DTO.EmailUser);
                     filesDTO.IdUser = user.Id ;
                     filesDTO.Path = blob.Uri.ToString();

@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using Database.Models;
 using DTO;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Repository.RepositoryBase;
 using System;
@@ -60,24 +61,20 @@ namespace Repository.Repository
 
         public async Task<EvaluationsDTO> UpdateCustom(int id, EvaluationsDTO dto)
         {
-            if (id != dto.IdEvaluation)
+         
+            var evaluations = _context.Set<Evaluations>().Find(id);
+            if (evaluations == null)
             {
                 return null;
+
             }
-            var evaluations = _context.Set<Evaluations>().Find(id);
             evaluations.IdEvaluation = dto.IdEvaluation;
             evaluations.Name = dto.Name;
             evaluations.Description = dto.Description;
-            try
-            {
                 _context.Entry(evaluations).State = EntityState.Modified;
                 await _context.SaveChangesAsync();
                 return dto;
-            }
-            catch(Exception e)
-            {
-                return null;
-            }
+
             
             
         }
