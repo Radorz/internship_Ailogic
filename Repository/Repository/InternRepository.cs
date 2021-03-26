@@ -30,8 +30,8 @@ namespace Repository.Repository
             _roleManager = roleManager;
         }
 
-        public async Task<InternDTO> AddCustom(ApplyInternshipDTOPost dto, string password)
-        {  
+        public async Task<InternDTO> AddCustom(CreateinterntDTO dto, string password)
+        {
             // Crear usuario
             var user = new IdentityUser { UserName = dto.Email, Email = dto.Email };
             var result = await _userManager.CreateAsync(user, password);
@@ -44,23 +44,24 @@ namespace Repository.Repository
             var CreatedUser = await _userManager.FindByEmailAsync(dto.Email);
             var Intern = _mapper.Map<Interns>(dto);
             // Mensaje a enviar por correo
-            var message = new Message(new string[] {dto.Email }, "Informacion Pasantias AILogic",
-                "Felicidades " + dto.Name + dto.Lastname + @" ha sido seleccionado para participar en nuestra gran pasantia. Para iniciar sesion en la plataforma visite
-              https://frontend-pasantes.vercel.app/login Su usuario es su mismo correo y su contraseña es " + password  );
+            var message = new Message(new string[] { dto.Email }, "Informacion Pasantias AILogic",
+             "Felicidades " + dto.Name + " " + dto.Lastname + @" ha sido seleccionado para participar en nuestra gran pasantia. Para iniciar sesion en la plataforma primero visite
+             este espacio para configurar su cuenta: https://frontend-pasantes.vercel.app/recuperar-clave" + "/" + CreatedUser.Id + "Su usuario es su mismo correo");
             await _emailSender.SendMailAsync(message);
             Intern.IdUser = CreatedUser.Id;
-            
-            try
-            {
-                await _userManager.AddToRoleAsync(CreatedUser, "Intern");
-                await _context.Set<Interns>().AddAsync(Intern);
-                await _context.SaveChangesAsync();
-                return await GetByIdCustom(Intern.IdInternt);
-            }
-            catch (Exception e)
+            try { 
+            await _userManager.AddToRoleAsync(CreatedUser, "Intern");
+            await _context.Set<Interns>().AddAsync(Intern);
+            await _context.SaveChangesAsync();
+            return await GetByIdCustom(Intern.IdInternt);
+        }
+            catch
             {
                 return null;
+
             }
+
+
         }
 
         public async Task<List<InternDTO>> GetAllCustom()
@@ -95,7 +96,53 @@ namespace Repository.Repository
             internDTO.User = internReturn;
             return internDTO;
         }
+        public async Task<InternDTO> GetByIdInternCustom(string id)
+        {
+            var intern = await _context.Set<Interns>().FirstOrDefaultAsync(x => x.IdUser==id);
+            var internDTO = _mapper.Map<InternDTO>(intern);
 
+            var user = await _userManager.FindByIdAsync(internDTO.IdUser);
+            var internReturn = new UserDTO();
+            internReturn.Email = user.Email;
+
+            internDTO.User = internReturn;
+            return internDTO;
+        }
+        public async Task<InternDTO> GetByEmailIntern(string email)
+        {
+            var user = await _userManager.FindByEmailAsync(email);
+            var internDTO = new InternDTO();
+            if (user != null)
+            {
+
+                var intern = await _context.Set<Interns>().FirstOrDefaultAsync(x => x.IdUser == user.Id);
+                 internDTO = _mapper.Map<InternDTO>(intern);
+                var internReturn = new UserDTO();
+                internReturn.Email = user.Email;
+                internDTO.User = internReturn;
+
+            }
+            
+            return internDTO;
+        }
+
+        public async Task<List<InternDTO>> GetInternbyintershipCustom(int id)
+        {
+            var intern = await _context.Set<Interns>().Where(x => x.IdInternship == id).ToListAsync();
+            var list = new List<InternDTO>();
+            foreach(var i in intern)
+            {
+                var internDTO = _mapper.Map<InternDTO>(i);
+                var user = await _userManager.FindByIdAsync(internDTO.IdUser);
+                var internReturn = new UserDTO();
+                internReturn.Email = user.Email;
+                internDTO.User = internReturn;
+                list.Add(internDTO);
+            }
+         
+
+            return list;
+        }
         public async Task<bool> UpdateCustom(int id, InternCreationDTO dto)
         {
             var intern = await _context.Set<Interns>().FindAsync(id);
@@ -125,12 +172,65 @@ namespace Repository.Repository
             {
                 return false;
             }
-            
-
            
-           
-            
         } 
+
+        public async Task<bool> linkresetemail(string email)
+        {
+            var user = await _userManager.FindByEmailAsync(email);    
+            if (user == null)
+            {
+                return false;
+            }
+            try
+            {
+                var message = new Message(new string[] { email }, "Cambio de contraseña Pasantias AILogic",
+                    "Hemos sidos notificados de que ha perdido su contraseña, dirigase el link siguiente parea recuperar su cuenta " +
+                  "https://frontend-pasantes.vercel.app/recuperar-clave" + "/" + user.Id);
+                await _emailSender.SendMailAsync(message);
+                return true;
+
+            }
+            catch(Exception e)
+            {
+                return false;
+
+            }
+        }
+
+        public async Task<bool> deletedCustom(int id)
+        {
+
+
+            var intern = await Delete(id);
+
+
+            if (intern == null)
+            {
+                return false;
+
+            }
+            var user = await _userManager.FindByIdAsync(intern.IdUser);
+            if (user ==null)
+            {
+                return false;
+
+            }
+          await  _userManager.DeleteAsync(user);
+          var files = await _context.Files.Where(x => x.IdUser == intern.IdUser).ToListAsync();
+
+            foreach( var i in files)
+            {
+                _context.Set<Files>().Remove(i);
+            }
+            await _context.SaveChangesAsync();
+            return true;
+
+
+
+
+        }
+
 
     }
 }

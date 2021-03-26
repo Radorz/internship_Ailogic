@@ -45,23 +45,29 @@ namespace Repository.Repository
          
             return internshipDTO;
         }
+       
 
         public async Task<bool> AddCustom(InternshipsDTOPost DTO)
         {
-            if (_context.Internship.FirstOrDefault(a => a.Status == true) != null)
+            var internship = new Internship();
+
+            if (_context.Internship.FirstOrDefault(a => a.Status == "En Convocatoria") != null ||
+                _context.Internship.FirstOrDefault(a => a.Status == "En Curso") != null)
             {
-                DTO.Status = false;
+                internship.Status = "Inactiva";
 
             }
-            var internship = new Internship()
+            else
             {
-                Name = DTO.Name,
-                Description = DTO.Description,
-                Initial_date = DateTime.Parse(DTO.Initial_date),
-                Final_date= DateTime.Parse(DTO.Final_date),
-                Intern_limit= DTO.Intern_limit,
-                Status = DTO.Status
-            };
+                internship.Status = "En Convocatoria";
+            }
+
+            internship.Name = DTO.Name;
+            internship.Description = DTO.Description;
+            internship.Initial_date = DateTime.Parse(DTO.Initial_date);
+            internship.Final_date = DateTime.Parse(DTO.Final_date);
+            internship.Intern_limit = DTO.Intern_limit;
+            
 
 
             try
@@ -84,7 +90,6 @@ namespace Repository.Repository
             internship.Initial_date = DateTime.Parse(dto.Initial_date);
             internship.Final_date = DateTime.Parse(dto.Final_date);
             internship.Intern_limit = dto.Intern_limit;
-            internship.Status = dto.Status;
             _context.Entry(internship).State = EntityState.Modified;
             await _context.SaveChangesAsync();
             return dto;

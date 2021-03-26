@@ -16,7 +16,7 @@ namespace DTO
         public string Initial_date { get; set; }
         public string Final_date { get; set; }
         public int Intern_limit { get; set; }
-        public bool Status { get; set; }
+        public string Status { get; set; }
     }
 
 }

@@ -5,9 +5,6 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.Extensions.Configuration;
 
-// Code scaffolded by EF Core assumes nullable reference types (NRTs) are not used or disabled.
-// If you have enabled NRTs for your project, then un-comment the following line:
-// #nullable disable
 
 namespace Database.Models
 {
@@ -150,7 +147,11 @@ namespace Database.Models
                     .HasCharSet("utf8mb4")
                     .HasCollation("utf8mb4_0900_ai_ci");
 
-                entity.Property(e => e.IdUser).HasColumnName("id_user");
+                entity.Property(e => e.IdUser).IsRequired()
+                    .HasColumnName("id_user")
+                    .HasColumnType("varchar(255)")
+                    .HasCharSet("utf8mb4")
+                    .HasCollation("utf8mb4_0900_ai_ci");
 
                 entity.Property(e => e.Path)
                     .IsRequired()
@@ -185,6 +186,7 @@ namespace Database.Models
                 entity.ToTable("interns");
 
                 entity.Property(e => e.IdInternt).HasColumnName("id_internt");
+                entity.Property(e => e.IdInternship).HasColumnName("id_internship");
 
                 entity.Property(e => e.BirthDate)
                     .HasColumnName("birth_date")
@@ -285,7 +287,13 @@ namespace Database.Models
                     .HasCharSet("utf8mb4")
                     .HasCollation("utf8mb4_0900_ai_ci");
 
-                entity.Property(e => e.Status).HasColumnName("status");
+                entity.Property(e => e.Status)
+                .HasColumnName("status")
+                .HasColumnType("varchar(45)")
+                .HasCollation("utf8_general_ci")
+                .HasCharSet("utf8mb4");
+
+
             });
 
             modelBuilder.Entity<Questions>(entity =>

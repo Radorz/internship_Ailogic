@@ -31,8 +31,22 @@ namespace Repository.Repository
           
 
         }
+        public async Task<List<FilesDTO>> getalla()
+        {
+            var files = await GetAll();
+            var list = new List<FilesDTO>();
+            foreach (var i in files)
+            {
+                FilesDTO result = _mapper.Map<FilesDTO>(i);
+                list.Add(result);
 
-        public async Task<FilesDTO> addCustom(FilesDTOPost dto)
+            }
+            return list;
+
+
+        }
+
+        public async Task<FilesDTO> addCustom(FilesDTO dto)
         {
            
                 Files file = _mapper.Map<Files>(dto);

@@ -15,6 +15,6 @@ namespace Database.Models
         public DateTime Initial_date { get; set; }
         public DateTime Final_date { get; set; }
         public int Intern_limit { get; set; }
-        public bool Status { get; set; }
+        public string Status { get; set; }
     }
 }

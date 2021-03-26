@@ -1,4 +1,5 @@
 ﻿using DTO;
+using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Net.Http.Headers;
@@ -8,6 +9,10 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.Extensions.Configuration;
+using Azure.Storage.Blobs;
+using Azure.Storage.Blobs.Models;
+using Microsoft.AspNetCore.Identity;
 
 namespace LandingPage.ApiControllers
 {
@@ -16,12 +21,33 @@ namespace LandingPage.ApiControllers
     public class FilesController : ControllerBase
     {
         private readonly FilesRepository _filesRepository;
+        private readonly string _azureConnectionString;
+        private readonly string _azureContainerName;
+        private readonly UserManager<IdentityUser> _userManager;
+        private readonly InternRepository _internRepository;
 
-        public  FilesController (FilesRepository filesRepository)
+        public FilesController (FilesRepository filesRepository, IConfiguration configuration, InternRepository internRepository, UserManager<IdentityUser> userManager)
         {
             _filesRepository = filesRepository;
+            _azureConnectionString = configuration.GetValue<string>("AzureBlobStorageConnectionString");
+            _azureContainerName = "filecontainer";
+            _userManager = userManager;
+            _internRepository = internRepository;
 
+        }
+        [HttpGet]
+        public async Task<ActionResult<List<FilesDTO>>> Get()
+        {
+            if (ModelState.IsValid)
+            {
+                var file = await _filesRepository.getalla();
+                if (file != null)
+                {
+                    return file;
+                }
+            }
 
+            return NoContent();
 
         }
         [HttpGet(("{id}"), Name = "GetFile")]
@@ -41,67 +67,115 @@ namespace LandingPage.ApiControllers
 
         }
 
-        [HttpPost, DisableRequestSizeLimit]
-        public async Task<ActionResult<FilesDTO>> Add()
+        [HttpPost]
+        public async Task<IActionResult> Upload( [FromForm]FilesDTOPost DTO)
         {
             try
             {
-                var file = Request.Form.Files[0];
-                var folderName = Path.Combine("Resources", "Images");
-                var pathToSave = Path.Combine(Directory.GetCurrentDirectory(), folderName);
+                var formCollection = await Request.ReadFormAsync();
+                var file = formCollection.Files.First();
                 if (file.Length > 0)
                 {
-                    var fileName = ContentDispositionHeaderValue.Parse(file.ContentDisposition).FileName;
-                    var fullPath = Path.Combine(pathToSave, fileName.ToString());  
-                    var dbPath = Path.Combine(folderName, fileName.ToString());
-                    using (var stream = new FileStream(fullPath, FileMode.Create))
+                    var container = new BlobContainerClient(_azureConnectionString, _azureContainerName);
+                    var createResponse = await container.CreateIfNotExistsAsync();
+                    if (createResponse != null && createResponse.GetRawResponse().Status == 201)
+                        await container.SetAccessPolicyAsync(Azure.Storage.Blobs.Models.PublicAccessType.Blob);
+                    var blob = container.GetBlobClient(file.FileName);
+                    await blob.DeleteIfExistsAsync(DeleteSnapshotsOption.IncludeSnapshots);
+                    using (var fileStream = file.OpenReadStream())
                     {
-                        file.CopyTo(stream);
+                        await blob.UploadAsync(fileStream, new BlobHttpHeaders { ContentType = file.ContentType });
                     }
-                    return Ok(new { dbPath });
+                    FilesDTO filesDTO = new FilesDTO();
+                    filesDTO.FileName = file.FileName;
+                    var user = await _userManager.FindByEmailAsync(DTO.EmailUser);
+                    filesDTO.IdUser = user.Id ;
+                    filesDTO.Path = blob.Uri.ToString();
+
+                   await _filesRepository.addCustom(filesDTO);
+                    
+                    return Ok(blob.Uri.ToString());
                 }
-                else
-                {
-                    return BadRequest();
-                }
+                return BadRequest();
             }
             catch (Exception ex)
             {
                 return StatusCode(500, $"Internal server error: {ex}");
             }
         }
-            [HttpPut("{id}")]
-        public async Task<ActionResult<FilesDTO>> Update(int id, FilesDTOPost dto)
+
+        [HttpDelete("{idfile}")]
+        public async Task<IActionResult> Delete(int idfile, FilesDTOdelete dto)
         {
-            if (ModelState.IsValid)
+            try
             {
-                var file = await _filesRepository.updateCustom(id,dto);
-                if (file != null)
+                if (await _filesRepository.Delete(idfile)==null)
                 {
-                    return  Ok(file);
+
+
                 }
-                return NotFound();
+                var container = new BlobContainerClient(_azureConnectionString, _azureContainerName);
+                var createResponse = await container.CreateIfNotExistsAsync();
+                if (createResponse != null && createResponse.GetRawResponse().Status == 201)
+                    await container.SetAccessPolicyAsync(Azure.Storage.Blobs.Models.PublicAccessType.Blob);
+                var blob = container.GetBlobClient(dto.FileName);
+                var file = await container.GetBlobsAsync().FirstOrDefaultAsync(x => x.Name == dto.FileName);
+
+                if (file == null)
+                {
+                    return BadRequest("File not found");
+
+                }
+
+                var dec = await container.DeleteBlobIfExistsAsync(file.Name, DeleteSnapshotsOption.IncludeSnapshots);
+                   if (dec)
+                  {
+
+                    return Ok("Successful removed");
+
+
+                    }
+                return BadRequest();
+
+
             }
-
-            return BadRequest();
-
-        }
-        [HttpDelete("{id}")]
-        public async Task<ActionResult> Delete(int id)
-        {
-            if (ModelState.IsValid)
+            catch (Exception ex)
             {
-                var file = await _filesRepository.Delete(id);
-                if (file != null)
-                {
-                    return Ok();
-                }
-                return NotFound();
+                return StatusCode(500, $"Internal server error: {ex}");
             }
-
-            return BadRequest();
-
         }
+        //[HttpPut("{id}")]
+        //public async Task<ActionResult<FilesDTO>> Update(int id, FilesDTOPost dto)
+        //{
+        //    if (ModelState.IsValid)
+        //    {
+        //        var file = await _filesRepository.updateCustom(id,dto);
+        //        if (file != null)
+        //        {
+        //            return  Ok(file);
+        //        }
+        //        return NotFound();
+        //    }
+
+        //    return BadRequest();
+
+        //}
+        //[HttpDelete("{id}")]
+        //public async Task<ActionResult> Delete(int id)
+        //{
+        //    if (ModelState.IsValid)
+        //    {
+        //        var file = await _filesRepository.Delete(id);
+        //        if (file != null)
+        //        {
+        //            return Ok();
+        //        }
+        //        return NotFound();
+        //    }
+
+        //    return BadRequest();
+
+        //}
 
 
     }

@@ -10,6 +10,7 @@ using Microsoft.AspNetCore.Mvc;
 using Repository.Repository;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -50,8 +51,20 @@ namespace LandingPage.Controllers
             return await _internRepository.GetByIdCustom(id);
         }
 
+        [HttpGet("GetInternbyinternship/{id}")]
+        public async Task<ActionResult<List<InternDTO>>> Getbyinternship(int id)
+        {
+            return await _internRepository.GetInternbyintershipCustom(id);
+        }
+        [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme, Roles = "Admin,Intern")]
+        [HttpGet("GetInternbyEmail/{Email}")]
+        public async Task<ActionResult<InternDTO>> GetInternbyEmail([EmailAddress] string Email)
+        {
+            return await _internRepository.GetByEmailIntern(Email);
+        }
+
         [HttpPost]
-        public async Task<ActionResult> Post([FromBody] ApplyInternshipDTOPost dto)
+        public async Task<ActionResult> Post([FromBody] CreateinterntDTO dto)
         {
             if(await _userManager.FindByEmailAsync(dto.Email) != null)
             {
@@ -73,10 +86,7 @@ namespace LandingPage.Controllers
         [HttpPut("{id}")]
         public async Task<ActionResult<InternDTO>> Put(int id, InternCreationDTO dto)
         {
-            if(id != dto.Id)
-            {
-                return BadRequest("Is not the same id");
-            }
+            
 
             if(await _internRepository.UpdateCustom(id, dto))
             {
@@ -92,8 +102,8 @@ namespace LandingPage.Controllers
         [HttpDelete("{id}")]
         public async Task<ActionResult> Delete(int id)
         {
-            var intern = await _internRepository.Delete(id);
-            if (intern != null)
+            var intern = await _internRepository.deletedCustom(id);
+            if (intern)
             {
                 return Ok("Se ha borrado Correctamente");
             }

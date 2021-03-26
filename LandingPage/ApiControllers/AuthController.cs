@@ -14,6 +14,7 @@ using Database.Models;
 using DTO;
 using Repository.Repository;
 using internship_Ailogic.Helpers;
+using System.ComponentModel.DataAnnotations;
 
 namespace LandingPage.Controllers
 {
@@ -24,6 +25,8 @@ namespace LandingPage.Controllers
         private readonly UserManager<IdentityUser> _userManager;
         private readonly SignInManager<IdentityUser> _signInManager;
         private readonly Utilities _utilities;
+        private readonly InternRepository _internRepository;
+
 
 
         public AuthController(
@@ -31,11 +34,14 @@ namespace LandingPage.Controllers
             SignInManager<IdentityUser> signInManager,
             IConfiguration configuration,
             RequestInternshipRepository requestInternshipDTO,
-            Utilities utilities)
+            Utilities utilities,
+            InternRepository internRepository
+            )
         {
             _userManager = userManager;
             _signInManager = signInManager;
             _utilities = utilities;
+            _internRepository = internRepository;
         }
 
 
@@ -56,11 +62,7 @@ namespace LandingPage.Controllers
             }
         }
 
-        [HttpGet]
-        public string Get()
-        {
-            return "Hola";
-        }
+       
 
         [HttpPost("login")]
         public async Task<ActionResult<UserToken>> Login([FromBody] UserInfo userInfo)
@@ -97,11 +99,46 @@ namespace LandingPage.Controllers
             }
         }
 
-       
+        [HttpPost("resetpassword/{id}")]
+        public async Task<ActionResult> resetpassword(string id, resetpassword dto)
+        {
+            try
+            {
+                var useridentity = await _userManager.FindByIdAsync(id);
+                var token = await _userManager.GeneratePasswordResetTokenAsync(useridentity);
+                await _userManager.ResetPasswordAsync(useridentity, token, dto.Password);
+
+                return Ok("Successful");
+            }
+            catch ( Exception ex)
+            {
+                return StatusCode(500, $"Internal server error: {ex}");
+
+            }
+        }
+
+        [HttpPost("linkchangepassword")]
+        public async Task<ActionResult> linkchangepassword(emaildto dto)
+        {
+            try
+            {
+                if(await _internRepository.linkresetemail(dto.Email))
+                {
+
+                    return Ok("Successful");
+
+                }
+
+                return BadRequest();
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, $"Internal server error: {ex}");
+
+            }
+        }
 
 
-
-      
     }
 
 }

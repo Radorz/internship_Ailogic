@@ -9,16 +9,17 @@ using System.Threading.Tasks;
 
 namespace DTO
 {
-    public class FilesDTOPost
+    public class FilesDTOdelete
     {
-        [EmailAddress(ErrorMessage = "The Email is no valid")]
+      
 
+        [EmailAddress(ErrorMessage = "The Email is no valid")]
         [Required(ErrorMessage = "The Email is required")]
         public string EmailUser { get; set; }
 
         [Required(ErrorMessage = "The File is required")]
-        [FromForm]
-        public IFormFile File { get; set; }
+        public string FileName { get; set; }
        
+
     }
 }

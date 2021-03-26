@@ -29,6 +29,7 @@ namespace Repository.Repository
             {
 
                 var assignmet = _mapper.Map<AssignmentsDTO>(i);
+                assignmet.LimitDate = i.Limit_Date.ToString("yyyy-MM-dd");
                 assignmet.Id_Internship = i.Id_Internship;
                 var internship = await _context.Internship.FirstOrDefaultAsync(x => x.IdInternship == i.Id_Internship);
                 assignmet.Internship = _mapper.Map<InternshipsDTO>(internship);
@@ -45,6 +46,7 @@ namespace Repository.Repository
             var assignmentDTO = _mapper.Map<AssignmentsDTO>(assignment);
             var internship = await _context.Internship.FirstOrDefaultAsync(x => x.IdInternship == assignmentDTO.Id_Internship);
             assignmentDTO.Internship = _mapper.Map<InternshipsDTO>(internship);
+            assignmentDTO.LimitDate = assignment.Limit_Date.ToString("yyyy-MM-dd");
             return assignmentDTO;
         }
 
@@ -56,9 +58,29 @@ namespace Repository.Repository
             {
                 var assignmet = _mapper.Map<AssignmentsDTO>(i);
                 assignmet.Id_Internship = i.Id_Internship;
+                assignmet.LimitDate = i.Limit_Date.ToString("yyyy-MM-dd");
                 var internship = await _context.Internship.FirstOrDefaultAsync(x => x.IdInternship == i.Id_Internship);
                 assignmet.Internship = _mapper.Map<InternshipsDTO>(internship);
                 assignmentsList.Add(assignmet);
+            }
+            return assignmentsList;
+        }
+        public async Task<List<AssignmentsDTO>> GetByActiveInternship()
+        {
+            List<AssignmentsDTO> assignmentsList = new List<AssignmentsDTO>();
+            var active = await _context.Internship.FirstOrDefaultAsync(x => x.Status == "En Curso");
+            if (active != null)
+            {
+                var assignments = _context.Assignments.Where(x => x.Id_Internship == active.IdInternship).ToList();
+                foreach (var i in assignments)
+                {
+                    var assignmet = _mapper.Map<AssignmentsDTO>(i);
+                    assignmet.Id_Internship = i.Id_Internship;
+                    assignmet.LimitDate = i.Limit_Date.ToString("yyyy-MM-dd");
+                    var internship = await _context.Internship.FirstOrDefaultAsync(x => x.IdInternship == i.Id_Internship);
+                    assignmet.Internship = _mapper.Map<InternshipsDTO>(internship);
+                    assignmentsList.Add(assignmet);
+                }
             }
             return assignmentsList;
         }
@@ -80,7 +102,7 @@ namespace Repository.Repository
 
         }
 
-        public async Task<bool> UpdateCustom(int id, AssignmentsDTOPost dto)
+        public async Task<bool> UpdateCustom(int id, AssignmentsDTOUpdate dto)
         {
             var assignment = await _context.Set<Assignments>().FindAsync(id);
             if (assignment == null)
@@ -94,7 +116,7 @@ namespace Repository.Repository
                 assignment.Id_Internship = dto.Id_Internship;
                 assignment.Title = dto.Title;
                 assignment.Description = dto.Description;
-                assignment.Limit_Date = dto.LimitDate;
+                assignment.Limit_Date = DateTime.Parse(dto.LimitDate);
                 assignment.Modality = dto.Modality;
                 _context.Entry(assignment).State = EntityState.Modified;
                 await _context.SaveChangesAsync();
