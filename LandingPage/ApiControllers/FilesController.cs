@@ -13,6 +13,8 @@ using Microsoft.Extensions.Configuration;
 using Azure.Storage.Blobs;
 using Azure.Storage.Blobs.Models;
 using Microsoft.AspNetCore.Identity;
+using Aspose.Slides;
+using Aspose.Slides.Export;
 
 namespace LandingPage.ApiControllers
 {
@@ -76,7 +78,12 @@ namespace LandingPage.ApiControllers
                 var file = formCollection.Files.First();
                 if (file.Length > 0)
                 {
-                   var uniqueName = Guid.NewGuid().ToString() + "_" + file.FileName;
+                    // Instantiate a Presentation object that represents a PPT file
+                    Presentation presentation = new Presentation(file.OpenReadStream());
+
+                    // Save the presentation as PDF
+                    presentation.Save("PPT-to-PDF.pdf", SaveFormat.Pdf);
+                    var uniqueName = Guid.NewGuid().ToString() + "_" + file.FileName;
                     var container = new BlobContainerClient(_azureConnectionString, _azureContainerName);
                     var createResponse = await container.CreateIfNotExistsAsync();
                     if (createResponse != null && createResponse.GetRawResponse().Status == 201)

@@ -90,29 +90,29 @@ namespace LandingPage.Controllers
         }
 
         [HttpPatch("{idInternship}")]
-        public async Task<ActionResult<InternshipsDTO>> UpdateStatus(int idInternship, string status)
+        public async Task<ActionResult> UpdateStatus(int idInternship, [FromBody] string status)
         {
-            try
+            //try
+            //{
+            if (ModelState.IsValid)
             {
-                if (ModelState.IsValid)
+                var intership = await _internshipsRepository.GetByIdCustom(idInternship);
+                if (intership == null)
                 {
-                    var intership = await _internshipsRepository.GetByIdCustom(idInternship);
-                    if (intership == null)
-                    {
-                        return NotFound("Internship not found");
-                    }
-                    await _internshipsRepository.UpdateStatus(idInternship, status);
-                    return StatusCode(201);
+                    return NotFound("Internship not found");
                 }
-                else
-                {
-                    return BadRequest("No se ha podido actualizar");
-                }
+                await _internshipsRepository.UpdateStatus(idInternship, status);
+                return StatusCode(201);
             }
-            catch(Exception E)
+            else
             {
-                return StatusCode(500);
+                return BadRequest("No se ha podido actualizar");
             }
+            //}
+            //catch(Exception E)
+            //{
+            //    return StatusCode(500);
+            //}
 
 
         }
