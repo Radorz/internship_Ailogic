@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using Database.Models;
 using DTO;
+using Microsoft.EntityFrameworkCore;
 using Repository.RepositoryBase;
 using System;
 using System.Collections.Generic;
@@ -31,6 +32,28 @@ namespace Repository.Repository
           
 
         }
+
+
+        public async Task<List<FilesAllDTO>> GetFilesAll(int Id_assignment)
+        {
+
+            List<Files> filesList = new List<Files>();
+            filesList =  _context.Files.Where(x => x.id_assignment == Id_assignment).ToList();
+            List<FilesAllDTO> DtoReturn = new List<FilesAllDTO>();
+            foreach(var i in filesList)
+            {
+                var intern = _context.Interns.FirstOrDefaultAsync(x => x.IdUser == i.IdUser);
+                var assignments = _context.Assignments.FirstOrDefaultAsync(x => x.Id_Assignment == i.id_assignment);
+                FilesAllDTO dto = _mapper.Map<FilesAllDTO>(i);
+                dto.Intern = _mapper.Map<InternDTO>(intern);
+                dto.Assignments = _mapper.Map<AssignmentsDTO>(assignments);
+                DtoReturn.Add(dto);
+                  
+            }
+            return DtoReturn;
+        }
+
+
         public async Task<List<FilesDTO>> getalla()
         {
             var files = await GetAll();

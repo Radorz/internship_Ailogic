@@ -9,7 +9,7 @@ namespace ailogic_test
         [TestMethod]
         public void TestMethod1()
         {
-            Utilities utilities = new Utilities();
+           
         }
     }
 }
