@@ -30,9 +30,21 @@ namespace LandingPage.ApiControllers
 
 
         [HttpGet("{id}")]
-        public async Task<EvaluationsDTO> Get(int id)
+        public async Task<ActionResult<EvaluationsDTO>> Get(int id)
         {
-            return await _evaluationsRepository.GetByIdCustom(id);
+            try
+            {
+                var resul = await _evaluationsRepository.GetByIdCustom(id);
+                if (resul == null)
+                {
+                    return NotFound();
+                }
+                return resul;
+            }
+            catch (Exception e)
+            {
+                return StatusCode(500);
+            }
         }
 
        [HttpPost]
@@ -40,8 +52,16 @@ namespace LandingPage.ApiControllers
         {
             if (ModelState.IsValid)
             {
-                await _evaluationsRepository.AddCustom(dto);
-                return Ok(dto);
+                try
+                {
+                    await _evaluationsRepository.AddCustom(dto);
+                    return Ok(dto);
+                }
+                catch (Exception e)
+                {
+                    return StatusCode(500, $"Internal server error: {e}");
+
+                }
             }
             else
             {
@@ -55,8 +75,21 @@ namespace LandingPage.ApiControllers
         {
             if (ModelState.IsValid)
             {
-                var evaluation = await _evaluationsRepository.UpdateCustom(id, dto);
-                return Ok(evaluation);
+                try {
+                    if (id != dto.IdEvaluation)
+                    {
+                        return BadRequest("Use the same ID");
+                    }
+                    var evaluation = await _evaluationsRepository.UpdateCustom(id, dto);
+                    if (evaluation == null)
+                    {
+                        return NotFound();
+                    }
+                    return Ok(evaluation);
+                } catch ( Exception e)
+                {
+                    return StatusCode(500, $"Internal server error: {e}");
+                }
             }
             else
             {
@@ -68,13 +101,20 @@ namespace LandingPage.ApiControllers
         [HttpDelete("{id}")]
         public async Task<ActionResult> Delete(int id)
         {
-           if(await _evaluationsRepository.Delete(id) != null)
+            if (ModelState.IsValid)
             {
-                return Ok("Deleted Successfully");
+                if (await _evaluationsRepository.Delete(id) != null)
+                {
+                    return Ok("Deleted Successfully");
+                }
+                else
+                {
+                    return NotFound();
+                }
             }
             else
             {
-                return BadRequest("Error");
+                return BadRequest();
             }
         }
     }

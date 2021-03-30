@@ -95,7 +95,15 @@ namespace Repository.Repository
             return dto;
         }
 
-     
+        public async Task<ActionResult<InternshipsDTO>> UpdateStatus(int id, string Status)
+        {
+            var internship = _context.Set<Internship>().Find(id);
+            internship.Status = Status;
+           _context.Entry(internship).State = EntityState.Modified;
+            await _context.SaveChangesAsync();
+            return _mapper.Map<InternshipsDTO>(internship) ;
+        }
+
 
     }
 }

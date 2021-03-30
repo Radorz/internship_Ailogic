@@ -19,7 +19,7 @@ namespace LandingPage.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme, Roles = "Admin")]
+    [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme, Roles = "Admin,Intern")]
     public class InternController :ControllerBase
     {
         private readonly InternRepository _internRepository;

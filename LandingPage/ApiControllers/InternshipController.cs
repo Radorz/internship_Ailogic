@@ -76,9 +76,9 @@ namespace LandingPage.Controllers
         public async Task<ActionResult<InternshipsDTO>> Update(int id, InternshipsDTOPost dto)
         {
 
-            await _internshipsRepository.UpdateCustom(id, dto);
             if (ModelState.IsValid)
             {
+                await _internshipsRepository.UpdateCustom(id, dto);
                 return StatusCode(201);
             }
             else
@@ -88,7 +88,35 @@ namespace LandingPage.Controllers
 
 
         }
-      
+
+        [HttpPatch("{idInternship}")]
+        public async Task<ActionResult> UpdateStatus(int idInternship, statusdto dto)
+        {
+            try
+            {
+                if (ModelState.IsValid)
+            {
+                var intership = await _internshipsRepository.GetByIdCustom(idInternship);
+                if (intership == null)
+                {
+                    return NotFound("Internship not found");
+                }
+                await _internshipsRepository.UpdateStatus(idInternship, dto.Status);
+                return StatusCode(201);
+            }
+            else
+            {
+                return BadRequest("No se ha podido actualizar");
+            }
+            }
+            catch (Exception E)
+            {
+                return StatusCode(500);
+            }
+
+
+        }
+
 
     }
 }
