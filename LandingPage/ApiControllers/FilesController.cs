@@ -15,6 +15,7 @@ using Azure.Storage.Blobs.Models;
 using Microsoft.AspNetCore.Identity;
 using Aspose.Slides;
 using Aspose.Slides.Export;
+using System.Net.Http;
 
 namespace LandingPage.ApiControllers
 {
@@ -183,6 +184,70 @@ namespace LandingPage.ApiControllers
 
         //    return BadRequest();
 
+        //}
+
+        /// <summary>
+        /// Converts the PowerPoint presentation (PPTX) to PDF document
+        /// </summary>
+        //[AcceptVerbs("Post")]
+        //public HttpResponseMessage ConvertToPdf()
+        //{
+        //    HttpResponseMessage httpResponseMessage;
+        //    using (Stream stream = Request.)
+        //    {
+        //        try
+        //        {
+        //            //Opens the PowerPoint presentation (PPTX) from stream
+        //            using (IPresentation presentation = Presentation.Open(stream))
+        //            {
+        //                //Initializes the ChartToImageConverter for converting charts during PPTX to PDF conversion
+        //                presentation.ChartToImageConverter = new ChartToImageConverter
+        //                {
+        //                    ScalingMode = Syncfusion.OfficeChart.ScalingMode.Best
+        //                };
+
+        //                //Creates an instance of the PresentationToPdfConverterSettings
+        //                PresentationToPdfConverterSettings settings = new PresentationToPdfConverterSettings
+        //                {
+        //                    ShowHiddenSlides = true
+        //                };
+        //                //Converts PowerPoint presentation (PPTX) into PDF document
+        //                PdfDocument pdfDocument = PresentationToPdfConverter.Convert(presentation, settings);
+        //                //Adds watermark at top left corner of first page in the generated PDF document to denote that it is generated using demo web service
+        //                //To remove this watermark, comment or delete the codes within below "if" statement
+        //                if (pdfDocument.Pages.Count > 0)
+        //                {
+        //                    PdfPage pdfPage = pdfDocument.Pages[0];
+        //                    //Create PDF font and PDF font style using Font
+        //                    Font font = new Font("Times New Roman", 12f, FontStyle.Regular);
+        //                    PdfFont pdfFont = new PdfTrueTypeFont(font, false);
+        //                    //Create a new PDF brush to draw the rectangle
+        //                    PdfBrush pdfBrush = new PdfSolidBrush(Color.White);
+        //                    //Draw rectangle in the current page
+        //                    pdfPage.Graphics.DrawRectangle(pdfBrush, 0f, 0f, 228f, 20.65f);
+        //                    //Create a new brush to draw the text
+        //                    pdfBrush = new PdfSolidBrush(Color.Red);
+        //                    //Draw text in the current page
+        //                    pdfPage.Graphics.DrawString("Created by Syncfusion – Presentation library", pdfFont,
+        //                        pdfBrush, 6f, 4f);
+        //                }
+        //                //Saves the PDF document to response stream
+        //                MemoryStream memoryStream = new MemoryStream();
+        //                pdfDocument.Save(memoryStream);
+        //                memoryStream.Position = 0;
+        //                httpResponseMessage = new HttpResponseMessage(HttpStatusCode.OK)
+        //                {
+        //                    Content = new StreamContent(memoryStream)
+        //                };
+        //                pdfDocument.Dispose();
+        //            }
+        //        }
+        //        catch
+        //        {
+        //            httpResponseMessage = new HttpResponseMessage(HttpStatusCode.ExpectationFailed);
+        //        }
+        //    }
+        //    return httpResponseMessage;
         //}
 
 
