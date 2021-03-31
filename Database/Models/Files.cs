@@ -11,7 +11,7 @@ namespace Database.Models
     {
         public int IdFiles { get; set; }
         public string IdUser { get; set; }
-        public int id_assignment { get; set; }
+        public int IdAssignment { get; set; }
         public string FileName { get; set; }
         public string Path { get; set; }
     }

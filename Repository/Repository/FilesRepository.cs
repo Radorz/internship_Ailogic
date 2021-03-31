@@ -38,12 +38,12 @@ namespace Repository.Repository
         {
 
             List<Files> filesList = new List<Files>();
-            filesList =  _context.Files.Where(x => x.id_assignment == Id_assignment).ToList();
+            filesList =  _context.Files.Where(x => x.IdAssignment == Id_assignment).ToList();
             List<FilesAllDTO> DtoReturn = new List<FilesAllDTO>();
             foreach(var i in filesList)
             {
-                var intern = _context.Interns.FirstOrDefaultAsync(x => x.IdUser == i.IdUser);
-                var assignments = _context.Assignments.FirstOrDefaultAsync(x => x.Id_Assignment == i.id_assignment);
+                var intern = await _context.Interns.FirstOrDefaultAsync(x => x.IdUser == i.IdUser);
+                var assignments = await _context.Assignments.FirstOrDefaultAsync(x => x.Id_Assignment == i.IdAssignment);
                 FilesAllDTO dto = _mapper.Map<FilesAllDTO>(i);
                 dto.Intern = _mapper.Map<InternDTO>(intern);
                 dto.Assignments = _mapper.Map<AssignmentsDTO>(assignments);

@@ -153,7 +153,7 @@ namespace Database.Models
                     .HasCharSet("utf8mb4")
                     .HasCollation("utf8mb4_0900_ai_ci");
 
-                entity.Property(e => e.id_assignment).IsRequired()
+                entity.Property(e => e.IdAssignment).IsRequired()
                     .HasColumnName("id_assignment")
                     .HasColumnType("int");
                     

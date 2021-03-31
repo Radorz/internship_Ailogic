@@ -13,8 +13,8 @@ using Microsoft.Extensions.Configuration;
 using Azure.Storage.Blobs;
 using Azure.Storage.Blobs.Models;
 using Microsoft.AspNetCore.Identity;
-using Aspose.Slides;
-using Aspose.Slides.Export;
+//using Aspose.Slides;
+//using Aspose.Slides.Export;
 using System.Net.Http;
 
 namespace LandingPage.ApiControllers
@@ -96,10 +96,10 @@ namespace LandingPage.ApiControllers
                 if (file.Length > 0)
                 {
                     // Instantiate a Presentation object that represents a PPT file
-                    Presentation presentation = new Presentation(file.OpenReadStream());
+                  //  Presentation presentation = new Presentation(file.OpenReadStream());
 
                     // Save the presentation as PDF
-                    presentation.Save("PPT-to-PDF.pdf", SaveFormat.Pdf);
+                 //   presentation.Save("PPT-to-PDF.pdf", SaveFormat.Pdf);
                     var uniqueName = Guid.NewGuid().ToString() + "_" + file.FileName;
                     var container = new BlobContainerClient(_azureConnectionString, _azureContainerName);
                     var createResponse = await container.CreateIfNotExistsAsync();
@@ -115,7 +115,7 @@ namespace LandingPage.ApiControllers
                     filesDTO.FileName = uniqueName;
                     var user = await _userManager.FindByEmailAsync(DTO.EmailUser);
                     filesDTO.IdUser = user.Id ;
-                    filesDTO.IdAssignments = DTO.id_assignments;
+                    filesDTO.IdAssignment = DTO.id_assignments;
                     filesDTO.Path = blob.Uri.ToString();
 
                    await _filesRepository.addCustom(filesDTO);

@@ -10,7 +10,7 @@ namespace DTO
     {
         public int IdFiles { get; set; }
         public string IdUser { get; set; }
-        public int IdAssignments { get; set; }
+        public int IdAssignment { get; set; }
         public string FileName { get; set; }
         public string Path { get; set; }
     }
