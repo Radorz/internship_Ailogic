@@ -14,11 +14,13 @@ namespace LandingPage.ApiControllers
     public class TeamController : ControllerBase
     {
         private readonly TeamRepository _teamRepository;
+        private readonly InternTeamRepository _interteamRepository;
 
-        public TeamController(TeamRepository teamRepository)
+        public TeamController(TeamRepository teamRepository, InternTeamRepository interteamRepository)
         {
 
             _teamRepository = teamRepository;
+            _interteamRepository = interteamRepository;
         }
 
         // GET: api/<TeamController>
@@ -67,6 +69,22 @@ namespace LandingPage.ApiControllers
             return BadRequest();
 
         }
+        [HttpPost("addInternToTeam")]
+        public async Task<ActionResult<TeamDTO>> addInternToTeam(InternTeamDTO dto)
+        {
+            if (ModelState.IsValid)
+            {
+                var team = await _interteamRepository.addInternToTeam(dto);
+                if (team)
+                {
+                    return Ok();
+                }
+                return NotFound();
+            }
+
+            return BadRequest();
+
+        }
 
         // PUT api/<TeamController>/5
         [HttpPut("{id}")]
@@ -92,6 +110,22 @@ namespace LandingPage.ApiControllers
             if (ModelState.IsValid)
             {
                 var team = await _teamRepository.Delete(id);
+                if (team != null)
+                {
+                    return Ok();
+                }
+                return NotFound();
+            }
+
+            return BadRequest();
+
+        }
+        [HttpDelete("DeleteInternTeam/{idintern}")]
+        public async Task<ActionResult> DeleteInternTeam(int idintern)
+        {
+            if (ModelState.IsValid)
+            {
+                var team = await _interteamRepository.deleteInternToTeam(idintern);
                 if (team != null)
                 {
                     return Ok();

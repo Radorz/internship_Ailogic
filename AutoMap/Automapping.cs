@@ -28,6 +28,7 @@ namespace AutoMap
             MapAEvaluationsPost();
             MapTeam();
             MapFilesAll();
+            MapInternTeam();
         }
         private void Maprequest()
         {
@@ -92,6 +93,10 @@ namespace AutoMap
         private void MapTeam()
         {
             CreateMap<TeamDTO, Team>().ReverseMap();
+        }
+        private void MapInternTeam()
+        {
+            CreateMap<InternTeamDTO, InternTeam>().ReverseMap();
         }
         private void MapTeamPost()
         {

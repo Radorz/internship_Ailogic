@@ -93,6 +93,17 @@ namespace Repository.Repository
 
         }
 
+        public async Task<bool> AddInternToTeam(InternTeamDTO dto)
+        {
+            var li = _mapper.Map<InternTeam>(dto);
+            _context.Set<InternTeam>().Add(li);
+            await _context.SaveChangesAsync();
+
+            return true;
+
+
+        }
+
         public async Task<TeamDTO> updateCustom(int id, TeamDTOPost dto)
         {
             var team = await GetbyId(id);

@@ -71,7 +71,9 @@ namespace LandingPage
 
             services.AddScoped<EvaluationsRepository>();
 
+            services.AddScoped<InternTeamRepository>();
             services.AddScoped<TeamRepository>();
+
 
             services.AddIdentity<IdentityUser, IdentityRole>(options => {
 
