@@ -45,12 +45,21 @@ namespace Repository.Repository
 
 
         }
-        public Task<TeamDTO> GetByIntershipCustom(int id)
+        public Task<List<TeamDTO>> GetByIntershipCustom(int id)
         {
             var list =  _context.Team.Where(a => a.IdInternship== id).ToList();
-            var result =  _mapper.Map<TeamDTO>(list);
 
-            return Task.FromResult(result);
+            var listdto = new List<TeamDTO>();
+            foreach(var i in list)
+            {
+
+                var result = _mapper.Map<TeamDTO>(i);
+                listdto.Add(result);
+
+            }
+
+
+            return Task.FromResult(listdto);
 
 
         }
