@@ -13,9 +13,14 @@ using Microsoft.Extensions.Configuration;
 using Azure.Storage.Blobs;
 using Azure.Storage.Blobs.Models;
 using Microsoft.AspNetCore.Identity;
-using Aspose.Slides;
-using Aspose.Slides.Export;
-using System.Net.Http;
+//using Syncfusion.Presentation;
+//using Syncfusion.PresentationToPdfConverter;
+using Syncfusion.Office;
+using Syncfusion.Presentation;
+using Syncfusion.PresentationToPdfConverter;
+using Syncfusion.Pdf;
+//using Syncfusion.Pdf;
+//using Syncfusion.Office;
 
 namespace LandingPage.ApiControllers
 {
@@ -80,10 +85,10 @@ namespace LandingPage.ApiControllers
                 if (file.Length > 0)
                 {
                     // Instantiate a Presentation object that represents a PPT file
-                    Presentation presentation = new Presentation(file.OpenReadStream());
+                    //Presentation presentation = new Presentation(file.OpenReadStream());
 
-                    // Save the presentation as PDF
-                    presentation.Save("PPT-to-PDF.pdf", SaveFormat.Pdf);
+                    //// Save the presentation as PDF
+                    //presentation.Save("PPT-to-PDF.pdf", SaveFormat.Pdf);
                     var uniqueName = Guid.NewGuid().ToString() + "_" + file.FileName;
                     var container = new BlobContainerClient(_azureConnectionString, _azureContainerName);
                     var createResponse = await container.CreateIfNotExistsAsync();
@@ -187,13 +192,15 @@ namespace LandingPage.ApiControllers
         //}
 
         /// <summary>
-        /// Converts the PowerPoint presentation (PPTX) to PDF document
+        /// Converts the PowerPoint presentation(PPTX) to PDF document
         /// </summary>
         //[AcceptVerbs("Post")]
-        //public HttpResponseMessage ConvertToPdf()
+        //public async Task<HttpResponseMessage> ConvertToPdf()
         //{
+        //    var formCollection = await Request.ReadFormAsync();
+        //    var file = formCollection.Files.First();
         //    HttpResponseMessage httpResponseMessage;
-        //    using (Stream stream = Request.)
+        //    using (Stream stream = file.OpenReadStream())
         //    {
         //        try
         //        {
@@ -213,24 +220,7 @@ namespace LandingPage.ApiControllers
         //                };
         //                //Converts PowerPoint presentation (PPTX) into PDF document
         //                PdfDocument pdfDocument = PresentationToPdfConverter.Convert(presentation, settings);
-        //                //Adds watermark at top left corner of first page in the generated PDF document to denote that it is generated using demo web service
-        //                //To remove this watermark, comment or delete the codes within below "if" statement
-        //                if (pdfDocument.Pages.Count > 0)
-        //                {
-        //                    PdfPage pdfPage = pdfDocument.Pages[0];
-        //                    //Create PDF font and PDF font style using Font
-        //                    Font font = new Font("Times New Roman", 12f, FontStyle.Regular);
-        //                    PdfFont pdfFont = new PdfTrueTypeFont(font, false);
-        //                    //Create a new PDF brush to draw the rectangle
-        //                    PdfBrush pdfBrush = new PdfSolidBrush(Color.White);
-        //                    //Draw rectangle in the current page
-        //                    pdfPage.Graphics.DrawRectangle(pdfBrush, 0f, 0f, 228f, 20.65f);
-        //                    //Create a new brush to draw the text
-        //                    pdfBrush = new PdfSolidBrush(Color.Red);
-        //                    //Draw text in the current page
-        //                    pdfPage.Graphics.DrawString("Created by Syncfusion – Presentation library", pdfFont,
-        //                        pdfBrush, 6f, 4f);
-        //                }
+
         //                //Saves the PDF document to response stream
         //                MemoryStream memoryStream = new MemoryStream();
         //                pdfDocument.Save(memoryStream);
@@ -250,6 +240,77 @@ namespace LandingPage.ApiControllers
         //    return httpResponseMessage;
         //}
 
+        [HttpPost("pdf")]
+        public async Task<ActionResult> PPTXToPDF(IFormFile File)
+        {
+            var formCollection = await Request.ReadFormAsync();
+            var file = formCollection.Files.First();
 
-    }
+
+            //    FileStream fileStreamInput = new FileStream(basePath + @"/Presentation/Template.pptx", FileMode.Open, FileAccess.Read);
+            //    IPresentation presentation = Presentation.Open(fileStreamInput);
+            //    MemoryStream ms = new MemoryStream();
+
+            //    //Saves the presentation to the memory stream.
+            //    presentation.Save(ms);
+            //    //Set the position of the stream to beginning.
+            //    ms.Position = 0;
+            //    return File(ms, "application/vnd.openxmlformats-officedocument.presentationml.presentation", "InputTemplate.pptx");
+            //}
+            //else
+            //{
+            //    FileStream fileStreamInput = new FileStream(basePath + @"/Presentation/Template.pptx", FileMode.Open, FileAccess.Read);
+            //Open the existing PowerPoint presentation.
+            IPresentation presentation = Presentation.Open("https://filesailogic.blob.core.windows.net/filecontainer/UI-UX.pptx");
+
+                // Add a custom fallback font collection for Presentation.
+                AddFallbackFonts(presentation);
+
+                //Convert the PowerPoint document to PDF document.
+                PdfDocument pdfDocument = PresentationToPdfConverter.Convert(presentation);
+
+                MemoryStream pdfStream = new MemoryStream();
+
+                //Save the converted PDF document to Memory stream.
+                pdfDocument.Save(pdfStream);
+                pdfStream.Position = 0;
+
+                //Close the PDF document.
+                pdfDocument.Close(true);
+
+                //Close the PowerPoint Presentation.
+                presentation.Close();
+
+                //Initialize the file stream to download the converted PDF.
+                FileStreamResult fileStreamResult = new FileStreamResult(pdfStream, "application/pdf");
+                //Set the file name.
+                fileStreamResult.FileDownloadName = "Sample.pdf";
+
+                return fileStreamResult;
+            //}
+        }
+
+        /// <summary>
+        /// Add a custom fallback font collection for IPresentation.
+        /// </summary>
+        /// <param name="presentation">Represent a presentation to add.</param>
+        private void AddFallbackFonts(IPresentation presentation)
+        {
+            //Add customized fallback font names.
+
+            // Arabic
+            presentation.FontSettings.FallbackFonts.Add(new FallbackFont(0x0600, 0x06ff, "Arial"));
+            // Hebrew
+            presentation.FontSettings.FallbackFonts.Add(new FallbackFont(0x0590, 0x05ff, "Arial, David"));
+            // Hindi
+            presentation.FontSettings.FallbackFonts.Add(new FallbackFont(0x0900, 0x097F, "Mangal"));
+            // Chinese
+            presentation.FontSettings.FallbackFonts.Add(new FallbackFont(0x4E00, 0x9FFF, "DengXian"));
+            // Japanese
+            presentation.FontSettings.FallbackFonts.Add(new FallbackFont(0x3040, 0x309F, "MS Mincho"));
+            // Korean
+            presentation.FontSettings.FallbackFonts.Add(new FallbackFont(0xAC00, 0xD7A3, "Malgun Gothic"));
+        }
+        
+}
 }
