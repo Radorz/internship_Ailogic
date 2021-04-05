@@ -27,6 +27,7 @@ namespace AutoMap
             Mapcreationintern();
             MapAEvaluationsPost();
             MapTeam();
+            MapFilesAll();
         }
         private void Maprequest()
         {
@@ -109,6 +110,18 @@ namespace AutoMap
         private void Mapcreationintern()
         {
             CreateMap<CreateinterntDTO, Interns>().ReverseMap();
+        }
+
+        private void MapFilesAll()
+        {
+            CreateMap<FilesAllDTO, Files>().ReverseMap()
+                .ForMember(x => x.Intern, opt => opt.Ignore())
+                .ForMember(x => x.Assignments, opt => opt.Ignore());
+        }
+
+        private void MapGrades()
+        {
+            CreateMap<GradesDTO, Grades>().ReverseMap();
         }
 
         //private void MapearElecciones()

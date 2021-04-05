@@ -153,6 +153,11 @@ namespace Database.Models
                     .HasCharSet("utf8mb4")
                     .HasCollation("utf8mb4_0900_ai_ci");
 
+                entity.Property(e => e.IdAssignment).IsRequired()
+                    .HasColumnName("id_assignment")
+                    .HasColumnType("int");
+                    
+
                 entity.Property(e => e.Path)
                     .IsRequired()
                     .HasColumnName("path")
@@ -482,6 +487,29 @@ namespace Database.Models
                     .HasColumnType("varchar(15")
                     .HasCharSet("utf8mb4")
                     .HasCollation("utf8_general_ci");
+            });
+
+            modelBuilder.Entity<Grades>(entity =>
+            {
+                entity.HasKey(e => e.id_grades)
+                   .HasName("PRIMARY");
+
+
+                entity.ToTable("grades");
+
+                entity.HasIndex(e => e.id_files)
+                   .HasName("id_files");
+
+                entity.Property(e => e.id_user)
+                    .IsRequired()
+                    .HasColumnType("varchar(255)")
+                    .HasCollation("utf8_general_ci");
+
+                entity.Property(e => e.grade)
+                    .IsRequired()
+                    .HasColumnType("int")
+                    .HasColumnName("grades");
+
             });
 
             OnModelCreatingPartial(modelBuilder);

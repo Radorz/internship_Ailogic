@@ -21,6 +21,9 @@ using Syncfusion.PresentationToPdfConverter;
 using Syncfusion.Pdf;
 //using Syncfusion.Pdf;
 //using Syncfusion.Office;
+//using Aspose.Slides;
+//using Aspose.Slides.Export;
+using System.Net.Http;
 
 namespace LandingPage.ApiControllers
 {
@@ -75,6 +78,22 @@ namespace LandingPage.ApiControllers
 
         }
 
+        [HttpGet("assignments/{idAssignment}")]
+        public async Task<ActionResult<List<FilesAllDTO>>> GetAssignmentAndFiles (int idAssignment)
+        {
+            if (ModelState.IsValid)
+            {
+                var file = await _filesRepository.GetFilesAll(idAssignment);
+                if (file != null)
+                {
+                    return file;
+                }
+            }
+
+            return NoContent();
+            
+        }
+
         [HttpPost]
         public async Task<IActionResult> Upload( [FromForm]FilesDTOPost DTO)
         {
@@ -104,6 +123,7 @@ namespace LandingPage.ApiControllers
                     filesDTO.FileName = uniqueName;
                     var user = await _userManager.FindByEmailAsync(DTO.EmailUser);
                     filesDTO.IdUser = user.Id ;
+                    filesDTO.IdAssignment = DTO.id_assignments;
                     filesDTO.Path = blob.Uri.ToString();
 
                    await _filesRepository.addCustom(filesDTO);

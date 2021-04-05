@@ -12,13 +12,15 @@ namespace DTO
     public class FilesDTOPost
     {
         [EmailAddress(ErrorMessage = "The Email is no valid")]
-
         [Required(ErrorMessage = "The Email is required")]
         public string EmailUser { get; set; }
-
+        [Required(ErrorMessage = "The Id of Assigment is required")]
+        public int id_assignments { get; set; }
         [Required(ErrorMessage = "The File is required")]
         [FromForm]
         public IFormFile File { get; set; }
+
+
        
     }
 }

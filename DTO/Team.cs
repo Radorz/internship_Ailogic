@@ -7,12 +7,10 @@ using System.Collections.Generic;
 
 namespace Database.Models
 {
-    public partial class Files
+    public partial class Team
     {
-        public int IdFiles { get; set; }
-        public string IdUser { get; set; }
-        public int IdAssignment { get; set; }
-        public string FileName { get; set; }
-        public string Path { get; set; }
+        public int IdTeam { get; set; }
+        public int IdInternship { get; set; }
+        public string Name { get; set; }
     }
 }
