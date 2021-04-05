@@ -28,11 +28,26 @@ namespace LandingPage.ApiControllers
             return await _teamRepository.GetAllCustom();
         }
 
+
         // GET api/<TeamController>/5
         [HttpGet("{id}", Name = "GetTeam")]
         public async Task<TeamDTO> Get(int id)
         {
             return await _teamRepository.GetByIdCustom(id);
+        }
+
+        // GET api/<TeamController>/5
+        [HttpGet("GetByInternship")]
+        public async Task<TeamDTO> GetByInternship(int id)
+        {
+            return await _teamRepository.GetByIntershipCustom(id);
+        }
+
+        // GET api/<TeamController>/5
+        [HttpGet("GetInternsByTeam")]
+        public async Task<List<InternDTO>> GetInternsByTeam(int id)
+        {
+            return await _teamRepository.GetInternsByteam(id);
         }
 
         // POST api/<TeamController>

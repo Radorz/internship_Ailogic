@@ -14,9 +14,12 @@ namespace Repository.Repository
 
     {
         private readonly IMapper _mapper;
-        public TeamRepository(bnbar022dce4hrtds2xdContext context, IMapper mapper) :base(context)
+        private readonly InternRepository _internRepository;
+
+        public TeamRepository(bnbar022dce4hrtds2xdContext context, IMapper mapper, InternRepository internRepository) :base(context)
         {
             _mapper = mapper;
+            _internRepository = internRepository;
         }
 
         public async Task<List<TeamDTO>> GetAllCustom()
@@ -39,6 +42,34 @@ namespace Repository.Repository
             var result = _mapper.Map<TeamDTO>(list); 
 
             return result;
+
+
+        }
+        public Task<TeamDTO> GetByIntershipCustom(int id)
+        {
+            var list =  _context.Team.Where(a => a.IdInternship== id).ToList();
+            var result =  _mapper.Map<TeamDTO>(list);
+
+            return Task.FromResult(result);
+
+
+        }
+
+        public async Task<List<InternDTO>> GetInternsByteam(int id)
+        {
+            var list = _context.InternTeam.Where(a => a.IdTeam == id);
+            var listinterns = new List<InternDTO>();
+            foreach(var i in list)
+            {
+                var intern = await _internRepository.GetByIdCustom(id);
+                if(intern != null)
+                {
+                    listinterns.Add(intern);
+                }
+
+            }
+
+            return listinterns;
 
 
         }
