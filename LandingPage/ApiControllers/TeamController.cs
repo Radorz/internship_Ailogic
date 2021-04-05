@@ -37,14 +37,14 @@ namespace LandingPage.ApiControllers
         }
 
         // GET api/<TeamController>/5
-        [HttpGet("GetByInternship")]
+        [HttpGet("GetByInternship/{id}")]
         public async Task<TeamDTO> GetByInternship(int id)
         {
             return await _teamRepository.GetByIntershipCustom(id);
         }
 
         // GET api/<TeamController>/5
-        [HttpGet("GetInternsByTeam")]
+        [HttpGet("GetInternsByTeam/{id}")]
         public async Task<List<InternDTO>> GetInternsByTeam(int id)
         {
             return await _teamRepository.GetInternsByteam(id);
