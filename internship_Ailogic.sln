@@ -3,9 +3,36 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.31025.194
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "internship_Ailogic", "internship_Ailogic\internship_Ailogic.csproj", "{86A505F9-A0CA-41EC-92D7-80E9F5D0EDD0}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "internship_Ailogic", "internship_Ailogic\internship_Ailogic.csproj", "{86A505F9-A0CA-41EC-92D7-80E9F5D0EDD0}"
+	ProjectSection(ProjectDependencies) = postProject
+		{633F7397-FB5F-41FA-86F4-D9B26F179386} = {633F7397-FB5F-41FA-86F4-D9B26F179386}
+		{9A0F16F1-4B4D-4F15-BA6C-2B9551488FD4} = {9A0F16F1-4B4D-4F15-BA6C-2B9551488FD4}
+	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Database", "Database\Database.csproj", "{7BC77193-DA45-447A-983A-0641C3673BF9}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Database", "Database\Database.csproj", "{7BC77193-DA45-447A-983A-0641C3673BF9}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Repository", "Repository\Repository.csproj", "{9A0F16F1-4B4D-4F15-BA6C-2B9551488FD4}"
+	ProjectSection(ProjectDependencies) = postProject
+		{7BC77193-DA45-447A-983A-0641C3673BF9} = {7BC77193-DA45-447A-983A-0641C3673BF9}
+		{633F7397-FB5F-41FA-86F4-D9B26F179386} = {633F7397-FB5F-41FA-86F4-D9B26F179386}
+	EndProjectSection
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DTO", "DTO\DTO.csproj", "{633F7397-FB5F-41FA-86F4-D9B26F179386}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AutoMap", "AutoMap\AutoMap.csproj", "{F1D5EBEE-A293-4DE5-94FA-D3C706A7FCCE}"
+	ProjectSection(ProjectDependencies) = postProject
+		{7BC77193-DA45-447A-983A-0641C3673BF9} = {7BC77193-DA45-447A-983A-0641C3673BF9}
+		{633F7397-FB5F-41FA-86F4-D9B26F179386} = {633F7397-FB5F-41FA-86F4-D9B26F179386}
+	EndProjectSection
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EmailHandler", "EmailHandler\EmailHandler.csproj", "{7D994D2A-51CE-4CB8-AC12-8892B8D5A468}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LandingPage", "LandingPage\LandingPage.csproj", "{A9FA51E4-564B-4AA7-B57F-505CB36B1434}"
+	ProjectSection(ProjectDependencies) = postProject
+		{86A505F9-A0CA-41EC-92D7-80E9F5D0EDD0} = {86A505F9-A0CA-41EC-92D7-80E9F5D0EDD0}
+	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ailogic_test", "ailogic_test\ailogic_test.csproj", "{92D02DEF-F6FC-46E9-967A-609237300533}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -21,6 +48,30 @@ Global
 		{7BC77193-DA45-447A-983A-0641C3673BF9}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{7BC77193-DA45-447A-983A-0641C3673BF9}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{7BC77193-DA45-447A-983A-0641C3673BF9}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9A0F16F1-4B4D-4F15-BA6C-2B9551488FD4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9A0F16F1-4B4D-4F15-BA6C-2B9551488FD4}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9A0F16F1-4B4D-4F15-BA6C-2B9551488FD4}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9A0F16F1-4B4D-4F15-BA6C-2B9551488FD4}.Release|Any CPU.Build.0 = Release|Any CPU
+		{633F7397-FB5F-41FA-86F4-D9B26F179386}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{633F7397-FB5F-41FA-86F4-D9B26F179386}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{633F7397-FB5F-41FA-86F4-D9B26F179386}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{633F7397-FB5F-41FA-86F4-D9B26F179386}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F1D5EBEE-A293-4DE5-94FA-D3C706A7FCCE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F1D5EBEE-A293-4DE5-94FA-D3C706A7FCCE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F1D5EBEE-A293-4DE5-94FA-D3C706A7FCCE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F1D5EBEE-A293-4DE5-94FA-D3C706A7FCCE}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7D994D2A-51CE-4CB8-AC12-8892B8D5A468}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7D994D2A-51CE-4CB8-AC12-8892B8D5A468}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7D994D2A-51CE-4CB8-AC12-8892B8D5A468}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7D994D2A-51CE-4CB8-AC12-8892B8D5A468}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A9FA51E4-564B-4AA7-B57F-505CB36B1434}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A9FA51E4-564B-4AA7-B57F-505CB36B1434}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A9FA51E4-564B-4AA7-B57F-505CB36B1434}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A9FA51E4-564B-4AA7-B57F-505CB36B1434}.Release|Any CPU.Build.0 = Release|Any CPU
+		{92D02DEF-F6FC-46E9-967A-609237300533}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{92D02DEF-F6FC-46E9-967A-609237300533}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{92D02DEF-F6FC-46E9-967A-609237300533}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{92D02DEF-F6FC-46E9-967A-609237300533}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
