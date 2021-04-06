@@ -168,7 +168,6 @@ namespace Database.Models
 
             modelBuilder.Entity<InternTeam>(entity =>
             {
-                entity.HasNoKey();
 
                 entity.ToTable("intern_team");
 

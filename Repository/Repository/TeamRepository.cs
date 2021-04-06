@@ -66,11 +66,11 @@ namespace Repository.Repository
 
         public async Task<List<InternDTO>> GetInternsByteam(int id)
         {
-            var list = _context.InternTeam.Where(a => a.IdTeam == id);
+            var list = _context.InternTeam.Where(a => a.IdTeam == id).ToList();
             var listinterns = new List<InternDTO>();
             foreach(var i in list)
             {
-                var intern = await _internRepository.GetByIdCustom(id);
+                var intern = await _internRepository.GetByIdCustom(i.IdInternt);
                 if(intern != null)
                 {
                     listinterns.Add(intern);
