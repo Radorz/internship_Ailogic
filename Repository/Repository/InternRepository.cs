@@ -92,7 +92,8 @@ namespace Repository.Repository
             var user = await _userManager.FindByIdAsync(internDTO.IdUser);
             var internReturn = new UserDTO();
             internReturn.Email = user.Email;
-           
+            internDTO.BirthDate = intern.BirthDate.ToString("yyyy-MM-dd");
+
             internDTO.User = internReturn;
             return internDTO;
         }
